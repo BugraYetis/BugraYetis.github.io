@@ -1,0 +1,1938 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Buğra Yetiş — Mid Web Developer</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+
+  <!-- GSAP & Plugins (CDN) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/TextPlugin.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/SplitText.min.js"></script>
+
+  <style>
+    /* ===== RESET & BASE ===== */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg:       #050508;
+      --bg2:      #0b0b14;
+      --surface:  #11111f;
+      --accent:   #6c63ff;
+      --accent2:  #ff6584;
+      --accent3:  #43e97b;
+      --text:     #e8e8f0;
+      --muted:    #6b6b8a;
+      --border:   rgba(108,99,255,.18);
+      --grad:     linear-gradient(135deg, #6c63ff, #ff6584);
+      --font:     'Space Grotesk', sans-serif;
+      --mono:     'Space Mono', monospace;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font);
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    ::selection { background: var(--accent); color: #fff; }
+
+    /* ===== CUSTOM CURSOR ===== */
+    #cursor {
+      width: 12px; height: 12px;
+      background: var(--accent);
+      border-radius: 50%;
+      position: fixed; top: 0; left: 0;
+      pointer-events: none; z-index: 9999;
+      mix-blend-mode: difference;
+      transform: translate(-50%,-50%);
+      transition: transform .1s ease;
+    }
+    #cursor-follower {
+      width: 40px; height: 40px;
+      border: 1.5px solid var(--accent);
+      border-radius: 50%;
+      position: fixed; top: 0; left: 0;
+      pointer-events: none; z-index: 9998;
+      transform: translate(-50%,-50%);
+      transition: transform .08s ease, width .2s, height .2s, opacity .2s;
+      opacity: .5;
+    }
+    body:hover #cursor-follower { opacity: 1; }
+
+    /* ===== NOISE OVERLAY ===== */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+      opacity: .025;
+      pointer-events: none;
+      z-index: 9997;
+    }
+
+    /* ===== SCROLLBAR ===== */
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 4px; }
+
+    /* ===== PROGRESS BAR ===== */
+    #progress {
+      position: fixed; top: 0; left: 0; height: 3px;
+      background: var(--grad); z-index: 9996;
+      width: 0%; transform-origin: left;
+    }
+
+    /* ===== NAV ===== */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.2rem 4rem;
+      z-index: 1000;
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid transparent;
+      transition: border-color .3s, background .3s;
+    }
+    nav.scrolled {
+      border-color: var(--border);
+      background: rgba(5,5,8,.8);
+    }
+    .nav-logo {
+      font-family: var(--mono);
+      font-size: 1.1rem;
+      font-weight: 700;
+      background: var(--grad);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: 2px;
+    }
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a {
+      color: var(--muted); text-decoration: none;
+      font-size: .85rem; letter-spacing: 1.5px; text-transform: uppercase;
+      position: relative; transition: color .3s;
+    }
+    .nav-links a::after {
+      content: ''; position: absolute; bottom: -4px; left: 0;
+      width: 0; height: 1px; background: var(--accent);
+      transition: width .3s;
+    }
+    .nav-links a:hover { color: var(--text); }
+    .nav-links a:hover::after { width: 100%; }
+
+    /* ===== HERO ===== */
+    #hero {
+      min-height: 100vh;
+      display: flex; align-items: center;
+      padding: 0 4rem;
+      position: relative; overflow: hidden;
+    }
+
+    /* Grid lines background */
+    #hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 60px 60px;
+      mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 100%);
+    }
+
+    .hero-content { position: relative; z-index: 1; max-width: 900px; }
+
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: .6rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: .4rem 1rem;
+      border-radius: 50px;
+      font-size: .78rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 2rem;
+      font-family: var(--mono);
+      opacity: 0;
+    }
+    .hero-badge span.dot {
+      width: 7px; height: 7px;
+      background: var(--accent3);
+      border-radius: 50%;
+      box-shadow: 0 0 8px var(--accent3);
+      animation: pulse 2s infinite;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    @keyframes pulse {
+      0%,100% { opacity: 1; transform: scale(1); }
+      50% { opacity: .4; transform: scale(1.4); }
+    }
+
+    .hero-name {
+      font-size: clamp(3.5rem, 9vw, 8rem);
+      font-weight: 700;
+      line-height: 1;
+      letter-spacing: -3px;
+      margin-bottom: 1.2rem;
+      opacity: 0;
+    }
+    .hero-name .gradient-text {
+      background: var(--grad);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-title {
+      font-family: var(--mono);
+      font-size: clamp(1rem, 2.5vw, 1.4rem);
+      color: var(--muted);
+      margin-bottom: 1.8rem;
+      opacity: 0;
+    }
+    .hero-title .typed-cursor {
+      color: var(--accent);
+      animation: blink .8s infinite;
+    }
+    @keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0; } }
+
+    .hero-desc {
+      max-width: 520px;
+      color: var(--muted);
+      line-height: 1.8;
+      margin-bottom: 2.5rem;
+      opacity: 0;
+    }
+
+    .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; opacity: 0; }
+
+    .btn {
+      display: inline-flex; align-items: center; gap: .5rem;
+      padding: .85rem 2rem;
+      border-radius: 8px;
+      font-size: .9rem; font-weight: 600;
+      text-decoration: none;
+      transition: all .3s;
+      cursor: none;
+    }
+    .btn-primary {
+      background: var(--grad);
+      color: #fff;
+      border: none;
+    }
+    .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 20px 40px rgba(108,99,255,.4); }
+
+    .btn-outline {
+      border: 1px solid var(--border);
+      color: var(--text);
+      background: transparent;
+    }
+    .btn-outline:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-3px); }
+
+    /* Floating blobs */
+    .blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: .15;
+      pointer-events: none;
+    }
+    .blob-1 { width: 600px; height: 600px; background: var(--accent); right: -200px; top: -200px; }
+    .blob-2 { width: 400px; height: 400px; background: var(--accent2); right: 200px; bottom: -100px; }
+
+    /* Scroll indicator */
+    .scroll-ind {
+      position: absolute; bottom: 2rem; left: 50%;
+      transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: .5rem;
+      color: var(--muted); font-size: .7rem; letter-spacing: 2px;
+      text-transform: uppercase; opacity: 0;
+    }
+    .scroll-line {
+      width: 1px; height: 60px;
+      background: linear-gradient(to bottom, var(--accent), transparent);
+      animation: scrollDown 1.5s ease infinite;
+    }
+    @keyframes scrollDown {
+      0% { transform: scaleY(0); transform-origin: top; }
+      50% { transform: scaleY(1); transform-origin: top; }
+      51% { transform: scaleY(1); transform-origin: bottom; }
+      100% { transform: scaleY(0); transform-origin: bottom; }
+    }
+
+    /* ===== SECTION BASE ===== */
+    section { padding: 7rem 4rem; }
+
+    .section-label {
+      font-family: var(--mono);
+      font-size: .75rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: .8rem;
+      display: flex; align-items: center; gap: 1rem;
+    }
+    .section-label::before {
+      content: ''; display: block;
+      width: 30px; height: 1px;
+      background: var(--accent);
+    }
+
+    .section-title {
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 700;
+      letter-spacing: -1.5px;
+      margin-bottom: 1rem;
+      line-height: 1.1;
+    }
+
+    /* ===== ABOUT ===== */
+    #about {
+      background: var(--bg2);
+      position: relative;
+    }
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6rem;
+      align-items: center;
+      margin-top: 4rem;
+    }
+    .about-text p {
+      color: var(--muted); line-height: 1.9; margin-bottom: 1.2rem;
+    }
+    .about-text p strong { color: var(--text); }
+
+    .about-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+    .stat-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.5rem;
+      text-align: center;
+      transition: transform .3s, border-color .3s;
+    }
+    .stat-card:hover { transform: translateY(-5px); border-color: var(--accent); }
+    .stat-num {
+      font-size: 2.5rem; font-weight: 700;
+      background: var(--grad);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-family: var(--mono);
+    }
+    .stat-label { color: var(--muted); font-size: .82rem; margin-top: .3rem; }
+
+    .about-visual {
+      position: relative;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .about-card-3d {
+      width: 320px; height: 400px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 1rem;
+      font-family: var(--mono);
+      position: relative;
+      overflow: hidden;
+      transform-style: preserve-3d;
+      transition: transform .1s ease;
+    }
+    .about-card-3d::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: var(--grad);
+      opacity: 0;
+      transition: opacity .3s;
+    }
+    .about-card-3d:hover::before { opacity: .05; }
+    .avatar-circle {
+      width: 100px; height: 100px;
+      border-radius: 50%;
+      background: var(--grad);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2.5rem; font-weight: 700;
+      color: #fff; position: relative; z-index: 1;
+      box-shadow: 0 0 40px rgba(108,99,255,.4);
+    }
+    .card-name { font-size: 1.2rem; font-weight: 600; position: relative; z-index: 1; }
+    .card-role {
+      font-size: .8rem; color: var(--accent);
+      letter-spacing: 2px; text-transform: uppercase;
+      position: relative; z-index: 1;
+    }
+    .card-location {
+      font-size: .78rem; color: var(--muted);
+      position: relative; z-index: 1;
+    }
+    .card-tags {
+      display: flex; gap: .5rem; flex-wrap: wrap;
+      justify-content: center;
+      padding: 0 1.5rem;
+      position: relative; z-index: 1;
+    }
+    .tag {
+      padding: .2rem .7rem;
+      background: rgba(108,99,255,.12);
+      border: 1px solid var(--border);
+      border-radius: 50px;
+      font-size: .7rem;
+      color: var(--accent);
+    }
+
+    /* ===== SKILLS ===== */
+    #skills { position: relative; }
+    .skills-header { margin-bottom: 4rem; }
+
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+
+    .skill-category {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 2rem;
+      transition: transform .3s, border-color .3s, box-shadow .3s;
+    }
+    .skill-category:hover {
+      transform: translateY(-8px);
+      border-color: var(--accent);
+      box-shadow: 0 20px 60px rgba(108,99,255,.15);
+    }
+
+    .skill-cat-title {
+      display: flex; align-items: center; gap: .8rem;
+      font-size: 1rem; font-weight: 600;
+      margin-bottom: 1.5rem;
+    }
+    .cat-icon {
+      width: 36px; height: 36px;
+      border-radius: 10px;
+      background: rgba(108,99,255,.15);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem;
+    }
+
+    .skill-item { margin-bottom: 1.2rem; }
+    .skill-info {
+      display: flex; justify-content: space-between;
+      margin-bottom: .5rem;
+      font-size: .85rem;
+    }
+    .skill-name { color: var(--text); }
+    .skill-pct { color: var(--muted); font-family: var(--mono); font-size: .78rem; }
+
+    .skill-bar-bg {
+      height: 6px;
+      background: rgba(255,255,255,.05);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .skill-bar-fill {
+      height: 100%; border-radius: 4px;
+      background: var(--grad);
+      width: 0%;
+      transition: width 1.2s cubic-bezier(.4,0,.2,1);
+    }
+
+    /* Tech pills */
+    .tech-pills {
+      display: flex; flex-wrap: wrap; gap: .6rem; margin-top: 1.5rem;
+    }
+    .tech-pill {
+      display: flex; align-items: center; gap: .4rem;
+      padding: .4rem 1rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 50px;
+      font-size: .78rem;
+      color: var(--muted);
+      transition: all .2s;
+      cursor: default;
+    }
+    .tech-pill:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      transform: scale(1.05);
+    }
+
+    /* ===== EXPERIENCE ===== */
+    #experience { background: var(--bg2); }
+    .exp-header { margin-bottom: 4rem; }
+
+    .timeline {
+      position: relative;
+      max-width: 800px;
+    }
+    .timeline::before {
+      content: '';
+      position: absolute; left: 0; top: 0; bottom: 0;
+      width: 1px;
+      background: linear-gradient(to bottom, var(--accent), transparent);
+    }
+
+    .timeline-item {
+      position: relative;
+      padding-left: 3rem;
+      margin-bottom: 3.5rem;
+      opacity: 0; transform: translateX(-30px);
+    }
+    .timeline-item::before {
+      content: '';
+      position: absolute; left: -5px; top: 6px;
+      width: 11px; height: 11px;
+      background: var(--accent);
+      border-radius: 50%;
+      box-shadow: 0 0 16px var(--accent);
+    }
+    .timeline-year {
+      font-family: var(--mono);
+      font-size: .78rem;
+      color: var(--accent);
+      letter-spacing: 2px;
+      margin-bottom: .4rem;
+    }
+    .timeline-role {
+      font-size: 1.25rem; font-weight: 600;
+      margin-bottom: .2rem;
+    }
+    .timeline-company {
+      color: var(--muted); font-size: .9rem;
+      margin-bottom: .8rem;
+    }
+    .timeline-desc { color: var(--muted); line-height: 1.8; font-size: .9rem; }
+
+    /* ===== PROJECTS ===== */
+    #projects { position: relative; }
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 1.5rem;
+      margin-top: 4rem;
+    }
+
+    .project-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 2rem;
+      position: relative; overflow: hidden;
+      transition: all .35s;
+      cursor: none;
+      opacity: 0; transform: translateY(40px);
+    }
+    .project-card::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: var(--grad);
+      opacity: 0; transition: opacity .35s;
+    }
+    .project-card:hover {
+      transform: translateY(-10px);
+      border-color: transparent;
+      box-shadow: 0 30px 80px rgba(108,99,255,.25);
+    }
+    .project-card:hover::before { opacity: .08; }
+
+    .project-num {
+      font-family: var(--mono);
+      font-size: .75rem;
+      color: var(--accent);
+      margin-bottom: 1rem;
+      position: relative; z-index: 1;
+    }
+    .project-title {
+      font-size: 1.25rem; font-weight: 600;
+      margin-bottom: .8rem;
+      position: relative; z-index: 1;
+    }
+    .project-desc {
+      color: var(--muted); font-size: .88rem;
+      line-height: 1.7; margin-bottom: 1.5rem;
+      position: relative; z-index: 1;
+    }
+    .project-tags {
+      display: flex; flex-wrap: wrap; gap: .5rem;
+      position: relative; z-index: 1;
+    }
+    .project-tag {
+      padding: .25rem .7rem;
+      background: rgba(108,99,255,.1);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      font-size: .72rem;
+      color: var(--accent);
+      font-family: var(--mono);
+    }
+    .project-arrow {
+      position: absolute; right: 2rem; top: 2rem;
+      width: 36px; height: 36px;
+      background: rgba(108,99,255,.1);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      transition: all .3s;
+      z-index: 1;
+    }
+    .project-card:hover .project-arrow {
+      background: var(--accent);
+      transform: rotate(45deg);
+    }
+
+    /* ===== EDUCATION & CERTS ===== */
+    #education { background: var(--bg2); }
+    .edu-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      margin-top: 4rem;
+    }
+    .edu-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 2rem;
+      transition: all .3s;
+      opacity: 0;
+    }
+    .edu-card:hover { border-color: var(--accent); transform: translateY(-5px); }
+    .edu-year {
+      font-family: var(--mono); font-size: .75rem;
+      color: var(--accent); margin-bottom: .5rem;
+    }
+    .edu-title { font-size: 1.1rem; font-weight: 600; margin-bottom: .3rem; }
+    .edu-school { color: var(--muted); font-size: .88rem; }
+
+    /* ===== CONTACT ===== */
+    #contact {
+      text-align: center;
+      background: var(--bg);
+      position: relative; overflow: hidden;
+    }
+    #contact::before {
+      content: '';
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 60px 60px;
+      mask-image: radial-gradient(ellipse 60% 60% at 50% 50%, black 30%, transparent 100%);
+    }
+    .contact-inner { position: relative; z-index: 1; }
+    .contact-big {
+      font-size: clamp(2.5rem, 7vw, 6rem);
+      font-weight: 700;
+      letter-spacing: -3px;
+      margin-bottom: 1rem;
+      line-height: 1;
+    }
+    .contact-sub { color: var(--muted); margin-bottom: 3rem; font-size: 1.05rem; }
+    .contact-links {
+      display: flex; gap: 1.5rem;
+      justify-content: center; flex-wrap: wrap;
+      margin-bottom: 3rem;
+    }
+    .contact-link {
+      display: flex; align-items: center; gap: .6rem;
+      padding: .9rem 1.8rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      text-decoration: none; color: var(--text);
+      font-size: .88rem;
+      transition: border-color .3s, color .3s, transform .3s;
+      opacity: 1;
+    }
+    .contact-link:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-4px); }
+    .contact-link .link-icon { font-size: 1.1rem; }
+
+    .footer-note {
+      color: var(--muted); font-size: .8rem;
+      border-top: 1px solid var(--border);
+      padding-top: 2rem;
+      font-family: var(--mono);
+    }
+
+    /* ===== GLOW CARDS (hover glow) ===== */
+    .glow-card { position: relative; }
+    .glow-card::after {
+      content: '';
+      position: absolute; inset: -1px;
+      border-radius: inherit;
+      background: var(--grad);
+      opacity: 0;
+      z-index: -1;
+      transition: opacity .3s;
+      filter: blur(12px);
+    }
+    .glow-card:hover::after { opacity: .4; }
+
+    /* ===== PROJECT PREVIEW IMAGE ===== */
+    .project-preview {
+      width: calc(100% + 4rem);
+      margin: -2rem -2rem 1.5rem -2rem;
+      height: 160px;
+      border-radius: 20px 20px 0 0;
+      overflow: hidden;
+      position: relative;
+      flex-shrink: 0;
+    }
+    .project-preview-bg {
+      width: 100%; height: 100%;
+      transition: transform .5s ease;
+      position: relative;
+    }
+    .project-card:hover .project-preview-bg { transform: scale(1.04); }
+    .project-preview-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to bottom, transparent 40%, rgba(17,17,31,.85) 100%);
+    }
+    /* Animated dot grid pattern inside preview */
+    .project-preview-bg::before {
+      content: '';
+      position: absolute; inset: 0;
+      background-image: radial-gradient(circle, rgba(255,255,255,.15) 1px, transparent 1px);
+      background-size: 22px 22px;
+    }
+    .project-preview-bg::after {
+      content: attr(data-title);
+      position: absolute;
+      bottom: 1rem; left: 1.2rem;
+      font-family: var(--mono);
+      font-size: .7rem;
+      color: rgba(255,255,255,.5);
+      letter-spacing: 1px;
+    }
+    .project-category-badge {
+      position: absolute; top: .8rem; left: .8rem;
+      padding: .25rem .8rem;
+      border-radius: 50px;
+      font-size: .68rem;
+      font-family: var(--mono);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      backdrop-filter: blur(8px);
+    }
+    .badge-web    { background: rgba(108,99,255,.7); color: #fff; }
+    .badge-anim   { background: rgba(67,233,123,.7); color: #000; }
+    .badge-event  { background: rgba(255,101,132,.7); color: #fff; }
+    .badge-ui     { background: rgba(255,200,50,.75); color: #000; }
+    .badge-3d     { background: rgba(0,200,255,.7);   color: #000; }
+
+    .project-live-btn {
+      display: inline-flex; align-items: center; gap: .4rem;
+      margin-top: 1.2rem;
+      padding: .55rem 1.2rem;
+      border-radius: 8px;
+      background: rgba(108,99,255,.12);
+      border: 1px solid rgba(108,99,255,.35);
+      color: var(--accent);
+      text-decoration: none;
+      font-size: .78rem;
+      font-family: var(--mono);
+      letter-spacing: .5px;
+      transition: all .25s;
+      position: relative; z-index: 2;
+    }
+    .project-live-btn:hover {
+      background: var(--accent);
+      color: #fff;
+      transform: translateY(-2px);
+    }
+    .project-more-card {
+      background: var(--surface);
+      border: 1px dashed rgba(108,99,255,.3);
+      border-radius: 20px;
+      padding: 2rem;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center; gap: 1rem;
+      opacity: 0; transform: translateY(40px);
+      min-height: 260px;
+    }
+    .project-more-icon {
+      width: 56px; height: 56px;
+      border-radius: 50%;
+      background: rgba(108,99,255,.12);
+      border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.5rem;
+    }
+    .project-more-title { font-size: 1.1rem; font-weight: 600; }
+    .project-more-sub   { color: var(--muted); font-size: .85rem; line-height: 1.6; }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 900px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { display: none; }
+      section { padding: 5rem 1.5rem; }
+      #hero { padding: 0 1.5rem; }
+      .about-grid { grid-template-columns: 1fr; gap: 3rem; }
+      .about-visual { display: none; }
+      .edu-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ===== LOADER ===== */
+    #loader {
+      position: fixed; inset: 0;
+      background: var(--bg);
+      z-index: 99999;
+      display: flex; align-items: center; justify-content: center;
+      flex-direction: column; gap: 1.5rem;
+    }
+    .loader-logo {
+      font-family: var(--mono); font-size: 1.5rem;
+      font-weight: 700;
+      background: var(--grad);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .loader-bar-bg {
+      width: 200px; height: 2px;
+      background: var(--surface);
+      border-radius: 2px; overflow: hidden;
+    }
+    .loader-bar-fill {
+      height: 100%; width: 0%;
+      background: var(--grad);
+      border-radius: 2px;
+    }
+    .loader-pct {
+      font-family: var(--mono); font-size: .8rem;
+      color: var(--muted);
+    }
+
+    /* ===== MARQUEE ===== */
+    .marquee-wrap {
+      overflow: hidden;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 1rem 0;
+      background: var(--surface);
+    }
+    .marquee-track {
+      display: flex; gap: 3rem;
+      white-space: nowrap;
+      will-change: transform;
+    }
+    .marquee-item {
+      font-family: var(--mono); font-size: .8rem;
+      color: var(--muted);
+      display: flex; align-items: center; gap: .6rem;
+      flex-shrink: 0;
+    }
+    .marquee-sep { color: var(--accent); }
+  </style>
+</head>
+
+<body>
+
+  <!-- Loader -->
+  <div id="loader">
+    <div class="loader-logo">BY.</div>
+    <div class="loader-bar-bg"><div class="loader-bar-fill" id="loaderBar"></div></div>
+    <div class="loader-pct" id="loaderPct">0%</div>
+  </div>
+
+  <!-- Progress Bar -->
+  <div id="progress"></div>
+
+  <!-- Custom Cursor -->
+  <div id="cursor"></div>
+  <div id="cursor-follower"></div>
+
+  <!-- NAV -->
+  <nav id="navbar">
+    <span class="nav-logo">BY.</span>
+    <ul class="nav-links">
+      <li><a href="#about">Hakkında</a></li>
+      <li><a href="#skills">Beceriler</a></li>
+      <li><a href="#experience">Deneyim</a></li>
+      <li><a href="#projects">Projeler</a></li>
+      <li><a href="#education">Eğitim</a></li>
+      <li><a href="#contact">İletişim</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+
+    <div class="hero-content">
+      <div class="hero-badge">
+        <span class="dot"></span>
+        <span>Müsait — İşbirliğine açık</span>
+      </div>
+
+      <h1 class="hero-name">
+        Buğra<br />
+        <span class="gradient-text">Yetiş</span>
+      </h1>
+
+      <p class="hero-title">
+        &gt; <span id="typed"></span><span class="typed-cursor">|</span>
+      </p>
+
+      <p class="hero-desc">
+        Öğrenmeye açık, kendini sürekli geliştiren bir web geliştiricisi ve grafik tasarımcısıyım.
+        Yaratıcı fikirleri işlevsel, animasyonlu tasarımlara dönüştürüyorum.
+      </p>
+
+      <div class="hero-btns">
+        <a href="#projects" class="btn btn-primary">
+          <span>Projeleri Gör</span>
+          <span>→</span>
+        </a>
+        <a href="#contact" class="btn btn-outline">
+          <span>İletişime Geç</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="scroll-ind">
+      <div class="scroll-line"></div>
+      <span>Kaydır</span>
+    </div>
+  </section>
+
+  <!-- MARQUEE -->
+  <div class="marquee-wrap">
+    <div class="marquee-track" id="marquee">
+      <span class="marquee-item"><span class="marquee-sep">✦</span> React</span>
+      <span class="marquee-item"><span class="marquee-sep">✦</span> GSAP Animations</span>
+      <span class="marquee-item"><span class="marquee-sep">✦</span> TypeScript</span>
+      <span class="marquee-item"><span class="marquee-sep">✦</span> MongoDB</span>
+      <span class="marquee-item"><span class="marquee-sep">✦</span> Bootstrap 5</span>
+      <span class="marquee-item"><span class="marquee-sep">✦</span> Resend</span>
+      <span class="marquee-item"><span class="marquee-sep">✦</span> Nodemailer</span>
+      <span class="marquee-item"><span class="marquee-sep">✦</span> HTML E-postalar</span>
+      <span class="marquee-item"><span class="marquee-sep">✦</span> Figma</span>
+      <span class="marquee-item"><span class="marquee-sep">✦</span> WordPress</span>
+      <span class="marquee-item"><span class="marquee-sep">✦</span> Shopify</span>
+      <span class="marquee-item"><span class="marquee-sep">✦</span> Photoshop</span>
+      <span class="marquee-item"><span class="marquee-sep">✦</span> Illustrator</span>
+      <span class="marquee-item"><span class="marquee-sep">✦</span> Unreal Engine</span>
+      <!-- duplicate for loop -->
+      <span class="marquee-item"><span class="marquee-sep">✦</span> React</span>
+      <span class="marquee-item"><span class="marquee-sep">✦</span> GSAP Animations</span>
+      <span class="marquee-item"><span class="marquee-sep">✦</span> TypeScript</span>
+      <span class="marquee-item"><span class="marquee-sep">✦</span> MongoDB</span>
+      <span class="marquee-item"><span class="marquee-sep">✦</span> Bootstrap 5</span>
+      <span class="marquee-item"><span class="marquee-sep">✦</span> Resend</span>
+      <span class="marquee-item"><span class="marquee-sep">✦</span> Nodemailer</span>
+      <span class="marquee-item"><span class="marquee-sep">✦</span> HTML E-postalar</span>
+      <span class="marquee-item"><span class="marquee-sep">✦</span> Figma</span>
+      <span class="marquee-item"><span class="marquee-sep">✦</span> WordPress</span>
+      <span class="marquee-item"><span class="marquee-sep">✦</span> Shopify</span>
+      <span class="marquee-item"><span class="marquee-sep">✦</span> Photoshop</span>
+      <span class="marquee-item"><span class="marquee-sep">✦</span> Illustrator</span>
+      <span class="marquee-item"><span class="marquee-sep">✦</span> Unreal Engine</span>
+    </div>
+  </div>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <p class="section-label">01 — Hakkında</p>
+    <h2 class="section-title">Ben kimim?</h2>
+
+    <div class="about-grid">
+      <div class="about-text">
+        <p>
+          Merhaba! Ben <strong>Buğra Yetiş</strong> — İstanbul merkezli bir
+          <strong>Mid Web Developer & Grafik Tasarımcıyım</strong>.
+          MAE Reklam Ajansı'nda stajyer olarak başladığım kariyerimde
+          hızla ilerleyerek Mid Web Developer & Grafik Tasarımcı pozisyonuna yükseldim.
+        </p>
+        <p>
+          Büyük ölçekli markalar için özel yazılım tabanlı web siteleri geliştiriyor,
+          etkinlik tanıtım sayfaları tasarlıyor ve sosyal medya görsel içerikleri üretiyorum.
+          <strong>React, GSAP, TypeScript</strong> gibi modern teknolojilerle
+          etkileyici kullanıcı deneyimleri yaratmayı seviyorum.
+        </p>
+        <p>
+          Aynı zamanda <strong>MongoDB, Nodemailer</strong> gibi back-end araçlarıyla
+          full-stack projeler üretiyor; <strong>Photoshop, Illustrator ve Figma</strong>
+          ile güçlü görsel kimlikler tasarlıyorum.
+        </p>
+
+        <div class="about-stats">
+          <div class="stat-card">
+            <div class="stat-num" data-target="3">0</div>
+            <div class="stat-label">Yıl Deneyim</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num" data-target="40">0</div>
+            <div class="stat-label">Tamamlanan Proje</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num" data-target="20">0</div>
+            <div class="stat-label">Teknoloji</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num" data-target="8">0</div>
+            <div class="stat-label">Sertifika</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="about-visual">
+        <div class="about-card-3d" id="card3d">
+          <div class="avatar-circle">BY</div>
+          <div class="card-name">Buğra Yetiş</div>
+          <div class="card-role">Mid Web Developer</div>
+          <div class="card-location">📍 İstanbul, Türkiye</div>
+          <div class="card-tags">
+            <span class="tag">React</span>
+            <span class="tag">GSAP</span>
+            <span class="tag">TypeScript</span>
+            <span class="tag">MongoDB</span>
+            <span class="tag">Figma</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills">
+    <div class="skills-header">
+      <p class="section-label">02 — Beceriler</p>
+      <h2 class="section-title">Neler yapabilirim?</h2>
+    </div>
+
+    <div class="skills-grid">
+
+      <!-- Web Geliştirme -->
+      <div class="skill-category glow-card">
+        <div class="skill-cat-title">
+          <div class="cat-icon">⚡</div>
+          Web Geliştirme
+        </div>
+        <div class="skill-item">
+          <div class="skill-info"><span class="skill-name">HTML / CSS</span><span class="skill-pct">95%</span></div>
+          <div class="skill-bar-bg"><div class="skill-bar-fill" data-width="95"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-info"><span class="skill-name">JavaScript</span><span class="skill-pct">80%</span></div>
+          <div class="skill-bar-bg"><div class="skill-bar-fill" data-width="80"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-info"><span class="skill-name">TypeScript</span><span class="skill-pct">75%</span></div>
+          <div class="skill-bar-bg"><div class="skill-bar-fill" data-width="75"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-info"><span class="skill-name">React</span><span class="skill-pct">65%</span></div>
+          <div class="skill-bar-bg"><div class="skill-bar-fill" data-width="65"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-info"><span class="skill-name">Bootstrap 5</span><span class="skill-pct">92%</span></div>
+          <div class="skill-bar-bg"><div class="skill-bar-fill" data-width="92"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-info"><span class="skill-name">GSAP Animasyonları</span><span class="skill-pct">88%</span></div>
+          <div class="skill-bar-bg"><div class="skill-bar-fill" data-width="88"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-info"><span class="skill-name">Three.js / WebGL</span><span class="skill-pct">65%</span></div>
+          <div class="skill-bar-bg"><div class="skill-bar-fill" data-width="65"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-info"><span class="skill-name">jQuery / AOS / Slick</span><span class="skill-pct">82%</span></div>
+          <div class="skill-bar-bg"><div class="skill-bar-fill" data-width="82"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-info"><span class="skill-name">Uyumlu Web Tasarımı</span><span class="skill-pct">93%</span></div>
+          <div class="skill-bar-bg"><div class="skill-bar-fill" data-width="93"></div></div>
+        </div>
+      </div>
+
+      <!-- Back-end & Veritabanı -->
+      <div class="skill-category glow-card">
+        <div class="skill-cat-title">
+          <div class="cat-icon">🗄️</div>
+          Back-end & Araçlar
+        </div>
+        <div class="skill-item">
+          <div class="skill-info"><span class="skill-name">MongoDB</span><span class="skill-pct">70%</span></div>
+          <div class="skill-bar-bg"><div class="skill-bar-fill" data-width="70"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-info"><span class="skill-name">Resend / Nodemailer (Mail Sistemi)</span><span class="skill-pct">80%</span></div>
+          <div class="skill-bar-bg"><div class="skill-bar-fill" data-width="80"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-info"><span class="skill-name">HTML E-postalar</span><span class="skill-pct">85%</span></div>
+          <div class="skill-bar-bg"><div class="skill-bar-fill" data-width="85"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-info"><span class="skill-name">WordPress Tasarımı</span><span class="skill-pct">80%</span></div>
+          <div class="skill-bar-bg"><div class="skill-bar-fill" data-width="80"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-info"><span class="skill-name">Shopify</span><span class="skill-pct">72%</span></div>
+          <div class="skill-bar-bg"><div class="skill-bar-fill" data-width="72"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-info"><span class="skill-name">Git / GitHub</span><span class="skill-pct">85%</span></div>
+          <div class="skill-bar-bg"><div class="skill-bar-fill" data-width="85"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-info"><span class="skill-name">Webflow</span><span class="skill-pct">78%</span></div>
+          <div class="skill-bar-bg"><div class="skill-bar-fill" data-width="78"></div></div>
+        </div>
+      </div>
+
+      <!-- Tasarım -->
+      <div class="skill-category glow-card">
+        <div class="skill-cat-title">
+          <div class="cat-icon">🎨</div>
+          Grafik & Tasarım
+        </div>
+        <div class="skill-item">
+          <div class="skill-info"><span class="skill-name">Adobe Photoshop</span><span class="skill-pct">90%</span></div>
+          <div class="skill-bar-bg"><div class="skill-bar-fill" data-width="90"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-info"><span class="skill-name">Adobe Illustrator</span><span class="skill-pct">82%</span></div>
+          <div class="skill-bar-bg"><div class="skill-bar-fill" data-width="82"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-info"><span class="skill-name">Figma</span><span class="skill-pct">85%</span></div>
+          <div class="skill-bar-bg"><div class="skill-bar-fill" data-width="85"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-info"><span class="skill-name">Sosyal Medya Tasarımı</span><span class="skill-pct">90%</span></div>
+          <div class="skill-bar-bg"><div class="skill-bar-fill" data-width="90"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-info"><span class="skill-name">Fotoğraf Düzenleme</span><span class="skill-pct">88%</span></div>
+          <div class="skill-bar-bg"><div class="skill-bar-fill" data-width="88"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-info"><span class="skill-name">Unreal Engine 5</span><span class="skill-pct">50%</span></div>
+          <div class="skill-bar-bg"><div class="skill-bar-fill" data-width="50"></div></div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Tech Pills -->
+    <div class="tech-pills" style="margin-top:3rem;">
+      <span class="tech-pill">⚡ HTML5</span>
+      <span class="tech-pill">🎨 CSS3</span>
+      <span class="tech-pill">📜 JavaScript ES6+</span>
+      <span class="tech-pill">🔷 TypeScript</span>
+      <span class="tech-pill">⚛️ React</span>
+      <span class="tech-pill">🟢 Bootstrap 5</span>
+      <span class="tech-pill">🎬 GSAP</span>
+      <span class="tech-pill">🍃 MongoDB</span>
+      <span class="tech-pill">📧 Resend</span>
+      <span class="tech-pill">📧 Nodemailer</span>
+      <span class="tech-pill">✉️ HTML E-postalar</span>
+      <span class="tech-pill">📱 Uyumlu Web Tasarımı</span>
+      <span class="tech-pill">🤝 Ekip Çalışması</span>
+      <span class="tech-pill">🐙 Git / GitHub</span>
+      <span class="tech-pill">🔵 WordPress</span>
+      <span class="tech-pill">🛒 Shopify</span>
+      <span class="tech-pill">🖼️ Photoshop</span>
+      <span class="tech-pill">✏️ Illustrator</span>
+      <span class="tech-pill">🎯 Figma</span>
+      <span class="tech-pill">🎮 Unreal Engine 5</span>
+      <span class="tech-pill">🌐 Webflow</span>
+      <span class="tech-pill">🔺 Three.js</span>
+      <span class="tech-pill">⚡ WebGL</span>
+      <span class="tech-pill">📱 jQuery</span>
+      <span class="tech-pill">🎢 AOS</span>
+      <span class="tech-pill">🎠 Slick Slider</span>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section id="experience">
+    <div class="exp-header">
+      <p class="section-label">03 — Deneyim</p>
+      <h2 class="section-title">Çalışma Geçmişim</h2>
+    </div>
+
+    <div class="timeline">
+
+      <div class="timeline-item">
+        <div class="timeline-year">2024 — <span style="color:var(--accent3);">Devam Ediyor</span></div>
+        <div class="timeline-role">Mid Web Developer / Grafik Tasarımcı</div>
+        <div class="timeline-company">MAE Reklam Ajansı · İstanbul</div>
+        <div class="timeline-desc">
+          Büyük ölçekli markalar için özel yazılım tabanlı web siteleri geliştirdim.
+          React ve GSAP ile animasyonlu, mobil uyumlu kurumsal web projeleri tamamladım.
+          Mailing şablonları ve dijital imza sistemleri oluşturdum.
+          Web ve tasarım projelerinde liderlik rolleri üstlendim.
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-year">2023 — 2024</div>
+        <div class="timeline-role">Junior Web Developer</div>
+        <div class="timeline-company">MAE Reklam Ajansı · İstanbul</div>
+        <div class="timeline-desc">
+          Etkinlik çekimleri, fotoğraf düzenlemeleri ve sosyal medya görselleri tasarladım.
+          HTML, CSS ve Bootstrap kullanarak tanıtım sayfaları oluşturdum.
+          Marka kimliğine uygun sosyal medya tasarım setleri hazırladım.
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-year">2022 — 2023</div>
+        <div class="timeline-role">Stajyer Web Developer</div>
+        <div class="timeline-company">MAE Reklam Ajansı · İstanbul</div>
+        <div class="timeline-desc">
+          Web geliştirme alanında profesyonel deneyim kazandım.
+          Photoshop ile fotoğraf rötuşları ve renk optimizasyonları yaptım.
+          Takım projelerinde aktif rol alarak süreçlerin tamamlanmasına katkı sağladım.
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects">
+    <p class="section-label">04 — Projeler</p>
+    <h2 class="section-title">Öne Çıkan İşlerim</h2>
+
+    <div class="projects-grid">
+
+      <!-- 01 Online Kayıt Sistemi -->
+      <div class="project-card">
+        <div class="project-preview">
+          <div class="project-preview-bg" data-title="distinct2026.mae.com.tr" style="background:linear-gradient(135deg,#1a0a2e 0%,#2d1060 50%,#1a2040 100%);"></div>
+          <div class="project-preview-overlay"></div>
+          <span class="project-category-badge badge-event">Online Kayıt</span>
+        </div>
+        <div class="project-arrow">↗</div>
+        <div class="project-num">01</div>
+        <div class="project-title">Online Kayıt Sistemi — Tıbbi Konferans</div>
+        <div class="project-desc">
+          4. Uluslararası Diyabet İnovasyon Zirvesi için geliştirdiğim online
+          kayıt platformu. Dubai'de düzenlenen etkinlik için oturum seçimi,
+          kapasite yönetimi ve gerçek zamanlı katılımcı takibi içeriyor.
+        </div>
+        <div class="project-tags">
+          <span class="project-tag">Bootstrap</span>
+          <span class="project-tag">Vanilla JS</span>
+          <span class="project-tag">Responsive</span>
+          <span class="project-tag">Custom CSS</span>
+        </div>
+        <a href="https://distinct2026.mae.com.tr/" target="_blank" class="project-live-btn">
+          Siteyi Gör ↗
+        </a>
+      </div>
+
+      <!-- 02 Countdown -->
+      <div class="project-card">
+        <div class="project-preview">
+          <div class="project-preview-bg" data-title="Countdown" style="background:linear-gradient(135deg,#050014 0%,#2d0060 50%,#7b0080 100%);"></div>
+          <div class="project-preview-overlay"></div>
+          <span class="project-category-badge badge-anim">GSAP Animasyon</span>
+        </div>
+        <div class="project-arrow">↗</div>
+        <div class="project-num">02</div>
+        <div class="project-title">Countdown — Animasyonlu Geri Sayım</div>
+        <div class="project-desc">
+          Medtronic elektrofizyoloji ürün lansmanı için tasarladığım countdown
+          sayfası. Süre sıfırlanınca harfler ekrana saçılıyor, ekran titriyor
+          ve ürün görseli dramatik bir animasyonla beliriyor.
+        </div>
+        <div class="project-tags">
+          <span class="project-tag">GSAP</span>
+          <span class="project-tag">CSS Animations</span>
+          <span class="project-tag">Vanilla JS</span>
+          <span class="project-tag">LocalStorage</span>
+        </div>
+        <a href="https://mae.com.tr/AfferaNextEra/countdown.html" target="_blank" class="project-live-btn">
+          Siteyi Gör ↗
+        </a>
+      </div>
+
+      <!-- 03 Keramik -->
+      <div class="project-card">
+        <div class="project-preview">
+          <div class="project-preview-bg" data-title="mae.com.tr/Keramik" style="background:linear-gradient(135deg,#0a1628 0%,#1a3a6e 50%,#8b1a1a 100%);"></div>
+          <div class="project-preview-overlay"></div>
+          <span class="project-category-badge badge-web">Kurumsal Site</span>
+        </div>
+        <div class="project-arrow">↗</div>
+        <div class="project-num">03</div>
+        <div class="project-title">Keramik — Endüstriyel Otomasyon</div>
+        <div class="project-desc">
+          End-of-Line otomasyon çözümleri sunan Keramik firması için
+          geliştirdiğim kurumsal web sitesi. Robotik paletleme, ambalajlama
+          ve etiketleme sistemleri 40+ ülkeye yönelik profesyonel sunumla.
+        </div>
+        <div class="project-tags">
+          <span class="project-tag">HTML / CSS</span>
+          <span class="project-tag">JavaScript</span>
+          <span class="project-tag">Responsive</span>
+          <span class="project-tag">Custom Design</span>
+        </div>
+        <a href="https://mae.com.tr/Keramik/" target="_blank" class="project-live-btn">
+          Siteyi Gör ↗
+        </a>
+      </div>
+
+      <!-- 04 MAE Ajans Sitesi -->
+      <div class="project-card">
+        <div class="project-preview">
+          <div class="project-preview-bg" data-title="mae.com.tr/deneme_web" style="background:linear-gradient(135deg,#0d0d0d 0%,#1a0033 40%,#6c0066 100%);"></div>
+          <div class="project-preview-overlay"></div>
+          <span class="project-category-badge badge-anim">GSAP + WebGL</span>
+        </div>
+        <div class="project-arrow">↗</div>
+        <div class="project-num">04</div>
+        <div class="project-title">MAE Reklam Ajansı — Animasyonlu Site</div>
+        <div class="project-desc">
+          MAE reklam ajansı için geliştirdiğim animasyonlu kurumsal web sitesi.
+          WebGL shader ışık efektleri, video preloader, GSAP ScrollTrigger
+          geçişleri ve interaktif chat widget içeriyor.
+        </div>
+        <div class="project-tags">
+          <span class="project-tag">GSAP</span>
+          <span class="project-tag">ScrollTrigger</span>
+          <span class="project-tag">WebGL</span>
+          <span class="project-tag">HTML5 Video</span>
+        </div>
+        <a href="https://mae.com.tr/deneme_web/" target="_blank" class="project-live-btn">
+          Siteyi Gör ↗
+        </a>
+      </div>
+
+      <!-- 05 3B Scroll -->
+      <div class="project-card">
+        <div class="project-preview">
+          <div class="project-preview-bg" data-title="mae.com.tr/3bscrollwebsite" style="background:linear-gradient(135deg,#001020 0%,#002060 50%,#004080 100%);"></div>
+          <div class="project-preview-overlay"></div>
+          <span class="project-category-badge badge-3d">3D Scroll</span>
+        </div>
+        <div class="project-arrow">↗</div>
+        <div class="project-num">05</div>
+        <div class="project-title">3B Scroll Website — Ürün Tanıtımı</div>
+        <div class="project-desc">
+          Ürün tanıtımı için geliştirdiğim 3 boyutlu scroll deneyimi.
+          Mobil cihazlarda yatay görünüm için optimize edilmiş; kaydırma
+          hareketiyle ürün perspektifi değişiyor, tam sürükleyici bir sunum.
+        </div>
+        <div class="project-tags">
+          <span class="project-tag">GSAP</span>
+          <span class="project-tag">CSS 3D</span>
+          <span class="project-tag">ScrollTrigger</span>
+          <span class="project-tag">Mobile Opt.</span>
+        </div>
+        <a href="https://mae.com.tr/site/3bscrollwebsite/" target="_blank" class="project-live-btn">
+          Siteyi Gör ↗
+        </a>
+      </div>
+
+      <!-- 06 Iconicrete -->
+      <div class="project-card">
+        <div class="project-preview">
+          <div class="project-preview-bg" data-title="mae.com.tr/iconicrete" style="background:linear-gradient(135deg,#0a2040 0%,#1060a0 50%,#1080c0 100%);"></div>
+          <div class="project-preview-overlay"></div>
+          <span class="project-category-badge badge-web">Ürün Tanıtımı</span>
+        </div>
+        <div class="project-arrow">↗</div>
+        <div class="project-num">06</div>
+        <div class="project-title">Iconicrete — Çimsa Beton Ürünleri</div>
+        <div class="project-desc">
+          Çimsa'nın Iconicrete serisi için geliştirdiğim ürün tanıtım sitesi.
+          HyperCrete, ArteCrete, OpaCrete dahil 9 özel beton ürününü
+          scroll animasyonları eşliğinde sergiliyor.
+        </div>
+        <div class="project-tags">
+          <span class="project-tag">Bootstrap</span>
+          <span class="project-tag">AOS</span>
+          <span class="project-tag">Custom Fonts</span>
+          <span class="project-tag">Responsive</span>
+        </div>
+        <a href="https://mae.com.tr/site/iconicrete/" target="_blank" class="project-live-btn">
+          Siteyi Gör ↗
+        </a>
+      </div>
+
+      <!-- 07 MAE Site Book Anim -->
+      <div class="project-card">
+        <div class="project-preview">
+          <div class="project-preview-bg" data-title="mae.com.tr/mae_site" style="background:linear-gradient(135deg,#111111 0%,#1a1a2e 50%,#2a0a3e 100%);"></div>
+          <div class="project-preview-overlay"></div>
+          <span class="project-category-badge badge-anim">Book Animasyon</span>
+        </div>
+        <div class="project-arrow">↗</div>
+        <div class="project-num">07</div>
+        <div class="project-title">MAE Site — Book Animasyon Denemesi</div>
+        <div class="project-desc">
+          20 yıllık deneyime sahip MAE reklam ajansı için geliştirdiğim
+          book flip animasyon denemesi. Sayfalar kitap gibi dönerek açılıyor,
+          ajansın hikayesi interaktif şekilde anlatılıyor.
+        </div>
+        <div class="project-tags">
+          <span class="project-tag">HTML / CSS</span>
+          <span class="project-tag">JavaScript</span>
+          <span class="project-tag">CSS 3D Flip</span>
+          <span class="project-tag">Interactive</span>
+        </div>
+        <a href="https://mae.com.tr/site/mae_site/" target="_blank" class="project-live-btn">
+          Siteyi Gör ↗
+        </a>
+      </div>
+
+      <!-- 08 Maritaş Denim -->
+      <div class="project-card">
+        <div class="project-preview">
+          <div class="project-preview-bg" data-title="maritas2023.maereklam.com" style="background:linear-gradient(135deg,#1a1208 0%,#3a2c10 50%,#5a3a08 100%);"></div>
+          <div class="project-preview-overlay"></div>
+          <span class="project-category-badge badge-web">Kurumsal Site</span>
+        </div>
+        <div class="project-arrow">↗</div>
+        <div class="project-num">08</div>
+        <div class="project-title">Maritaş Denim — Tekstil Kurumsal</div>
+        <div class="project-desc">
+          Sürdürülebilir denim üretiminde öncü Maritaş firması için hazırladığım
+          kurumsal web sitesi. REJUVENATE, CYCLE-FX, TERRA DENIM gibi
+          ürün serilerini modern tasarımla sunuyor.
+        </div>
+        <div class="project-tags">
+          <span class="project-tag">AOS</span>
+          <span class="project-tag">Slick Slider</span>
+          <span class="project-tag">HTML5 Video</span>
+          <span class="project-tag">Responsive</span>
+        </div>
+        <a href="https://mae.com.tr/site/maritas2023.maereklam.com/" target="_blank" class="project-live-btn">
+          Siteyi Gör ↗
+        </a>
+      </div>
+
+      <!-- 09 Kitpro Audrey -->
+      <div class="project-card">
+        <div class="project-preview">
+          <div class="project-preview-bg" data-title="kitpro-audrey.webflow.io" style="background:linear-gradient(135deg,#0a0a0a 0%,#1a1a1a 40%,#2a1a3e 100%);"></div>
+          <div class="project-preview-overlay"></div>
+          <span class="project-category-badge badge-ui">Webflow</span>
+        </div>
+        <div class="project-arrow">↗</div>
+        <div class="project-num">09</div>
+        <div class="project-title">Audrey — Yaratıcı Ajans Portfolyosu</div>
+        <div class="project-desc">
+          Webflow üzerinde geliştirdiğim yaratıcı ajans portfolyo sitesi.
+          GSAP SplitText ile karakter animasyonları, Draggable ile sürüklenebilir
+          ekip carousel'i ve mouse-trail parçacık sistemi içeriyor.
+        </div>
+        <div class="project-tags">
+          <span class="project-tag">Webflow</span>
+          <span class="project-tag">GSAP</span>
+          <span class="project-tag">SplitText</span>
+          <span class="project-tag">Draggable</span>
+        </div>
+        <a href="https://kitpro-audrey.webflow.io/" target="_blank" class="project-live-btn">
+          Siteyi Gör ↗
+        </a>
+      </div>
+
+      <!-- 10 Joondalup Festival -->
+      <div class="project-card">
+        <div class="project-preview">
+          <div class="project-preview-bg" data-title="joondalupfestival.com.au" style="background:linear-gradient(135deg,#0a0020 0%,#1a0040 40%,#3a0060 100%);"></div>
+          <div class="project-preview-overlay"></div>
+          <span class="project-category-badge badge-event">Festival / Etkinlik</span>
+        </div>
+        <div class="project-arrow">↗</div>
+        <div class="project-num">10</div>
+        <div class="project-title">Joondalup Festival 2026 — Perth</div>
+        <div class="project-desc">
+          Perth, Avustralya'daki 16 günlük kültürel festival için geliştirdiğim
+          etkinlik sitesi. Sürrealist estetik, program vitrin, biletleme
+          entegrasyonu ve bülten kayıt sistemi içeriyor.
+        </div>
+        <div class="project-tags">
+          <span class="project-tag">WordPress</span>
+          <span class="project-tag">jQuery</span>
+          <span class="project-tag">Gravity Forms</span>
+          <span class="project-tag">Responsive</span>
+        </div>
+        <a href="https://joondalupfestival.com.au/" target="_blank" class="project-live-btn">
+          Siteyi Gör ↗
+        </a>
+      </div>
+
+      <!-- 11 Active Theory Racer -->
+      <div class="project-card">
+        <div class="project-preview">
+          <div class="project-preview-bg" data-title="activetheory.net/work/racer" style="background:linear-gradient(135deg,#000000 0%,#0a0a1a 40%,#001030 100%);"></div>
+          <div class="project-preview-overlay"></div>
+          <span class="project-category-badge badge-3d">WebGL / İmmersive</span>
+        </div>
+        <div class="project-arrow">↗</div>
+        <div class="project-num">11</div>
+        <div class="project-title">Racer — İmmersive Web Deneyimi</div>
+        <div class="project-desc">
+          Active Theory için geliştirdiğim tam ekran immersive interaktif web
+          deneyimi. Özel tipografi sistemi, WebGL tabanlı görsel efektler ve
+          dokunmatik optimize edilmiş akıcı bir arayüz içeriyor.
+        </div>
+        <div class="project-tags">
+          <span class="project-tag">WebGL</span>
+          <span class="project-tag">Custom Fonts</span>
+          <span class="project-tag">Immersive UI</span>
+          <span class="project-tag">Touch Opt.</span>
+        </div>
+        <a href="https://activetheory.net/work/racer" target="_blank" class="project-live-btn">
+          Siteyi Gör ↗
+        </a>
+      </div>
+
+      <!-- 12 Touchscreen -->
+      <div class="project-card">
+        <div class="project-preview">
+          <div class="project-preview-bg" data-title="mae.com.tr/touchscreen" style="background:linear-gradient(135deg,#001428 0%,#002a50 45%,#0044a0 100%);"></div>
+          <div class="project-preview-overlay"></div>
+          <span class="project-category-badge badge-3d">Three.js / 3D</span>
+        </div>
+        <div class="project-arrow">↗</div>
+        <div class="project-num">12</div>
+        <div class="project-title">Touchscreen — Dokunmatik Ürün Vitrini</div>
+        <div class="project-desc">
+          Medikal cihaz tanıtımı için geliştirdiğim touchscreen interaktif
+          vitrin. Three.js ile 3D model görüntüleyici; ürünü tüm açılardan
+          döndürme, zoom ve sekme bazlı teknik detay panelleri içeriyor.
+        </div>
+        <div class="project-tags">
+          <span class="project-tag">Three.js</span>
+          <span class="project-tag">WebGL</span>
+          <span class="project-tag">GLTFLoader</span>
+          <span class="project-tag">OrbitControls</span>
+        </div>
+        <a href="https://mae.com.tr/touchscreen%202/" target="_blank" class="project-live-btn">
+          Siteyi Gör ↗
+        </a>
+      </div>
+
+      <!-- 13 MAE Animasyonlu Site — Yakında -->
+      <div class="project-card" style="opacity:1;transform:none;">
+        <div class="project-preview">
+          <div class="project-preview-bg" data-title="Yakında eklenecek..." style="background:linear-gradient(135deg,#0d0d0d 0%,#1a0a2e 50%,#2a0a1e 100%); opacity:.6;"></div>
+          <div class="project-preview-overlay"></div>
+          <span class="project-category-badge badge-anim">GSAP Animasyon</span>
+          <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;">
+            <div style="width:44px;height:44px;border:2px solid rgba(108,99,255,.4);border-top-color:var(--accent);border-radius:50%;animation:spin 1s linear infinite;"></div>
+          </div>
+        </div>
+        <div class="project-arrow" style="opacity:.4;">↗</div>
+        <div class="project-num" style="opacity:.5;">13</div>
+        <div class="project-title" style="opacity:.7;">MAE — Animasyonlu Web Sitesi</div>
+        <div class="project-desc" style="opacity:.5;">
+          Link yakında eklenecek. GSAP ile geliştirilmiş, tam animasyonlu
+          kurumsal web sitesi projesi bu alana eklenecek.
+        </div>
+        <div class="project-tags">
+          <span class="project-tag" style="opacity:.5;">GSAP</span>
+          <span class="project-tag" style="opacity:.5;">ScrollTrigger</span>
+          <span class="project-tag" style="opacity:.5;">Yakında ✦</span>
+        </div>
+        <span class="project-live-btn" style="opacity:.4;cursor:default;">Çok Yakında...</span>
+      </div>
+
+      <!-- 14 Hero Dental Art -->
+      <div class="project-card">
+        <div class="project-preview">
+          <div class="project-preview-bg" data-title="herodentalart.com" style="background:linear-gradient(135deg,#0a1e2e 0%,#0d3050 50%,#1a5080 100%);"></div>
+          <div class="project-preview-overlay"></div>
+          <span class="project-category-badge badge-web">Kurumsal Site</span>
+        </div>
+        <div class="project-arrow">↗</div>
+        <div class="project-num">14</div>
+        <div class="project-title">Hero Dental Art — Diş Protez Laboratuvarı</div>
+        <div class="project-desc">
+          25 yıllık deneyime sahip Hero Dental Art Diş Protez Laboratuvarı için
+          geliştirdiğim kurumsal web sitesi. Zirkonyum, E.max, CAD/CAM dijital
+          diş hekimliği hizmetlerini modern tasarımla sunuyor.
+        </div>
+        <div class="project-tags">
+          <span class="project-tag">HTML / CSS</span>
+          <span class="project-tag">Vanilla JS</span>
+          <span class="project-tag">CSS Animations</span>
+          <span class="project-tag">Responsive</span>
+        </div>
+        <a href="https://herodentalart.com/" target="_blank" class="project-live-btn">
+          Siteyi Gör ↗
+        </a>
+      </div>
+
+      <!-- +Daha Fazlası -->
+      <div class="project-more-card">
+        <div class="project-more-icon">✦</div>
+        <div class="project-more-title">Ve çok daha fazlası...</div>
+        <div class="project-more-sub">
+          Bunlar yalnızca öne çıkan birkaç örnek. MAE Reklam Ajansı'nda
+          geliştirdiğim onlarca kurumsal web sitesi, ürün tanıtım sayfası
+          ve etkinlik projesi bulunuyor.
+        </div>
+        <a href="https://github.com/BugraYetis" target="_blank" class="project-live-btn" style="margin-top:.5rem;">
+          GitHub'ı Ziyaret Et ↗
+        </a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- EDUCATION -->
+  <section id="education">
+    <p class="section-label">05 — Eğitim & Sertifikalar</p>
+    <h2 class="section-title">Akademik Geçmiş</h2>
+
+    <div class="edu-grid">
+      <div class="edu-card">
+        <div class="edu-year">2023 — 2025</div>
+        <div class="edu-title">Bilgisayar Programcılığı</div>
+        <div class="edu-school">Atatürk Üniversitesi AÖF · Meslek Yüksekokulu</div>
+      </div>
+      <div class="edu-card">
+        <div class="edu-year">2019 — 2023</div>
+        <div class="edu-title">Bilişim Teknolojileri</div>
+        <div class="edu-school">Haydarpaşa MTAL · Lise</div>
+      </div>
+      <div class="edu-card">
+        <div class="edu-year">BTK Akademi Sertifikası</div>
+        <div class="edu-title">HTML, CSS & Web Kullanılabilirliği</div>
+        <div class="edu-school">BTK Akademi</div>
+      </div>
+      <div class="edu-card">
+        <div class="edu-year">BTK Akademi Sertifikası</div>
+        <div class="edu-title">Bootstrap 5 ile Web Programcılığı</div>
+        <div class="edu-school">BTK Akademi</div>
+      </div>
+      <div class="edu-card">
+        <div class="edu-year">BTK Akademi Sertifikası</div>
+        <div class="edu-title">JavaScript ile Web Programcılığı</div>
+        <div class="edu-school">BTK Akademi</div>
+      </div>
+      <div class="edu-card">
+        <div class="edu-year">BTK Akademi Sertifikası</div>
+        <div class="edu-title">React ile Web Programcılığı</div>
+        <div class="edu-school">BTK Akademi</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="contact-inner">
+      <p class="section-label" style="justify-content:center;">06 — İletişim</p>
+      <h2 class="contact-big section-title">Çalışalım<br /><span style="background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">mı?</span></h2>
+      <p class="contact-sub">Yeni projeler, iş birlikleri veya sadece merhaba demek için.</p>
+
+      <div class="contact-links">
+        <a href="mailto:bugrayetis305@gmail.com" class="contact-link">
+          <span class="link-icon">✉️</span>
+          bugrayetis305@gmail.com
+        </a>
+        <a href="tel:+905365957942" class="contact-link">
+          <span class="link-icon">📞</span>
+          +90 536 595 79 42
+        </a>
+        <a href="https://github.com/BugraYetis" target="_blank" class="contact-link">
+          <span class="link-icon">🐙</span>
+          GitHub
+        </a>
+        <a href="https://www.linkedin.com/in/bu%C4%9Fra-yeti%C5%9F-593964249" target="_blank" class="contact-link">
+          <span class="link-icon">💼</span>
+          LinkedIn
+        </a>
+      </div>
+
+      <p class="footer-note">
+        Designed & Built by Buğra Yetiş · 2025 · İstanbul
+      </p>
+    </div>
+  </section>
+
+  <script>
+    /* ========================================
+       LOADER
+    ======================================== */
+    const loaderBar = document.getElementById('loaderBar');
+    const loaderPct = document.getElementById('loaderPct');
+    const loader    = document.getElementById('loader');
+
+    let pct = 0;
+    const loadInterval = setInterval(() => {
+      pct += Math.random() * 15;
+      if (pct >= 100) { pct = 100; clearInterval(loadInterval); initApp(); }
+      loaderBar.style.width = pct + '%';
+      loaderPct.textContent = Math.floor(pct) + '%';
+    }, 80);
+
+    function initApp() {
+      gsap.to(loader, {
+        opacity: 0, duration: .6, ease: 'power2.inOut',
+        onComplete: () => { loader.style.display = 'none'; startAnimations(); }
+      });
+    }
+
+    /* ========================================
+       MAIN ANIMATIONS
+    ======================================== */
+    function startAnimations() {
+      gsap.registerPlugin(ScrollTrigger, TextPlugin);
+
+      /* --- Hero animations --- */
+      const heroTl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+      heroTl
+        .to('.hero-badge',  { opacity:1, y:0, duration:.7, from:{y:20} })
+        .to('.hero-name',   { opacity:1, y:0, duration:.9, from:{y:60} }, '-=.3')
+        .to('.hero-title',  { opacity:1, y:0, duration:.7, from:{y:30} }, '-=.5')
+        .to('.hero-desc',   { opacity:1, y:0, duration:.7, from:{y:30} }, '-=.5')
+        .to('.hero-btns',   { opacity:1, y:0, duration:.7, from:{y:30} }, '-=.4')
+        .to('.scroll-ind',  { opacity:1, duration:.5 }, '-=.2');
+
+      /* --- Typed text --- */
+      const phrases = [
+        'Mid Web Developer',
+        'Front-End Specialist',
+        'GSAP Animator',
+        'Grafik Tasarımcı',
+        'React Developer'
+      ];
+      let phraseIdx = 0;
+      const typedEl = document.getElementById('typed');
+
+      function typePhrase(phrase, cb) {
+        let i = 0;
+        const ti = setInterval(() => {
+          typedEl.textContent += phrase[i++];
+          if (i >= phrase.length) { clearInterval(ti); setTimeout(cb, 1400); }
+        }, 65);
+      }
+      function deletePhrase(cb) {
+        const di = setInterval(() => {
+          typedEl.textContent = typedEl.textContent.slice(0,-1);
+          if (!typedEl.textContent) { clearInterval(di); cb(); }
+        }, 35);
+      }
+      function loop() {
+        typePhrase(phrases[phraseIdx], () => {
+          deletePhrase(() => {
+            phraseIdx = (phraseIdx + 1) % phrases.length;
+            loop();
+          });
+        });
+      }
+      loop();
+
+      /* --- Navbar scroll --- */
+      const nav = document.getElementById('navbar');
+      window.addEventListener('scroll', () => {
+        nav.classList.toggle('scrolled', window.scrollY > 60);
+      });
+
+      /* --- Scroll progress bar --- */
+      const progressBar = document.getElementById('progress');
+      window.addEventListener('scroll', () => {
+        const p = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
+        progressBar.style.width = p + '%';
+      });
+
+      /* --- Blobs parallax --- */
+      gsap.to('.blob-1', {
+        yPercent: -30, ease: 'none',
+        scrollTrigger: { trigger: '#hero', start: 'top top', end: 'bottom top', scrub: true }
+      });
+      gsap.to('.blob-2', {
+        yPercent: 20, ease: 'none',
+        scrollTrigger: { trigger: '#hero', start: 'top top', end: 'bottom top', scrub: true }
+      });
+
+      /* --- About section --- */
+      gsap.from('.about-text p', {
+        opacity:0, y:30, stagger:.2, duration:.8, ease:'power3.out',
+        scrollTrigger: { trigger: '#about', start: 'top 70%' }
+      });
+
+      /* Counter animation */
+      document.querySelectorAll('.stat-num').forEach(el => {
+        const target = parseInt(el.dataset.target);
+        ScrollTrigger.create({
+          trigger: el,
+          start: 'top 85%',
+          onEnter: () => {
+            gsap.to({ val:0 }, {
+              val: target, duration: 1.5, ease: 'power2.out',
+              onUpdate: function() { el.textContent = Math.floor(this.targets()[0].val) + '+'; }
+            });
+          }
+        });
+      });
+
+      /* 3D card tilt */
+      const card3d = document.getElementById('card3d');
+      if (card3d) {
+        card3d.addEventListener('mousemove', e => {
+          const rect = card3d.getBoundingClientRect();
+          const cx = rect.left + rect.width/2;
+          const cy = rect.top + rect.height/2;
+          const dx = (e.clientX - cx) / (rect.width/2);
+          const dy = (e.clientY - cy) / (rect.height/2);
+          gsap.to(card3d, {
+            rotateY: dx * 15, rotateX: -dy * 15,
+            duration: .4, ease: 'power2.out',
+            transformPerspective: 800
+          });
+        });
+        card3d.addEventListener('mouseleave', () => {
+          gsap.to(card3d, { rotateY:0, rotateX:0, duration:.6, ease:'elastic.out(1,.5)' });
+        });
+      }
+
+      /* --- Skill bars --- */
+      document.querySelectorAll('.skill-bar-fill').forEach(bar => {
+        ScrollTrigger.create({
+          trigger: bar,
+          start: 'top 85%',
+          onEnter: () => {
+            gsap.to(bar, { width: bar.dataset.width + '%', duration: 1.4, ease: 'power3.out' });
+          }
+        });
+      });
+
+      /* Skill category entrance */
+      gsap.from('.skill-category', {
+        opacity:0, y:50, stagger:.15, duration:.8, ease:'power3.out',
+        scrollTrigger: { trigger: '#skills', start: 'top 65%' }
+      });
+
+      /* Tech pills */
+      gsap.from('.tech-pill', {
+        opacity:0, scale:.8, stagger:.04, duration:.5,
+        scrollTrigger: { trigger: '.tech-pills', start: 'top 85%' }
+      });
+
+      /* --- Timeline --- */
+      gsap.to('.timeline-item', {
+        opacity:1, x:0, stagger:.25, duration:.8, ease:'power3.out',
+        scrollTrigger: { trigger: '.timeline', start: 'top 70%' }
+      });
+
+      /* --- Projects --- */
+      gsap.to('.project-card, .project-more-card', {
+        opacity:1, y:0, stagger:.1, duration:.8, ease:'power3.out',
+        scrollTrigger: { trigger: '.projects-grid', start: 'top 75%' }
+      });
+
+      /* Project card magnetic effect */
+      document.querySelectorAll('.project-card, .project-more-card').forEach(card => {
+        card.addEventListener('mousemove', e => {
+          const rect = card.getBoundingClientRect();
+          const x = ((e.clientX - rect.left) / rect.width - .5) * 10;
+          const y = ((e.clientY - rect.top) / rect.height - .5) * 10;
+          gsap.to(card, { x, y, duration:.3, ease:'power2.out' });
+        });
+        card.addEventListener('mouseleave', () => {
+          gsap.to(card, { x:0, y:0, duration:.5, ease:'elastic.out(1,.5)' });
+        });
+      });
+
+      /* --- Education cards --- */
+      gsap.to('.edu-card', {
+        opacity:1, y:0, stagger:.1, duration:.7, ease:'power3.out',
+        scrollTrigger: { trigger: '#education', start: 'top 70%' }
+      });
+
+      /* --- Contact section --- */
+      gsap.from('.contact-big', {
+        opacity:0, y:60, duration:1, ease:'power3.out',
+        scrollTrigger: { trigger: '#contact', start: 'top bottom', once: true }
+      });
+      gsap.from('.contact-link', {
+        opacity:0, y:30, stagger:.1, duration:.6,
+        scrollTrigger: { trigger: '.contact-links', start: 'top bottom', once: true }
+      });
+
+      /* --- Marquee --- */
+      const track = document.getElementById('marquee');
+      const trackWidth = track.scrollWidth / 2;
+      gsap.to(track, {
+        x: -trackWidth, duration: 20, ease: 'none', repeat: -1
+      });
+
+      /* --- Section labels --- */
+      gsap.utils.toArray('.section-label').forEach(el => {
+        gsap.from(el, {
+          opacity:0, x:-20, duration:.6,
+          scrollTrigger: { trigger: el, start: 'top 85%' }
+        });
+      });
+      gsap.utils.toArray('.section-title').forEach(el => {
+        gsap.from(el, {
+          opacity:0, y:30, duration:.8,
+          scrollTrigger: { trigger: el, start: 'top 85%' }
+        });
+      });
+    }
+
+    /* ========================================
+       CUSTOM CURSOR
+    ======================================== */
+    const cursor = document.getElementById('cursor');
+    const follower = document.getElementById('cursor-follower');
+    let mx = 0, my = 0;
+
+    document.addEventListener('mousemove', e => {
+      mx = e.clientX; my = e.clientY;
+      gsap.to(cursor, { x: mx, y: my, duration: .05 });
+      gsap.to(follower, { x: mx, y: my, duration: .18, ease: 'power2.out' });
+    });
+
+    document.querySelectorAll('a, button, .project-card, .skill-category, .stat-card').forEach(el => {
+      el.addEventListener('mouseenter', () => {
+        gsap.to(follower, { scale: 2.5, opacity: .8, duration: .3 });
+        gsap.to(cursor, { scale: 0, duration: .2 });
+      });
+      el.addEventListener('mouseleave', () => {
+        gsap.to(follower, { scale: 1, opacity: .5, duration: .3 });
+        gsap.to(cursor, { scale: 1, duration: .2 });
+      });
+    });
+
+    /* ========================================
+       ACTIVE NAV LINKS
+    ======================================== */
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.nav-links a');
+    window.addEventListener('scroll', () => {
+      let current = '';
+      sections.forEach(s => {
+        if (window.scrollY >= s.offsetTop - 200) current = s.id;
+      });
+      navLinks.forEach(a => {
+        a.style.color = a.getAttribute('href') === '#' + current
+          ? 'var(--text)' : '';
+      });
+    });
+  </script>
+
+</body>
+</html>
