@@ -52,7 +52,7 @@
       background: var(--accent);
       border-radius: 50%;
       position: fixed; top: 0; left: 0;
-      pointer-events: none; z-index: 9999;
+      pointer-events: none; z-index: 999999;
       mix-blend-mode: difference;
       transform: translate(-50%,-50%);
       transition: transform .1s ease;
@@ -62,7 +62,7 @@
       border: 1.5px solid var(--accent);
       border-radius: 50%;
       position: fixed; top: 0; left: 0;
-      pointer-events: none; z-index: 9998;
+      pointer-events: none; z-index: 999998;
       transform: translate(-50%,-50%);
       transition: transform .08s ease, width .2s, height .2s, opacity .2s;
       opacity: .5;
@@ -521,6 +521,230 @@
     }
     .timeline-desc { color: var(--muted); line-height: 1.8; font-size: .9rem; }
 
+    /* ===== MOBILE APPS ===== */
+    #mobile-apps { position: relative; }
+    .mobile-apps-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 1.5rem;
+      margin-top: 4rem;
+    }
+    .mobile-app-card { cursor: pointer; }
+    .mobile-app-card .project-live-btn {
+      pointer-events: none;
+    }
+
+    /* ===== MOBILE DETAIL PANEL ===== */
+    .mobile-detail {
+      position: fixed; inset: 0;
+      z-index: 100000;
+      opacity: 0; pointer-events: none;
+      transition: opacity .35s ease;
+    }
+    .mobile-detail.active {
+      opacity: 1; pointer-events: all;
+    }
+    .mobile-detail-bg {
+      position: absolute; inset: 0;
+      background: rgba(0,0,0,.7);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+    }
+    .mobile-detail-wrapper {
+      position: absolute;
+      top: 3vh; bottom: 3vh;
+      left: 5vw; right: 5vw;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      overflow-y: auto;
+      overflow-x: hidden;
+      transform: translateY(30px);
+      transition: transform .35s ease;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(108,99,255,.3) transparent;
+    }
+    .mobile-detail.active .mobile-detail-wrapper {
+      transform: translateY(0);
+    }
+    .mobile-detail-wrapper::-webkit-scrollbar { width: 6px; }
+    .mobile-detail-wrapper::-webkit-scrollbar-track { background: transparent; }
+    .mobile-detail-wrapper::-webkit-scrollbar-thumb { background: rgba(108,99,255,.3); border-radius: 3px; }
+
+    .mobile-detail-close {
+      position: sticky; top: 0; z-index: 10;
+      display: flex; justify-content: flex-end;
+      padding: 1.2rem 1.5rem;
+      background: linear-gradient(180deg, var(--surface) 60%, transparent);
+    }
+    .mobile-detail-close button {
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      background: rgba(255,255,255,.06);
+      border: 1px solid var(--border);
+      color: #fff;
+      font-size: 1.3rem;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: all .2s;
+    }
+    .mobile-detail-close button:hover {
+      background: var(--accent);
+      border-color: var(--accent);
+      transform: scale(1.1);
+    }
+
+    .mobile-detail-header {
+      padding: 0 3rem 2rem;
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
+    .mobile-detail-icon {
+      width: 72px; height: 72px;
+      border-radius: 18px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.8rem; font-weight: 800;
+      flex-shrink: 0;
+    }
+    .mobile-detail-header h2 {
+      font-size: clamp(1.4rem, 3vw, 2rem);
+      font-weight: 700;
+      margin: 0;
+    }
+    .mobile-detail-header .detail-subtitle {
+      font-family: var(--mono);
+      font-size: .78rem;
+      color: var(--accent);
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      margin-top: .3rem;
+    }
+
+    .mobile-detail-body {
+      padding: 0 3rem;
+    }
+    .mobile-detail-desc {
+      color: var(--muted);
+      font-size: .95rem;
+      line-height: 1.8;
+      margin-bottom: 2rem;
+      max-width: 700px;
+    }
+    .mobile-detail-section-title {
+      font-family: var(--mono);
+      font-size: .72rem;
+      color: var(--accent);
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+    .mobile-detail-tags {
+      display: flex; flex-wrap: wrap; gap: .5rem;
+      margin-bottom: 2.5rem;
+    }
+    .mobile-detail-tag {
+      padding: .35rem .9rem;
+      background: rgba(108,99,255,.1);
+      border: 1px solid rgba(108,99,255,.2);
+      border-radius: 100px;
+      font-size: .78rem;
+      color: var(--accent);
+      font-family: var(--mono);
+    }
+
+    .mobile-detail-screens {
+      display: flex;
+      gap: 1.2rem;
+      overflow-x: auto;
+      padding: 0 0 2.5rem;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    .mobile-detail-screens::-webkit-scrollbar { display: none; }
+    .mobile-detail-screen {
+      flex-shrink: 0;
+      width: 200px;
+      border-radius: 18px;
+      overflow: hidden;
+      border: 2px solid var(--border);
+      transition: all .3s;
+      scroll-snap-align: start;
+      box-shadow: 0 8px 30px rgba(0,0,0,.4);
+      cursor: pointer;
+    }
+    .mobile-detail-screen:hover {
+      transform: scale(1.04);
+      border-color: var(--accent);
+      box-shadow: 0 12px 40px rgba(108,99,255,.3);
+    }
+    .mobile-detail-screen img {
+      width: 100%; height: auto; display: block;
+    }
+
+    /* Image lightbox (clicking a screenshot) */
+    .img-lightbox {
+      position: fixed; inset: 0;
+      z-index: 200000;
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; pointer-events: none;
+      transition: opacity .25s ease;
+    }
+    .img-lightbox.active { opacity: 1; pointer-events: all; }
+    .img-lightbox-bg {
+      position: absolute; inset: 0;
+      background: rgba(0,0,0,.85);
+      backdrop-filter: blur(10px);
+    }
+    .img-lightbox-img {
+      position: relative;
+      max-height: 90vh; max-width: 440px; width: 92vw;
+      border-radius: 22px; overflow: hidden;
+      box-shadow: 0 30px 100px rgba(0,0,0,.7);
+      border: 2px solid rgba(108,99,255,.3);
+      transform: scale(.92);
+      transition: transform .25s ease;
+    }
+    .img-lightbox.active .img-lightbox-img { transform: scale(1); }
+    .img-lightbox-img img { width: 100%; height: auto; display: block; }
+    .img-lightbox-close {
+      position: absolute; top: 14px; right: 14px;
+      width: 38px; height: 38px; border-radius: 50%;
+      background: rgba(0,0,0,.6); border: 1px solid rgba(255,255,255,.15);
+      color: #fff; font-size: 1.1rem;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; z-index: 10; transition: all .2s;
+    }
+    .img-lightbox-close:hover { background: rgba(108,99,255,.7); }
+    .img-lightbox-nav {
+      position: absolute; top: 50%; transform: translateY(-50%);
+      width: 46px; height: 46px; border-radius: 50%;
+      background: rgba(0,0,0,.5); border: 1px solid rgba(255,255,255,.12);
+      color: #fff; font-size: 1.3rem;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; z-index: 10; transition: all .2s;
+    }
+    .img-lightbox-nav.prev { left: -60px; }
+    .img-lightbox-nav.next { right: -60px; }
+    .img-lightbox-nav:hover { background: rgba(108,99,255,.7); }
+    .img-lightbox-counter {
+      position: absolute; bottom: -36px; left: 50%;
+      transform: translateX(-50%);
+      font-family: var(--mono); font-size: .78rem;
+      color: rgba(255,255,255,.5);
+    }
+    @media (max-width: 700px) {
+      .mobile-detail-wrapper { left: 2vw; right: 2vw; top: 2vh; bottom: 2vh; }
+      .mobile-detail-header { padding: 0 1.5rem 1.5rem; }
+      .mobile-detail-body { padding: 0 1.5rem; }
+      .mobile-detail-screen { width: 160px; }
+      .mobile-detail-icon { width: 56px; height: 56px; font-size: 1.4rem; border-radius: 14px; }
+      .img-lightbox-nav.prev { left: 8px; }
+      .img-lightbox-nav.next { right: 8px; }
+      .img-lightbox-nav { width: 36px; height: 36px; }
+    }
+
     /* ===== PROJECTS ===== */
     #projects { position: relative; }
     .projects-grid {
@@ -595,6 +819,110 @@
     .project-card:hover .project-arrow {
       background: var(--accent);
       transform: rotate(45deg);
+    }
+
+    /* ===== FEATURED PROJECT CARD ===== */
+    .project-card.featured-card {
+      grid-column: 1 / -1;
+      display: grid;
+      grid-template-columns: 1.1fr 1fr;
+      gap: 0;
+      padding: 0;
+      border: 1px solid rgba(108,99,255,.35);
+      background: linear-gradient(135deg, rgba(108,99,255,.06) 0%, var(--surface) 50%, rgba(108,99,255,.04) 100%);
+      overflow: hidden;
+    }
+    .project-card.featured-card::before {
+      background: linear-gradient(135deg, rgba(108,99,255,.12) 0%, transparent 60%);
+      opacity: 1;
+    }
+    .project-card.featured-card:hover {
+      border-color: var(--accent);
+      box-shadow: 0 40px 100px rgba(108,99,255,.3), 0 0 60px rgba(108,99,255,.1);
+    }
+    .project-card.featured-card .project-preview {
+      width: 100%; height: 100%; min-height: 320px;
+      margin: 0; border-radius: 20px 0 0 20px;
+    }
+    .featured-info {
+      padding: 2.5rem;
+      display: flex; flex-direction: column; justify-content: center;
+      position: relative; z-index: 1;
+    }
+    .featured-star {
+      display: inline-flex; align-items: center; gap: .5rem;
+      font-family: var(--mono); font-size: .75rem;
+      color: #fbbf24; margin-bottom: 1rem;
+      text-transform: uppercase; letter-spacing: 2px;
+    }
+    .featured-star::before {
+      content: '★'; font-size: 1rem;
+      filter: drop-shadow(0 0 6px rgba(251,191,36,.5));
+    }
+    /* MacBook frame inside preview */
+    .macbook-frame {
+      position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      z-index: 2; padding: 1.5rem;
+    }
+    .macbook-body {
+      width: 88%; max-width: 420px;
+      background: #1a1a1a;
+      border-radius: 10px 10px 0 0;
+      box-shadow: 0 20px 60px rgba(0,0,0,.5);
+      overflow: hidden;
+      border: 2px solid #333;
+    }
+    .macbook-topbar {
+      height: 22px;
+      background: linear-gradient(180deg, #3a3a3a 0%, #2a2a2a 100%);
+      display: flex; align-items: center;
+      padding: 0 10px; gap: 6px;
+    }
+    .macbook-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+    }
+    .macbook-dot.red { background: #ff5f57; }
+    .macbook-dot.yellow { background: #ffbd2e; }
+    .macbook-dot.green { background: #28c840; }
+    .macbook-screen {
+      width: 100%;
+      aspect-ratio: 16/10;
+      background: linear-gradient(135deg, #0a0a0a 0%, #111 50%, #1a1a2e 100%);
+      position: relative;
+      overflow: hidden;
+    }
+    .macbook-screen-text {
+      position: absolute; inset: 0;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      color: rgba(255,255,255,.7);
+      font-size: .65rem; font-family: var(--mono);
+      gap: 4px;
+    }
+    .macbook-screen-text .site-title {
+      font-size: .9rem; font-weight: 600;
+      color: #fff; letter-spacing: 2px;
+    }
+    .macbook-stand {
+      width: 30%; height: 12px; margin: 0 auto;
+      background: linear-gradient(180deg, #2a2a2a, #1a1a1a);
+      border-radius: 0 0 4px 4px;
+    }
+    .macbook-base {
+      width: 50%; height: 4px; margin: 0 auto;
+      background: #333;
+      border-radius: 0 0 6px 6px;
+    }
+    @media (max-width: 768px) {
+      .project-card.featured-card {
+        grid-template-columns: 1fr;
+      }
+      .project-card.featured-card .project-preview {
+        min-height: 220px;
+        border-radius: 20px 20px 0 0;
+      }
     }
 
     /* ===== EDUCATION & CERTS ===== */
@@ -791,78 +1119,6 @@
     }
 
     /* ===== LOADER ===== */
-    /* ===== CINEMATIC INTRO ===== */
-    #intro {
-      position: fixed; inset: 0;
-      background: #000;
-      z-index: 99999;
-      overflow: hidden;
-    }
-    #intro-canvas {
-      position: absolute; inset: 0;
-      width: 100%; height: 100%;
-    }
-    .intro-photo-wrap {
-      position: absolute;
-      top: 50%; left: 50%;
-      transform: translate(-50%, -50%);
-      width: 280px; height: 280px;
-      border-radius: 50%;
-      overflow: hidden;
-      border: 2px solid rgba(108,99,255,.3);
-      box-shadow: 0 0 60px rgba(108,99,255,.2), 0 0 120px rgba(108,99,255,.1);
-    }
-    .intro-photo-wrap img {
-      width: 100%; height: 100%;
-      object-fit: cover;
-      filter: grayscale(0.3) contrast(1.1);
-    }
-    .intro-name {
-      position: absolute;
-      top: 50%; left: 50%;
-      transform: translate(-50%, -50%);
-      font-family: var(--font);
-      font-size: clamp(3rem, 8vw, 7rem);
-      font-weight: 700;
-      color: #fff;
-      text-transform: uppercase;
-      letter-spacing: .15em;
-      white-space: nowrap;
-      opacity: 0;
-      text-shadow: 0 0 40px rgba(108,99,255,.5);
-    }
-    .intro-title {
-      position: absolute;
-      top: calc(50% + clamp(2.5rem, 5vw, 4.5rem));
-      left: 50%;
-      transform: translate(-50%, 0);
-      font-family: var(--mono);
-      font-size: clamp(.7rem, 1.5vw, 1rem);
-      color: var(--accent);
-      letter-spacing: .4em;
-      text-transform: uppercase;
-      opacity: 0;
-      white-space: nowrap;
-    }
-    .intro-line {
-      position: absolute;
-      top: calc(50% - clamp(3rem, 6vw, 5.5rem));
-      left: 50%;
-      transform: translate(-50%, 0);
-      width: 0;
-      height: 1px;
-      background: var(--grad);
-    }
-    .intro-particles {
-      position: absolute; inset: 0;
-      pointer-events: none;
-    }
-
-    /* ===== OLD LOADER (kept for fallback) ===== */
-    #loader {
-      display: none;
-    }
-
     /* ===== MARQUEE ===== */
     .marquee-wrap {
       overflow: hidden;
@@ -888,15 +1144,26 @@
 
 <body>
 
-  <!-- Cinematic Intro -->
-  <div id="intro">
-    <canvas id="intro-canvas"></canvas>
-    <div class="intro-photo-wrap" id="introPhoto">
-      <img src="foto.jpg" alt="Buğra Yetiş" />
+  <!-- Mobile Detail Panel -->
+  <div class="mobile-detail" id="mobileDetail">
+    <div class="mobile-detail-bg" onclick="closeDetail()"></div>
+    <div class="mobile-detail-wrapper">
+      <div class="mobile-detail-close"><button onclick="closeDetail()">✕</button></div>
+      <div class="mobile-detail-header" id="detailHeader"></div>
+      <div class="mobile-detail-body" id="detailBody"></div>
     </div>
-    <div class="intro-line" id="introLine"></div>
-    <div class="intro-name" id="introName">BUĞRA YETİŞ</div>
-    <div class="intro-title" id="introTitle">Mid Web Developer & Designer</div>
+  </div>
+
+  <!-- Image Lightbox -->
+  <div class="img-lightbox" id="imgLightbox">
+    <div class="img-lightbox-bg" onclick="closeImgLightbox()"></div>
+    <button class="img-lightbox-close" onclick="closeImgLightbox()">✕</button>
+    <button class="img-lightbox-nav prev" onclick="imgLightboxNav(-1)">‹</button>
+    <div class="img-lightbox-img">
+      <img id="imgLightboxSrc" src="" alt="">
+    </div>
+    <button class="img-lightbox-nav next" onclick="imgLightboxNav(1)">›</button>
+    <div class="img-lightbox-counter" id="imgLightboxCounter"></div>
   </div>
 
   <!-- Progress Bar -->
@@ -913,6 +1180,7 @@
       <li><a href="#about">Hakkında</a></li>
       <li><a href="#skills">Beceriler</a></li>
       <li><a href="#experience">Deneyim</a></li>
+      <li><a href="#mobile-apps">Mobil</a></li>
       <li><a href="#projects">Projeler</a></li>
       <li><a href="#education">Eğitim</a></li>
       <li><a href="#contact">İletişim</a></li>
@@ -1148,6 +1416,86 @@
         </div>
       </div>
 
+      <!-- Mobil Geliştirme -->
+      <div class="skill-category glow-card">
+        <div class="skill-cat-title">
+          <div class="cat-icon">📱</div>
+          Mobil Geliştirme
+        </div>
+        <div class="skill-item">
+          <div class="skill-info"><span class="skill-name">React Native</span><span class="skill-pct">70%</span></div>
+          <div class="skill-bar-bg"><div class="skill-bar-fill" data-width="70"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-info"><span class="skill-name">Expo</span><span class="skill-pct">72%</span></div>
+          <div class="skill-bar-bg"><div class="skill-bar-fill" data-width="72"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-info"><span class="skill-name">Vite</span><span class="skill-pct">78%</span></div>
+          <div class="skill-bar-bg"><div class="skill-bar-fill" data-width="78"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-info"><span class="skill-name">React Navigation</span><span class="skill-pct">68%</span></div>
+          <div class="skill-bar-bg"><div class="skill-bar-fill" data-width="68"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-info"><span class="skill-name">Native Modüller (Kamera, GPS, Bildirim)</span><span class="skill-pct">65%</span></div>
+          <div class="skill-bar-bg"><div class="skill-bar-fill" data-width="65"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-info"><span class="skill-name">App Store / Google Play Yayınlama</span><span class="skill-pct">70%</span></div>
+          <div class="skill-bar-bg"><div class="skill-bar-fill" data-width="70"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-info"><span class="skill-name">AsyncStorage / SQLite</span><span class="skill-pct">65%</span></div>
+          <div class="skill-bar-bg"><div class="skill-bar-fill" data-width="65"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-info"><span class="skill-name">Push Notifications (FCM / APNs)</span><span class="skill-pct">62%</span></div>
+          <div class="skill-bar-bg"><div class="skill-bar-fill" data-width="62"></div></div>
+        </div>
+      </div>
+
+      <!-- AI & Entegrasyonlar -->
+      <div class="skill-category glow-card">
+        <div class="skill-cat-title">
+          <div class="cat-icon">🤖</div>
+          AI & Entegrasyonlar
+        </div>
+        <div class="skill-item">
+          <div class="skill-info"><span class="skill-name">OpenAI API (GPT / DALL-E)</span><span class="skill-pct">75%</span></div>
+          <div class="skill-bar-bg"><div class="skill-bar-fill" data-width="75"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-info"><span class="skill-name">Claude AI / Anthropic API</span><span class="skill-pct">72%</span></div>
+          <div class="skill-bar-bg"><div class="skill-bar-fill" data-width="72"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-info"><span class="skill-name">AI Prompt Mühendisliği</span><span class="skill-pct">80%</span></div>
+          <div class="skill-bar-bg"><div class="skill-bar-fill" data-width="80"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-info"><span class="skill-name">Stripe / iyzico (Ödeme Altyapısı)</span><span class="skill-pct">68%</span></div>
+          <div class="skill-bar-bg"><div class="skill-bar-fill" data-width="68"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-info"><span class="skill-name">In-App Purchase (iOS / Android)</span><span class="skill-pct">60%</span></div>
+          <div class="skill-bar-bg"><div class="skill-bar-fill" data-width="60"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-info"><span class="skill-name">Firebase (Auth, Firestore, Storage)</span><span class="skill-pct">70%</span></div>
+          <div class="skill-bar-bg"><div class="skill-bar-fill" data-width="70"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-info"><span class="skill-name">REST API / Webhook Entegrasyonu</span><span class="skill-pct">78%</span></div>
+          <div class="skill-bar-bg"><div class="skill-bar-fill" data-width="78"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-info"><span class="skill-name">Google Maps / Mapbox API</span><span class="skill-pct">72%</span></div>
+          <div class="skill-bar-bg"><div class="skill-bar-fill" data-width="72"></div></div>
+        </div>
+      </div>
+
       <!-- Tasarım -->
       <div class="skill-category glow-card">
         <div class="skill-cat-title">
@@ -1210,6 +1558,27 @@
       <span class="tech-pill">📱 jQuery</span>
       <span class="tech-pill">🎢 AOS</span>
       <span class="tech-pill">🎠 Slick Slider</span>
+      <span class="tech-pill">📱 React Native</span>
+      <span class="tech-pill">🚀 Expo</span>
+      <span class="tech-pill">⚡ Vite</span>
+      <span class="tech-pill">🧭 React Navigation</span>
+      <span class="tech-pill">🔔 Push Notifications</span>
+      <span class="tech-pill">📦 AsyncStorage</span>
+      <span class="tech-pill">🏪 App Store / Play Store</span>
+      <span class="tech-pill">🤖 OpenAI API</span>
+      <span class="tech-pill">🧠 Claude AI / Anthropic</span>
+      <span class="tech-pill">💳 Stripe</span>
+      <span class="tech-pill">💰 iyzico</span>
+      <span class="tech-pill">🛍️ In-App Purchase</span>
+      <span class="tech-pill">🔥 Firebase</span>
+      <span class="tech-pill">🔗 REST API</span>
+      <span class="tech-pill">🗺️ Google Maps API</span>
+      <span class="tech-pill">📍 Mapbox</span>
+      <span class="tech-pill">🔐 Firebase Auth</span>
+      <span class="tech-pill">📊 Firestore</span>
+      <span class="tech-pill">🪝 Webhook</span>
+      <span class="tech-pill">📸 Kamera / GPS / Sensörler</span>
+      <span class="tech-pill">🎯 AI Prompt Engineering</span>
     </div>
   </section>
 
@@ -1259,12 +1628,133 @@
     </div>
   </section>
 
+  <!-- MOBILE APPS -->
+  <section id="mobile-apps">
+    <p class="section-label">04 — Mobil Uygulamalar</p>
+    <h2 class="section-title">Mobil Uygulamalar</h2>
+
+    <div class="mobile-apps-grid">
+
+      <!-- OurDay -->
+      <div class="project-card mobile-app-card" data-app="ourday">
+        <div class="project-preview">
+          <div class="project-preview-bg" data-title="OurDay" style="background:linear-gradient(135deg,#3a2a0a 0%,#5a3a10 50%,#8b6914 100%);"></div>
+          <div class="project-preview-overlay"></div>
+          <span class="project-category-badge badge-web">Mobil Uygulama</span>
+        </div>
+        <div class="project-arrow">📱</div>
+        <div class="project-num">01</div>
+        <div class="project-title">OurDay — Düğün Planlama</div>
+        <div class="project-desc">
+          Düğün planlama sürecini kolaylaştıran kapsamlı mobil uygulama. AI destekli düğün rehberi ve premium özellikler sunuyor.
+        </div>
+        <div class="project-tags">
+          <span class="project-tag">React Native</span>
+          <span class="project-tag">AI Asistan</span>
+          <span class="project-tag">Mobil</span>
+        </div>
+        <span class="project-live-btn">Detayları Gör →</span>
+      </div>
+
+      <!-- Protocol -->
+      <div class="project-card mobile-app-card" data-app="protocol">
+        <div class="project-preview">
+          <div class="project-preview-bg" data-title="Protocol" style="background:linear-gradient(135deg,#060d1a 0%,#0d1b30 50%,#142240 100%);"></div>
+          <div class="project-preview-overlay"></div>
+          <span class="project-category-badge badge-3d">Mobil Uygulama</span>
+        </div>
+        <div class="project-arrow">🛡</div>
+        <div class="project-num">02</div>
+        <div class="project-title">Protocol — Hayatta Kalma Asistanı</div>
+        <div class="project-desc">
+          İnternet bağlantısı olmadan çalışan acil durum ve hayatta kalma rehberi. SOS fener, morse kodu ve acil alarm sunuyor.
+        </div>
+        <div class="project-tags">
+          <span class="project-tag">React Native</span>
+          <span class="project-tag">Offline</span>
+          <span class="project-tag">SOS</span>
+        </div>
+        <span class="project-live-btn">Detayları Gör →</span>
+      </div>
+
+      <!-- Cem Ecevit TV -->
+      <div class="project-card mobile-app-card" data-app="cemtv">
+        <div class="project-preview">
+          <div class="project-preview-bg" data-title="Cem Ecevit TV" style="background:linear-gradient(135deg,#1a0000 0%,#2a0505 50%,#3a0a0a 100%);"></div>
+          <div class="project-preview-overlay"></div>
+          <span class="project-category-badge badge-web">Mobil Uygulama</span>
+        </div>
+        <div class="project-arrow">🚐</div>
+        <div class="project-num">03</div>
+        <div class="project-title">Cem Ecevit TV — Karavan & Kamp</div>
+        <div class="project-desc">
+          AI destekli rota planlayıcı ve kamp alanı keşif platformu. 25.000+ kamp alanı ve topluluk rotaları sunuyor.
+        </div>
+        <div class="project-tags">
+          <span class="project-tag">React Native</span>
+          <span class="project-tag">AI Planlama</span>
+          <span class="project-tag">Harita</span>
+        </div>
+        <span class="project-live-btn">Detayları Gör →</span>
+      </div>
+
+    </div>
+  </section>
+
   <!-- PROJECTS -->
   <section id="projects">
-    <p class="section-label">04 — Projeler</p>
+    <p class="section-label">05 — Projeler</p>
     <h2 class="section-title">Öne Çıkan İşlerim</h2>
 
     <div class="projects-grid">
+
+      <!-- ★ MAE Advertising Agency — Öne Çıkan -->
+      <div class="project-card featured-card">
+        <div class="project-preview">
+          <div class="project-preview-bg" style="background:linear-gradient(135deg,#0a0a14 0%,#0d0d1a 40%,#161628 100%);"></div>
+          <div class="project-preview-overlay"></div>
+          <div class="macbook-frame">
+            <div>
+              <div class="macbook-body">
+                <div class="macbook-topbar">
+                  <span class="macbook-dot red"></span>
+                  <span class="macbook-dot yellow"></span>
+                  <span class="macbook-dot green"></span>
+                </div>
+                <div class="macbook-screen">
+                  <div class="macbook-screen-text">
+                    <span class="site-title">MAE CREATIVE OS</span>
+                    <span>mind · art · emotion</span>
+                  </div>
+                </div>
+              </div>
+              <div class="macbook-stand"></div>
+              <div class="macbook-base"></div>
+            </div>
+          </div>
+        </div>
+        <div class="featured-info">
+          <div class="featured-star">Öne Çıkan Proje</div>
+          <div class="project-title" style="font-size:1.5rem;">MAE Advertising Agency — Creative OS</div>
+          <div class="project-desc">
+            MAE Reklam Ajansı'nın ana kurumsal web sitesi. macOS masaüstü arayüzünden
+            ilham alan "Creative OS" konseptiyle tasarlanmış; Finder benzeri navigasyon,
+            dock menü, pencere sistemi ve interaktif masaüstü deneyimi sunuyor.
+            İstanbul, Ankara ve Amsterdam ofisleri için tek çatı altında yaratıcı
+            ajans kimliğini yansıtıyor.
+          </div>
+          <div class="project-tags">
+            <span class="project-tag">Vanilla JS</span>
+            <span class="project-tag">macOS UI</span>
+            <span class="project-tag">Microsoft Clarity</span>
+            <span class="project-tag">AI Entegrasyon</span>
+            <span class="project-tag">Responsive</span>
+          </div>
+          <a href="https://mae.com.tr/" target="_blank" class="project-live-btn" style="margin-top:1.2rem;display:inline-flex;width:fit-content;">
+            Siteyi Gör ↗
+          </a>
+        </div>
+      </div>
 
       <!-- 01 Sosyal Medya Otomasyon Sistemi -->
       <div class="project-card">
@@ -1347,7 +1837,112 @@
         </a>
       </div>
 
-      <!-- 04 3B Scroll -->
+      <!-- 04 Fymension — Dijital Ajans -->
+      <div class="project-card">
+        <div class="project-preview">
+          <div class="project-preview-bg" data-title="Fymension" style="background:linear-gradient(135deg,#0a0a0a 0%,#1a1020 50%,#2a1a30 100%);"></div>
+          <div class="project-preview-overlay"></div>
+          <span class="project-category-badge badge-web">Dijital Ajans</span>
+        </div>
+        <div class="project-arrow">↗</div>
+        <div class="project-num">04</div>
+        <div class="project-title">Fymension — Dijital & Marka Deneyimleri</div>
+        <div class="project-desc">
+          İstanbul merkezli yaratıcı dijital ajans Fymension için geliştirdiğim
+          portföy web sitesi. Marka danışmanlığı, web tasarımı, video prodüksiyonu
+          ve içerik üretimi hizmetlerini modern ve minimalist tasarımla sunuyor.
+        </div>
+        <div class="project-tags">
+          <span class="project-tag">HTML / CSS</span>
+          <span class="project-tag">JavaScript</span>
+          <span class="project-tag">AVIF / WebP</span>
+          <span class="project-tag">Responsive</span>
+        </div>
+        <a href="https://mae.com.tr/site/sitedeneme/fymension/index.html" target="_blank" class="project-live-btn">
+          Siteyi Gör ↗
+        </a>
+      </div>
+
+      <!-- 05 Keramik Makina — Kurumsal Site -->
+      <div class="project-card">
+        <div class="project-preview">
+          <div class="project-preview-bg" data-title="keramik.com.tr/test2" style="background:linear-gradient(135deg,#1a0a0a 0%,#2a1520 50%,#3a2030 100%);"></div>
+          <div class="project-preview-overlay"></div>
+          <span class="project-category-badge badge-web">Kurumsal Site</span>
+        </div>
+        <div class="project-arrow">↗</div>
+        <div class="project-num">05</div>
+        <div class="project-title">Keramik Makina — Kurumsal Web Sitesi</div>
+        <div class="project-desc">
+          1985'ten bu yana hat sonu paletleme ve paketleme çözümlerinde öncü olan
+          Keramik Makina için tasarladığım kurumsal site. Ürün kataloğu, sektör bazlı
+          çözümler, proje referansları ve teklif talep sistemi içeriyor.
+        </div>
+        <div class="project-tags">
+          <span class="project-tag">HTML / CSS</span>
+          <span class="project-tag">JavaScript</span>
+          <span class="project-tag">Ürün Kataloğu</span>
+          <span class="project-tag">Responsive</span>
+        </div>
+        <a href="https://keramik.com.tr/test2/" target="_blank" class="project-live-btn">
+          Siteyi Gör ↗
+        </a>
+      </div>
+
+      <!-- 06 Adria Karavan Türkiye -->
+      <div class="project-card">
+        <div class="project-preview">
+          <div class="project-preview-bg" data-title="Adria Karavan" style="background:linear-gradient(135deg,#0a1e28 0%,#1a3a50 50%,#2a5a3a 100%);"></div>
+          <div class="project-preview-overlay"></div>
+          <span class="project-category-badge badge-web">Ürün & Satış</span>
+        </div>
+        <div class="project-arrow">↗</div>
+        <div class="project-num">06</div>
+        <div class="project-title">Adria Karavan Türkiye — Mockup</div>
+        <div class="project-desc">
+          Slovenya merkezli Adria Mobil markasının Türkiye distribütörü için
+          geliştirdiğim ürün tanıtım ve satış sitesi. Çekme karavan, motorkaravan
+          ve campervan modelleri; konfigüratör, AR önizleme ve çekiş hesaplayıcısı içeriyor.
+        </div>
+        <div class="project-tags">
+          <span class="project-tag">HTML / CSS</span>
+          <span class="project-tag">JavaScript</span>
+          <span class="project-tag">AR Entegrasyon</span>
+          <span class="project-tag">Konfigüratör</span>
+          <span class="project-tag">Responsive</span>
+        </div>
+        <a href="https://mae.com.tr/adria/adria-mockup.html" target="_blank" class="project-live-btn">
+          Siteyi Gör ↗
+        </a>
+      </div>
+
+      <!-- 07 Cem Ecevit TV -->
+      <div class="project-card">
+        <div class="project-preview">
+          <div class="project-preview-bg" data-title="Cem Ecevit TV" style="background:linear-gradient(135deg,#0a2818 0%,#1a4a2a 50%,#2a6a3a 100%);"></div>
+          <div class="project-preview-overlay"></div>
+          <span class="project-category-badge badge-web">Seyahat & Karavan</span>
+        </div>
+        <div class="project-arrow">↗</div>
+        <div class="project-num">07</div>
+        <div class="project-title">Cem Ecevit TV — Karavan Rotaları</div>
+        <div class="project-desc">
+          Avrupa karavan rotaları ve kamp alanları içerik platformu Cem Ecevit TV
+          için geliştirdiğim web sitesi. Rota haritaları, kamp alanı bilgileri
+          ve seyahat tavsiyeleri sunan kapsamlı bir karavan rehberi.
+        </div>
+        <div class="project-tags">
+          <span class="project-tag">HTML / CSS</span>
+          <span class="project-tag">JavaScript</span>
+          <span class="project-tag">Harita API</span>
+          <span class="project-tag">Responsive</span>
+        </div>
+        <a href="https://mae.com.tr/cemecevittv/" target="_blank" class="project-live-btn">
+          Siteyi Gör ↗
+        </a>
+      </div>
+
+      <!-- 08 3B Scroll -->
       <div class="project-card">
         <div class="project-preview">
           <div class="project-preview-bg" data-title="mae.com.tr/3bscrollwebsite" style="background:linear-gradient(135deg,#001020 0%,#002060 50%,#004080 100%);"></div>
@@ -1355,7 +1950,7 @@
           <span class="project-category-badge badge-3d">3D Scroll</span>
         </div>
         <div class="project-arrow">↗</div>
-        <div class="project-num">04</div>
+        <div class="project-num">08</div>
         <div class="project-title">3B Scroll Website — Ürün Tanıtımı</div>
         <div class="project-desc">
           Ürün tanıtımı için geliştirdiğim 3 boyutlu scroll deneyimi.
@@ -1373,34 +1968,7 @@
         </a>
       </div>
 
-      <!-- 05 MAE Creative Intelligence Studio -->
-      <div class="project-card">
-        <div class="project-preview">
-          <div class="project-preview-bg" data-title="mae.com.tr" style="background:linear-gradient(135deg,#0d0d0d 0%,#1a0a2e 50%,#2a0a1e 100%);"></div>
-          <div class="project-preview-overlay"></div>
-          <span class="project-category-badge badge-anim">Animasyonlu Site</span>
-        </div>
-        <div class="project-arrow">↗</div>
-        <div class="project-num">05</div>
-        <div class="project-title">MAE Creative Studio — Animasyonlu Kurumsal</div>
-        <div class="project-desc">
-          MAE Reklam Ajansı için geliştirdiğim lüks minimalist kurumsal site.
-          Custom cursor halo efekti, scroll-driven paralaks, Canvas animasyonları,
-          SVG nefes efekti ve Intersection Observer ile reveal geçişleri içeriyor.
-        </div>
-        <div class="project-tags">
-          <span class="project-tag">Vanilla JS</span>
-          <span class="project-tag">Canvas</span>
-          <span class="project-tag">Intersection Observer</span>
-          <span class="project-tag">SVG Animasyon</span>
-          <span class="project-tag">Custom Cursor</span>
-        </div>
-        <a href="https://mae.com.tr/mae_new_animation/" target="_blank" class="project-live-btn">
-          Siteyi Gör ↗
-        </a>
-      </div>
-
-      <!-- 06 Online Kayıt Sistemi -->
+      <!-- 09 Online Kayıt Sistemi -->
       <div class="project-card">
         <div class="project-preview">
           <div class="project-preview-bg" data-title="distinct2026.mae.com.tr" style="background:linear-gradient(135deg,#1a0a2e 0%,#2d1060 50%,#1a2040 100%);"></div>
@@ -1408,7 +1976,7 @@
           <span class="project-category-badge badge-event">Online Kayıt</span>
         </div>
         <div class="project-arrow">↗</div>
-        <div class="project-num">06</div>
+        <div class="project-num">09</div>
         <div class="project-title">Online Kayıt Sistemi — Tıbbi Konferans</div>
         <div class="project-desc">
           4. Uluslararası Diyabet İnovasyon Zirvesi için geliştirdiğim online
@@ -1426,7 +1994,7 @@
         </a>
       </div>
 
-      <!-- 07 Countdown -->
+      <!-- 10 Countdown -->
       <div class="project-card">
         <div class="project-preview">
           <div class="project-preview-bg" data-title="Countdown" style="background:linear-gradient(135deg,#050014 0%,#2d0060 50%,#7b0080 100%);"></div>
@@ -1434,7 +2002,7 @@
           <span class="project-category-badge badge-anim">GSAP Animasyon</span>
         </div>
         <div class="project-arrow">↗</div>
-        <div class="project-num">07</div>
+        <div class="project-num">10</div>
         <div class="project-title">Countdown — Animasyonlu Geri Sayım</div>
         <div class="project-desc">
           Medtronic elektrofizyoloji ürün lansmanı için tasarladığım countdown
@@ -1452,59 +2020,7 @@
         </a>
       </div>
 
-      <!-- 08 Keramik -->
-      <div class="project-card">
-        <div class="project-preview">
-          <div class="project-preview-bg" data-title="mae.com.tr/Keramik" style="background:linear-gradient(135deg,#0a1628 0%,#1a3a6e 50%,#8b1a1a 100%);"></div>
-          <div class="project-preview-overlay"></div>
-          <span class="project-category-badge badge-web">Kurumsal Site</span>
-        </div>
-        <div class="project-arrow">↗</div>
-        <div class="project-num">08</div>
-        <div class="project-title">Keramik — Endüstriyel Otomasyon</div>
-        <div class="project-desc">
-          End-of-Line otomasyon çözümleri sunan Keramik firması için
-          geliştirdiğim kurumsal web sitesi. Robotik paletleme, ambalajlama
-          ve etiketleme sistemleri 40+ ülkeye yönelik profesyonel sunumla.
-        </div>
-        <div class="project-tags">
-          <span class="project-tag">HTML / CSS</span>
-          <span class="project-tag">JavaScript</span>
-          <span class="project-tag">Responsive</span>
-          <span class="project-tag">Custom Design</span>
-        </div>
-        <a href="https://mae.com.tr/Keramik/" target="_blank" class="project-live-btn">
-          Siteyi Gör ↗
-        </a>
-      </div>
-
-      <!-- 09 MAE Ajans Sitesi -->
-      <div class="project-card">
-        <div class="project-preview">
-          <div class="project-preview-bg" data-title="mae.com.tr/deneme_web" style="background:linear-gradient(135deg,#0d0d0d 0%,#1a0033 40%,#6c0066 100%);"></div>
-          <div class="project-preview-overlay"></div>
-          <span class="project-category-badge badge-anim">GSAP + WebGL</span>
-        </div>
-        <div class="project-arrow">↗</div>
-        <div class="project-num">09</div>
-        <div class="project-title">MAE Reklam Ajansı — Animasyonlu Site</div>
-        <div class="project-desc">
-          MAE reklam ajansı için geliştirdiğim animasyonlu kurumsal web sitesi.
-          WebGL shader ışık efektleri, video preloader, GSAP ScrollTrigger
-          geçişleri ve interaktif chat widget içeriyor.
-        </div>
-        <div class="project-tags">
-          <span class="project-tag">GSAP</span>
-          <span class="project-tag">ScrollTrigger</span>
-          <span class="project-tag">WebGL</span>
-          <span class="project-tag">HTML5 Video</span>
-        </div>
-        <a href="https://mae.com.tr/deneme_web/" target="_blank" class="project-live-btn">
-          Siteyi Gör ↗
-        </a>
-      </div>
-
-      <!-- 10 Iconicrete -->
+      <!-- 11 Iconicrete -->
       <div class="project-card">
         <div class="project-preview">
           <div class="project-preview-bg" data-title="mae.com.tr/iconicrete" style="background:linear-gradient(135deg,#0a2040 0%,#1060a0 50%,#1080c0 100%);"></div>
@@ -1512,7 +2028,7 @@
           <span class="project-category-badge badge-web">Ürün Tanıtımı</span>
         </div>
         <div class="project-arrow">↗</div>
-        <div class="project-num">10</div>
+        <div class="project-num">11</div>
         <div class="project-title">Iconicrete — Çimsa Beton Ürünleri</div>
         <div class="project-desc">
           Çimsa'nın Iconicrete serisi için geliştirdiğim ürün tanıtım sitesi.
@@ -1530,7 +2046,33 @@
         </a>
       </div>
 
-      <!-- 11 MAE Site Book Anim -->
+      <!-- 12 Derinet — Hakiki Deri E-Ticaret -->
+      <div class="project-card">
+        <div class="project-preview">
+          <div class="project-preview-bg" data-title="derinet.com.tr" style="background:linear-gradient(135deg,#1a1008 0%,#3a2810 50%,#5a3818 100%);"></div>
+          <div class="project-preview-overlay"></div>
+          <span class="project-category-badge badge-web">E-Ticaret</span>
+        </div>
+        <div class="project-arrow">↗</div>
+        <div class="project-num">12</div>
+        <div class="project-title">Derinet — Hakiki Deri Ayakkabı & Aksesuar</div>
+        <div class="project-desc">
+          Hakiki deri kadın ve erkek ayakkabı modelleri sunan Derinet markası için
+          geliştirdiğim e-ticaret platformu. Shopify altyapısı, ürün filtreleme,
+          hızlı satın alma, WhatsApp destek ve mobil uyumlu tasarım içeriyor.
+        </div>
+        <div class="project-tags">
+          <span class="project-tag">Shopify</span>
+          <span class="project-tag">E-Ticaret</span>
+          <span class="project-tag">Responsive</span>
+          <span class="project-tag">Custom Design</span>
+        </div>
+        <a href="https://www.derinet.com.tr/" target="_blank" class="project-live-btn">
+          Siteyi Gör ↗
+        </a>
+      </div>
+
+      <!-- 13 MAE Site Book Anim -->
       <div class="project-card">
         <div class="project-preview">
           <div class="project-preview-bg" data-title="mae.com.tr/mae_site" style="background:linear-gradient(135deg,#111111 0%,#1a1a2e 50%,#2a0a3e 100%);"></div>
@@ -1538,7 +2080,7 @@
           <span class="project-category-badge badge-anim">Book Animasyon</span>
         </div>
         <div class="project-arrow">↗</div>
-        <div class="project-num">11</div>
+        <div class="project-num">13</div>
         <div class="project-title">MAE Site — Book Animasyon Denemesi</div>
         <div class="project-desc">
           20 yıllık deneyime sahip MAE reklam ajansı için geliştirdiğim
@@ -1556,7 +2098,7 @@
         </a>
       </div>
 
-      <!-- 12 Maritaş Denim -->
+      <!-- 14 Maritaş Denim -->
       <div class="project-card">
         <div class="project-preview">
           <div class="project-preview-bg" data-title="maritas2023.maereklam.com" style="background:linear-gradient(135deg,#1a1208 0%,#3a2c10 50%,#5a3a08 100%);"></div>
@@ -1564,7 +2106,7 @@
           <span class="project-category-badge badge-web">Kurumsal Site</span>
         </div>
         <div class="project-arrow">↗</div>
-        <div class="project-num">12</div>
+        <div class="project-num">14</div>
         <div class="project-title">Maritaş Denim — Tekstil Kurumsal</div>
         <div class="project-desc">
           Sürdürülebilir denim üretiminde öncü Maritaş firması için hazırladığım
@@ -1582,7 +2124,7 @@
         </a>
       </div>
 
-      <!-- 13 Kitpro Audrey -->
+      <!-- 15 Kitpro Audrey -->
       <div class="project-card">
         <div class="project-preview">
           <div class="project-preview-bg" data-title="kitpro-audrey.webflow.io" style="background:linear-gradient(135deg,#0a0a0a 0%,#1a1a1a 40%,#2a1a3e 100%);"></div>
@@ -1590,7 +2132,7 @@
           <span class="project-category-badge badge-ui">Webflow</span>
         </div>
         <div class="project-arrow">↗</div>
-        <div class="project-num">13</div>
+        <div class="project-num">15</div>
         <div class="project-title">Audrey — Yaratıcı Ajans Portfolyosu</div>
         <div class="project-desc">
           Webflow üzerinde geliştirdiğim yaratıcı ajans portfolyo sitesi.
@@ -1608,7 +2150,7 @@
         </a>
       </div>
 
-      <!-- 14 Joondalup Festival -->
+      <!-- 16 Joondalup Festival -->
       <div class="project-card">
         <div class="project-preview">
           <div class="project-preview-bg" data-title="joondalupfestival.com.au" style="background:linear-gradient(135deg,#0a0020 0%,#1a0040 40%,#3a0060 100%);"></div>
@@ -1616,7 +2158,7 @@
           <span class="project-category-badge badge-event">Festival / Etkinlik</span>
         </div>
         <div class="project-arrow">↗</div>
-        <div class="project-num">14</div>
+        <div class="project-num">16</div>
         <div class="project-title">Joondalup Festival 2026 — Perth</div>
         <div class="project-desc">
           Perth, Avustralya'daki 16 günlük kültürel festival için geliştirdiğim
@@ -1634,33 +2176,7 @@
         </a>
       </div>
 
-      <!-- 15 Active Theory Racer -->
-      <div class="project-card">
-        <div class="project-preview">
-          <div class="project-preview-bg" data-title="activetheory.net/work/racer" style="background:linear-gradient(135deg,#000000 0%,#0a0a1a 40%,#001030 100%);"></div>
-          <div class="project-preview-overlay"></div>
-          <span class="project-category-badge badge-3d">WebGL / İmmersive</span>
-        </div>
-        <div class="project-arrow">↗</div>
-        <div class="project-num">15</div>
-        <div class="project-title">Racer — İmmersive Web Deneyimi</div>
-        <div class="project-desc">
-          Active Theory için geliştirdiğim tam ekran immersive interaktif web
-          deneyimi. Özel tipografi sistemi, WebGL tabanlı görsel efektler ve
-          dokunmatik optimize edilmiş akıcı bir arayüz içeriyor.
-        </div>
-        <div class="project-tags">
-          <span class="project-tag">WebGL</span>
-          <span class="project-tag">Custom Fonts</span>
-          <span class="project-tag">Immersive UI</span>
-          <span class="project-tag">Touch Opt.</span>
-        </div>
-        <a href="https://activetheory.net/work/racer" target="_blank" class="project-live-btn">
-          Siteyi Gör ↗
-        </a>
-      </div>
-
-      <!-- 16 Touchscreen -->
+      <!-- 17 Touchscreen -->
       <div class="project-card">
         <div class="project-preview">
           <div class="project-preview-bg" data-title="mae.com.tr/touchscreen" style="background:linear-gradient(135deg,#001428 0%,#002a50 45%,#0044a0 100%);"></div>
@@ -1668,7 +2184,7 @@
           <span class="project-category-badge badge-3d">Three.js / 3D</span>
         </div>
         <div class="project-arrow">↗</div>
-        <div class="project-num">16</div>
+        <div class="project-num">17</div>
         <div class="project-title">Touchscreen — Dokunmatik Ürün Vitrini</div>
         <div class="project-desc">
           Medikal cihaz tanıtımı için geliştirdiğim touchscreen interaktif
@@ -1686,7 +2202,7 @@
         </a>
       </div>
 
-      <!-- 17 Hero Dental Art -->
+      <!-- 18 Hero Dental Art -->
       <div class="project-card">
         <div class="project-preview">
           <div class="project-preview-bg" data-title="herodentalart.com" style="background:linear-gradient(135deg,#0a1e2e 0%,#0d3050 50%,#1a5080 100%);"></div>
@@ -1694,7 +2210,7 @@
           <span class="project-category-badge badge-web">Kurumsal Site</span>
         </div>
         <div class="project-arrow">↗</div>
-        <div class="project-num">17</div>
+        <div class="project-num">18</div>
         <div class="project-title">Hero Dental Art — Diş Protez Laboratuvarı</div>
         <div class="project-desc">
           25 yıllık deneyime sahip Hero Dental Art Diş Protez Laboratuvarı için
@@ -1712,7 +2228,7 @@
         </a>
       </div>
 
-      <!-- 18 Shisha Detox -->
+      <!-- 19 Shisha Detox -->
       <div class="project-card">
         <div class="project-preview">
           <div class="project-preview-bg" data-title="shishadetox.com" style="background:linear-gradient(135deg,#1a1a2e 0%,#16213e 50%,#0f3460 100%);"></div>
@@ -1720,7 +2236,7 @@
           <span class="project-category-badge badge-anim">Ürün Tanıtım</span>
         </div>
         <div class="project-arrow">↗</div>
-        <div class="project-num">18</div>
+        <div class="project-num">19</div>
         <div class="project-title">Shisha Detox — Ürün Tanıtım Sitesi</div>
         <div class="project-desc">
           Shisha Detox Injection ürünü için geliştirdiğim Almanca/İngilizce
@@ -1739,7 +2255,7 @@
         </a>
       </div>
 
-      <!-- 19 Kristoff Studio -->
+      <!-- 20 Kristoff Studio -->
       <div class="project-card">
         <div class="project-preview">
           <div class="project-preview-bg" data-title="kristoff.studio" style="background:linear-gradient(135deg,#fafafa 0%,#e8e8e8 50%,#d0d0d0 100%);"></div>
@@ -1747,7 +2263,7 @@
           <span class="project-category-badge badge-web">Kreatif Stüdyo</span>
         </div>
         <div class="project-arrow">↗</div>
-        <div class="project-num">19</div>
+        <div class="project-num">20</div>
         <div class="project-title">Kristoff Studio — Kreatif Tasarım Stüdyosu</div>
         <div class="project-desc">
           Kristoff Studio için geliştirdiğim minimalist portfolyo web sitesi.
@@ -1765,7 +2281,7 @@
         </a>
       </div>
 
-      <!-- 20 EGGSpander -->
+      <!-- 21 EGGSpander -->
       <div class="project-card">
         <div class="project-preview">
           <div class="project-preview-bg" data-title="eggspander.com" style="background:linear-gradient(135deg,#e8f0ff 0%,#8aa9ff 50%,#5b7fdb 100%);"></div>
@@ -1773,7 +2289,7 @@
           <span class="project-category-badge badge-anim">Ürün & Animasyon</span>
         </div>
         <div class="project-arrow">↗</div>
-        <div class="project-num">20</div>
+        <div class="project-num">21</div>
         <div class="project-title">EGGSpander — Fitness Ürün Tanıtımı</div>
         <div class="project-desc">
           Taşınabilir fitness cihazı EGGSpander için geliştirdiğim tanıtım sitesi.
@@ -1792,30 +2308,80 @@
         </a>
       </div>
 
-      <!-- 21 Keramik New — Yeni Kurumsal Site -->
+      <!-- 22 Keramik — Epicenter of Every Move -->
       <div class="project-card">
         <div class="project-preview">
-          <div class="project-preview-bg" data-title="keramik.com.tr" style="background:linear-gradient(135deg,#1a0a0a 0%,#3a0a0a 50%,#5a1515 100%);"></div>
+          <div class="project-preview-bg" data-title="keramik.com.tr/test1" style="background:linear-gradient(135deg,#0a1020 0%,#1a2a4e 50%,#2a4060 100%);"></div>
           <div class="project-preview-overlay"></div>
           <span class="project-category-badge badge-web">Kurumsal Site</span>
         </div>
         <div class="project-arrow">↗</div>
-        <div class="project-num">21</div>
-        <div class="project-title">Keramik New — Yeni Kurumsal Web Sitesi</div>
+        <div class="project-num">22</div>
+        <div class="project-title">Keramik — Epicenter of Every Move</div>
         <div class="project-desc">
-          1985'ten beri endüstriyel otomasyon çözümleri üreten Keramik Makina için
-          yeniden tasarladığım kurumsal site. Canvas dot-grid hero, 3D paralaks
-          kartlar, manyetik ikonlar, scroll-driven konveyör animasyonu ve
-          TR/EN dil desteği içeriyor.
+          Endüstriyel otomasyon çözümleri sunan Keramik firması için geliştirdiğim
+          modern kurumsal web sitesi. Robotik paletleme, ambalajlama ve stretch hood
+          sistemlerini 40+ ülkeye yönelik profesyonel bir sunumla sergiliyor.
         </div>
         <div class="project-tags">
-          <span class="project-tag">Vanilla JS</span>
-          <span class="project-tag">Canvas API</span>
-          <span class="project-tag">Intersection Observer</span>
-          <span class="project-tag">3D Parallax</span>
+          <span class="project-tag">HTML / CSS</span>
+          <span class="project-tag">JavaScript</span>
+          <span class="project-tag">Responsive</span>
+          <span class="project-tag">Kurumsal Tasarım</span>
+        </div>
+        <a href="https://keramik.com.tr/test1/" target="_blank" class="project-live-btn">
+          Siteyi Gör ↗
+        </a>
+      </div>
+
+      <!-- 23 MAE Reklam Sunum — Animasyonlu Kitap -->
+      <div class="project-card">
+        <div class="project-preview">
+          <div class="project-preview-bg" data-title="MAE Sunum" style="background:linear-gradient(135deg,#0d0d1a 0%,#1a0a30 50%,#2e0a40 100%);"></div>
+          <div class="project-preview-overlay"></div>
+          <span class="project-category-badge badge-anim">Animasyonlu Sunum</span>
+        </div>
+        <div class="project-arrow">↗</div>
+        <div class="project-num">23</div>
+        <div class="project-title">MAE Reklam — Animasyonlu Kitap Sunum</div>
+        <div class="project-desc">
+          MAE Reklam Ajansı için geliştirdiğim interaktif dijital sunum.
+          GSAP animasyonları, 3D CSS dönüşümleri ve scroll-driven geçişlerle
+          kitap sayfası gibi açılan yaratıcı bir sunum deneyimi sunuyor.
+        </div>
+        <div class="project-tags">
+          <span class="project-tag">GSAP</span>
+          <span class="project-tag">CSS 3D</span>
+          <span class="project-tag">Scroll Animasyon</span>
+          <span class="project-tag">İnteraktif</span>
+        </div>
+        <a href="https://mae.com.tr/sunum/" target="_blank" class="project-live-btn">
+          Siteyi Gör ↗
+        </a>
+      </div>
+
+      <!-- 24 INCRESIS Streetwear -->
+      <div class="project-card">
+        <div class="project-preview">
+          <div class="project-preview-bg" data-title="INCRESIS" style="background:linear-gradient(135deg,#0a0a0a 0%,#1a1a1a 50%,#2a2a2a 100%);"></div>
+          <div class="project-preview-overlay"></div>
+          <span class="project-category-badge badge-web">E-Ticaret</span>
+        </div>
+        <div class="project-arrow">↗</div>
+        <div class="project-num">24</div>
+        <div class="project-title">INCRESIS — Streetwear Marka Sitesi</div>
+        <div class="project-desc">
+          İstanbul merkezli streetwear markası INCRESIS için geliştirdiğim
+          e-ticaret web sitesi. Tişört, kapüşonlu ve ceket koleksiyonlarını
+          minimalist dark tasarımla sunuyor; sipariş takibi ve hesap yönetimi içeriyor.
+        </div>
+        <div class="project-tags">
+          <span class="project-tag">HTML / CSS</span>
+          <span class="project-tag">JavaScript</span>
+          <span class="project-tag">E-Ticaret</span>
           <span class="project-tag">Responsive</span>
         </div>
-        <a href="https://keramik.com.tr/test/index.html" target="_blank" class="project-live-btn">
+        <a href="https://mae.com.tr/site/test/incresis/" target="_blank" class="project-live-btn">
           Siteyi Gör ↗
         </a>
       </div>
@@ -1839,7 +2405,7 @@
 
   <!-- EDUCATION -->
   <section id="education">
-    <p class="section-label">05 — Eğitim & Sertifikalar</p>
+    <p class="section-label">06 — Eğitim & Sertifikalar</p>
     <h2 class="section-title">Akademik Geçmiş</h2>
 
     <div class="edu-grid">
@@ -1879,7 +2445,7 @@
   <!-- CONTACT -->
   <section id="contact">
     <div class="contact-inner">
-      <p class="section-label" style="justify-content:center;">06 — İletişim</p>
+      <p class="section-label" style="justify-content:center;">07 — İletişim</p>
       <h2 class="contact-big section-title">Çalışalım<br /><span style="background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">mı?</span></h2>
       <p class="contact-sub">Yeni projeler, iş birlikleri veya sadece merhaba demek için.</p>
 
@@ -1910,169 +2476,128 @@
 
   <script>
     /* ========================================
-       CINEMATIC INTRO
+       MOBILE APP DETAIL PANEL & IMAGE LIGHTBOX
     ======================================== */
-    const intro = document.getElementById('intro');
-    const introCanvas = document.getElementById('intro-canvas');
-    const ctx = introCanvas.getContext('2d');
-    const introPhoto = document.getElementById('introPhoto');
-    const introName = document.getElementById('introName');
-    const introTitle = document.getElementById('introTitle');
-    const introLine = document.getElementById('introLine');
-
-    let particles = [];
-    let introAnimFrame;
-
-    function resizeCanvas() {
-      introCanvas.width = window.innerWidth;
-      introCanvas.height = window.innerHeight;
-    }
-    resizeCanvas();
-    window.addEventListener('resize', resizeCanvas);
-
-    class Particle {
-      constructor(x, y, color) {
-        this.x = x;
-        this.y = y;
-        this.originX = x;
-        this.originY = y;
-        this.color = color;
-        this.size = Math.random() * 2.5 + 0.5;
-        this.vx = (Math.random() - 0.5) * 8;
-        this.vy = (Math.random() - 0.5) * 8;
-        this.life = 1;
-        this.decay = Math.random() * 0.015 + 0.005;
-        this.gravity = 0.02;
-        this.twist = (Math.random() - 0.5) * 0.3;
+    const appData = {
+      ourday: {
+        name: 'OurDay',
+        subtitle: 'Düğün Planlama Uygulaması',
+        iconStyle: 'background:linear-gradient(135deg,#c8a14e,#8b6914);color:#fff;',
+        iconText: 'OD',
+        desc: 'Düğün planlama sürecini kolaylaştıran kapsamlı bir mobil uygulama. Davetli yönetimi, bütçe takibi, tedarikçi karşılaştırma, AI destekli düğün rehberi ve premium özellikler ile çiftlerin hayallerindeki düğünü planlamalarına yardımcı oluyor. Kullanıcılar düğün geri sayımını takip edebilir, misafir listelerini yönetebilir ve bütçelerini detaylı kategorilerle kontrol altında tutabiliyor.',
+        tags: ['React Native', 'Firebase', 'AI Wedding Guide', 'Bütçe Yönetimi', 'Davetli Takibi', 'Push Notifications', 'Premium IAP'],
+        screens: [
+          'mobile/IMG_0247.PNG', 'mobile/IMG_0248.PNG', 'mobile/IMG_0249.PNG',
+          'mobile/IMG_0250.PNG', 'mobile/IMG_0251.PNG', 'mobile/IMG_0252.PNG'
+        ]
+      },
+      protocol: {
+        name: 'Protocol',
+        subtitle: 'Offline Hayatta Kalma Asistanı',
+        iconStyle: 'background:linear-gradient(135deg,#0a1628,#1a2a4a);color:#4a9eff;border:1px solid #1e3a5f;',
+        iconText: 'P',
+        desc: 'İnternet bağlantısı olmadan çalışan acil durum ve hayatta kalma rehberi. Nükleer & radyasyon, kimyasal & biyolojik tehditler, doğal afetler ve genel hayatta kalma protokollerini içeriyor. SOS fener (gerçek morse paterni), morse kodu çevirici, acil alarm, aile üyeleri takibi, yerel acil numaralar ve GPS konum paylaşımı gibi kritik araçlar sunuyor. 49 protokol ve 1.906 adım ile kapsamlı bir offline referans kaynağı.',
+        tags: ['React Native', 'Offline-First', 'SOS Flashlight', 'Morse Code', 'GPS', 'Emergency Alarm', 'Family Tracking', 'Local Emergency Numbers'],
+        screens: [
+          'mobile/IMG_0254.PNG', 'mobile/IMG_0255.PNG', 'mobile/IMG_0256.PNG',
+          'mobile/IMG_0257.PNG', 'mobile/IMG_0258.PNG'
+        ]
+      },
+      cemtv: {
+        name: 'Cem Ecevit TV',
+        subtitle: 'Karavan Rotaları & Kamp Alanları',
+        iconStyle: 'background:linear-gradient(135deg,#1a0000,#3a0000);color:#ff3333;border:1px solid #4a0000;',
+        iconText: 'TV',
+        desc: 'Karavan gezginleri için AI destekli rota planlayıcı ve kamp alanı keşif platformu. Avrupa genelinde 25.000+ kamp alanı, 73 özenle seçilmiş öne çıkan alan, AI rota önerileri, çekme hesaplayıcı, kaydedilen geziler ve topluluk tarafından paylaşılan rotalar sunuyor. OpenStreetMap entegrasyonu ile harita üzerinde filtreleme, derecelendirme ve konum bazlı arama imkanı sağlıyor.',
+        tags: ['React Native', 'AI Rota Planlama', 'OpenStreetMap', '25K+ Kamp Alanı', 'Tow Calculator', 'Community Routes', 'Offline Maps'],
+        screens: [
+          'mobile/IMG_0474.PNG', 'mobile/IMG_0475.PNG', 'mobile/IMG_0476.PNG',
+          'mobile/IMG_0479.PNG', 'mobile/IMG_0478.PNG', 'mobile/IMG_0477.PNG'
+        ]
       }
-      update() {
-        this.vx += this.twist;
-        this.vy += this.gravity;
-        this.x += this.vx;
-        this.y += this.vy;
-        this.life -= this.decay;
-        this.size *= 0.998;
-      }
-      draw(ctx) {
-        ctx.globalAlpha = this.life * 0.8;
-        ctx.fillStyle = this.color;
-        ctx.shadowColor = this.color;
-        ctx.shadowBlur = 6;
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        ctx.fill();
-      }
-    }
+    };
 
-    function createParticlesFromPhoto() {
-      const rect = introPhoto.getBoundingClientRect();
-      const cx = rect.left + rect.width / 2;
-      const cy = rect.top + rect.height / 2;
-      const radius = rect.width / 2;
-      const colors = ['#6c63ff', '#ff6584', '#43e97b', '#ffffff', '#a78bfa', '#f472b6'];
-      for (let i = 0; i < 600; i++) {
-        const angle = Math.random() * Math.PI * 2;
-        const r = Math.random() * radius;
-        const x = cx + Math.cos(angle) * r;
-        const y = cy + Math.sin(angle) * r;
-        const color = colors[Math.floor(Math.random() * colors.length)];
-        const p = new Particle(x, y, color);
-        p.vx = (Math.random() - 0.5) * 12;
-        p.vy = (Math.random() - 0.5) * 12;
-        particles.push(p);
-      }
+    const mobileDetail = document.getElementById('mobileDetail');
+    const detailHeader = document.getElementById('detailHeader');
+    const detailBody = document.getElementById('detailBody');
+
+    function openDetail(appKey) {
+      const app = appData[appKey];
+      if (!app) return;
+      detailHeader.innerHTML = `
+        <div class="mobile-detail-icon" style="${app.iconStyle}">${app.iconText}</div>
+        <div>
+          <h2>${app.name}</h2>
+          <p class="detail-subtitle">${app.subtitle}</p>
+        </div>
+      `;
+      detailBody.innerHTML = `
+        <p class="mobile-detail-desc">${app.desc}</p>
+        <p class="mobile-detail-section-title">Kullanılan Teknolojiler</p>
+        <div class="mobile-detail-tags">
+          ${app.tags.map(t => `<span class="mobile-detail-tag">${t}</span>`).join('')}
+        </div>
+        <p class="mobile-detail-section-title">Ekran Görüntüleri</p>
+        <div class="mobile-detail-screens">
+          ${app.screens.map((s, i) => `<div class="mobile-detail-screen" onclick="openImgLightbox('${appKey}',${i})"><img src="${s}" alt="" loading="lazy"></div>`).join('')}
+        </div>
+      `;
+      mobileDetail.classList.add('active');
+      document.body.style.overflow = 'hidden';
+      mobileDetail.querySelector('.mobile-detail-wrapper').scrollTop = 0;
     }
 
-    function animateParticles() {
-      ctx.clearRect(0, 0, introCanvas.width, introCanvas.height);
-      particles = particles.filter(p => p.life > 0);
-      particles.forEach(p => { p.update(); p.draw(ctx); });
-      ctx.globalAlpha = 1;
-      ctx.shadowBlur = 0;
-      if (particles.length > 0) {
-        introAnimFrame = requestAnimationFrame(animateParticles);
+    function closeDetail() {
+      mobileDetail.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    document.querySelectorAll('.mobile-app-card').forEach(card => {
+      card.addEventListener('click', () => openDetail(card.dataset.app));
+    });
+
+    // Image lightbox
+    let lbImages = [], lbIndex = 0, lbAppKey = '';
+    const imgLB = document.getElementById('imgLightbox');
+    const imgLBSrc = document.getElementById('imgLightboxSrc');
+    const imgLBCounter = document.getElementById('imgLightboxCounter');
+
+    function openImgLightbox(appKey, index) {
+      lbAppKey = appKey;
+      lbImages = appData[appKey].screens;
+      lbIndex = index;
+      updateImgLightbox();
+      imgLB.classList.add('active');
+    }
+    function closeImgLightbox() {
+      imgLB.classList.remove('active');
+    }
+    function imgLightboxNav(dir) {
+      lbIndex = (lbIndex + dir + lbImages.length) % lbImages.length;
+      updateImgLightbox();
+    }
+    function updateImgLightbox() {
+      imgLBSrc.src = lbImages[lbIndex];
+      imgLBCounter.textContent = (lbIndex + 1) + ' / ' + lbImages.length;
+    }
+
+    document.addEventListener('keydown', e => {
+      if (imgLB.classList.contains('active')) {
+        if (e.key === 'Escape') closeImgLightbox();
+        if (e.key === 'ArrowLeft') imgLightboxNav(-1);
+        if (e.key === 'ArrowRight') imgLightboxNav(1);
+        return;
       }
-    }
-
-    function floatingParticles() {
-      const colors = ['#6c63ff', '#ff6584', '#43e97b'];
-      for (let i = 0; i < 80; i++) {
-        const p = new Particle(
-          Math.random() * introCanvas.width,
-          Math.random() * introCanvas.height,
-          colors[Math.floor(Math.random() * colors.length)]
-        );
-        p.vx = (Math.random() - 0.5) * 0.5;
-        p.vy = -Math.random() * 0.8 - 0.2;
-        p.decay = 0.002;
-        p.size = Math.random() * 1.5 + 0.3;
-        particles.push(p);
+      if (mobileDetail.classList.contains('active')) {
+        if (e.key === 'Escape') closeDetail();
       }
-    }
-
-    function runIntro() {
-      floatingParticles();
-      animateParticles();
-
-      const tl = gsap.timeline();
-
-      tl.fromTo(introPhoto,
-        { scale: 0.3, opacity: 0, rotation: -10 },
-        { scale: 1, opacity: 1, rotation: 0, duration: 1.2, ease: 'power3.out' }
-      )
-      .to(introPhoto, {
-        duration: 0.15, ease: 'power1.inOut',
-        css: { filter: 'grayscale(0) contrast(1.5) brightness(1.8)' }
-      }, '+=0.8')
-      .to(introPhoto, {
-        duration: 0.1,
-        css: { filter: 'grayscale(1) contrast(2) brightness(2)' }
-      })
-      .call(() => {
-        createParticlesFromPhoto();
-      })
-      .to(introPhoto, {
-        scale: 1.5, opacity: 0, duration: 0.5, ease: 'power2.in',
-        css: { filter: 'grayscale(1) contrast(3) brightness(3)' }
-      })
-      .fromTo(introLine,
-        { width: 0 },
-        { width: 'clamp(120px, 30vw, 300px)', duration: 0.6, ease: 'power2.out' },
-        '-=0.1'
-      )
-      .to(introName, {
-        opacity: 1, duration: 0.8, ease: 'power2.out',
-      }, '-=0.3')
-      .fromTo(introName,
-        { letterSpacing: '0.6em', scale: 1.3 },
-        { letterSpacing: '0.15em', scale: 1, duration: 0.8, ease: 'power2.out' },
-        '<'
-      )
-      .to(introTitle, {
-        opacity: 1, duration: 0.6, ease: 'power2.out'
-      }, '-=0.3')
-      .to({}, { duration: 1.2 })
-      .to([introName, introTitle, introLine], {
-        opacity: 0, y: -40, duration: 0.5, ease: 'power2.in', stagger: 0.08
-      })
-      .to(intro, {
-        clipPath: 'inset(0 0 100% 0)', duration: 0.8, ease: 'power3.inOut',
-        onComplete: () => {
-          intro.style.display = 'none';
-          cancelAnimationFrame(introAnimFrame);
-          particles = [];
-          startAnimations();
-        }
-      }, '-=0.2');
-    }
-
-    window.addEventListener('load', () => {
-      setTimeout(runIntro, 200);
     });
 
     /* ========================================
        MAIN ANIMATIONS
     ======================================== */
+    window.addEventListener('load', () => { startAnimations(); });
+
     function startAnimations() {
       gsap.registerPlugin(ScrollTrigger, TextPlugin);
 
@@ -2211,6 +2736,12 @@
       gsap.to('.timeline-item', {
         opacity:1, x:0, stagger:.25, duration:.8, ease:'power3.out',
         scrollTrigger: { trigger: '.timeline', start: 'top 70%' }
+      });
+
+      /* --- Mobile Apps --- */
+      gsap.to('#mobile-apps .project-card', {
+        opacity:1, y:0, stagger:.1, duration:.8, ease:'power3.out',
+        scrollTrigger: { trigger: '.mobile-apps-grid', start: 'top 75%' }
       });
 
       /* --- Projects --- */
