@@ -4,12 +4,13 @@
 
 **Mid Web Developer & Grafik Tasarımcı · İstanbul**
 
-<img src="https://bugrayetis.github.io/yeni/assets/covers/about.jpg" width="100%" alt="Portfolyo ön izleme" />
+<img src="https://bugrayetis.github.io/adventure-mod/assets/covers/about.jpg" width="100%" alt="Portfolyo ön izleme" />
 
 <br/><br/>
 
 <a href="https://bugrayetis.github.io"><img src="https://img.shields.io/badge/🌐_Portfolyoyu_Aç-bugrayetis.github.io-6c63ff?style=for-the-badge" /></a>
-<a href="https://bugrayetis.github.io/yeni/"><img src="https://img.shields.io/badge/🎮_Adventure_Mode-Oyun_Gibi_Gez-43e97b?style=for-the-badge" /></a>
+<a href="https://bugrayetis.github.io/normal-mod"><img src="https://img.shields.io/badge/📄_Normal_Mod-Tüm_Projeler-ff6584?style=for-the-badge" /></a>
+<a href="https://bugrayetis.github.io/adventure-mod/"><img src="https://img.shields.io/badge/🎮_Adventure_Mode-Oyun_Gibi_Gez-43e97b?style=for-the-badge" /></a>
 
 </div>
 

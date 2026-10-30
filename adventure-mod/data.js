@@ -1,5 +1,5 @@
-// Bu blok normal moddaki projelerden (mevcut.html) otomatik üretildi;
-// iki modun aynı kalması için projeyi önce mevcut.html'e ekle, sonra yeniden üret.
+// Bu blok normal moddaki projelerden (normal-mod.html) otomatik üretildi;
+// iki modun aynı kalması için projeyi önce normal-mod.html'e ekle, sonra yeniden üret.
 window.PROJECTS = [
   {
     "id": "ourday",
