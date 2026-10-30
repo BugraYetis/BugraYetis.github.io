@@ -1,0 +1,19 @@
+KONUŞMACI FOTOĞRAFLARI
+======================
+
+Fotoğrafları bu klasöre koyun, sonra assets/js/data.js içinde
+ilgili konuşmacıya "img" satırını ekleyin:
+
+  { n:"Dyt. Elif Kaya", r:"Klinik Diyetisyen", c:"#D62E63",
+    img:"assets/img/speakers/elif-kaya.webp",     <-- bu satır
+    b:"...", t:[...], s:[...] }
+
+Öneriler
+--------
+• Kare veya 3:4 dikey (örn. 800x1000 px)
+• .webp veya .jpg — dosya başına 200 KB altı ideal
+• Yüz üstte kalacak şekilde kırpın (kartın alt kısmına isim yazısı geliyor)
+• Türkçe karakter ve boşluk kullanmayın: "elif-kaya.webp" gibi
+
+Fotoğraf eklemezseniz kart otomatik olarak baş harflerden renkli
+avatar üretir — hiçbir şey bozulmaz, karışık kullanabilirsiniz.

@@ -1,0 +1,141 @@
+<div class="page book__page" style="--page-index: 2;">
+    <div class="page__half page__half--front"><!--<a href="https://codepen.io/jh3y/full/MWwRKvd" target="_blank" rel="noreferrer noopener"><img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/605876/Cloud-sketch.svg"/></a>-->
+      <div class="page__number">1</div>
+    </div>
+    <div class="page__half page__half--back"><!--<a href="https://codepen.io/jh3y/full/eYpmBxQ" target="_blank" rel="noreferrer noopener"><img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/605876/Tcannon-sketch.svg"/></a>-->
+      <div class="page__number">2</div>
+    </div>
+  </div>
+  <div class="page book__page" style="--page-index: 3;">
+    <div class="page__half page__half--front"><!--<a href="https://codepen.io/jh3y/full/RwPrOoz" target="_blank" rel="noreferrer noopener"><img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/605876/Care-sketch.svg"/></a>-->
+      <div class="page__number">3</div>
+    </div>
+    <div class="page__half page__half--back"><!--<a href="https://codepen.io/jh3y/full/zYGQYWJ" target="_blank" rel="noreferrer noopener"><img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/605876/Fireflies-sketch.svg"/></a>-->
+      <div class="page__number">4</div>
+    </div>
+  </div>
+  <div class="page book__page" style="--page-index: 4;">
+    <div class="page__half page__half--front"><!--<a href="https://codepen.io/jh3y/full/rNOqzbN" target="_blank" rel="noreferrer noopener"><img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/605876/Launch-sketch.svg"/></a>-->
+      <div class="page__number">5</div>
+    </div>
+    <div class="page__half page__half--back"><!--<a href="https://codepen.io/jh3y/full/RwraKYZ" target="_blank" rel="noreferrer noopener"><img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/605876/Record-sketch.svg"/></a>-->
+      <div class="page__number">6</div>
+    </div>
+  </div>
+  <div class="page book__page" style="--page-index: 5;">
+    <div class="page__half page__half--front"><!--<a href="https://codepen.io/jh3y/full/jOOYMLm" target="_blank" rel="noreferrer noopener"><img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/605876/Matryoshka-sketch.svg"/></a>-->
+      <div class="page__number">7</div>
+    </div>
+    <div class="page__half page__half--back"><!--<a href="https://codepen.io/jh3y/full/MWWowEb" target="_blank" rel="noreferrer noopener"><img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/605876/Truck-sketch.svg"/></a>-->
+      <div class="page__number">8</div>
+    </div>
+  </div>
+  <div class="page book__page" style="--page-index: 6;">
+    <div class="page__half page__half--front"><!--<a href="https://codepen.io/jh3y/full/RwWMwvY" target="_blank" rel="noreferrer noopener"><img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/605876/Elon-sketch.svg"/></a>-->
+      <div class="page__number">9</div>
+    </div>
+    <div class="page__half page__half--back"><!--<a href="https://codepen.io/jh3y/full/NWqemYK" target="_blank" rel="noreferrer noopener"><img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/605876/Moon-sketch.svg"/></a>-->
+      <div class="page__number">10</div>
+    </div>
+  </div>
+  <div class="page book__page" style="--page-index: 7;">
+    <div class="page__half page__half--front"><!--<a href="https://codepen.io/jh3y/full/eYpdPWa" target="_blank" rel="noreferrer noopener"><img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/605876/Train-sketch.svg"/></a>-->
+      <div class="page__number">11</div>
+    </div>
+    <div class="page__half page__half--back"><!--<a href="https://codepen.io/jh3y/full/ZjLKGY" target="_blank" rel="noreferrer noopener"><img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/605876/Impossible-sketch.svg"/></a>-->
+      <div class="page__number">12</div>
+    </div>
+  </div>
+  <div class="page book__page" style="--page-index: 8;">
+    <div class="page__half page__half--front"><!--<a href="https://codepen.io/jh3y/full/abzeaWJ" target="_blank" rel="noreferrer noopener"><img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/605876/Newton-sketch.svg"/></a>-->
+      <div class="page__number">13</div>
+    </div>
+    <div class="page__half page__half--back"><!--<a href="https://codepen.io/jh3y/full/aPzVme" target="_blank" rel="noreferrer noopener"><img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/605876/Earth-sketch.svg"/></a>-->
+      <div class="page__number">14</div>
+    </div>
+  </div>
+  <div class="page book__page" style="--page-index: 9;">
+    <div class="page__half page__half--front"><!--<a href="https://codepen.io/jh3y/full/LYpNyvm" target="_blank" rel="noreferrer noopener"><img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/605876/Kitkat-sketch.svg"/></a>-->
+      <div class="page__number">15</div>
+    </div>
+    <div class="page__half page__half--back"><!--<a href="https://codepen.io/jh3y/full/eYpGQxr" target="_blank" rel="noreferrer noopener"><img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/605876/Pokedex-sketch.svg"/></a>-->
+      <div class="page__number">16</div>
+    </div>
+  </div>
+  <div class="page book__page" style="--page-index: 10;">
+    <div class="page__half page__half--front"><!--<a href="https://codepen.io/jh3y/full/BaobKOJ" target="_blank" rel="noreferrer noopener"><img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/605876/Birthday-sketch.svg"/></a>-->
+      <div class="page__number">17</div>
+    </div>
+     <div class="page__half page__half--back"><!--<a href="https://codepen.io/jh3y/full/GRoKOyg" target="_blank" rel="noreferrer noopener"><img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/605876/Gun-sketch.svg"/></a> -->
+      <div class="page__number">18</div>
+    </div>
+  </div>
+  <div class="page book__page" style="--page-index: 11;">
+    <div class="page__half page__half--front"><!--<a href="https://codepen.io/jh3y/full/QWbRxXb" target="_blank" rel="noreferrer noopener"><img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/605876/Cubes-sketch.svg"/></a>-->
+      <div class="page__number">19</div>
+    </div>
+    <div class="page__half page__half--back"><!--<a href="https://codepen.io/jh3y/full/jJVpWZ" target="_blank" rel="noreferrer noopener"><img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/605876/Pancake-sketch.svg"/></a>-->
+      <div class="page__number">20</div>
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+
+  <div>
+                      <div class="carousel-image"><img width="80%" src="gorsel/deik.png" alt="Deik"></div>
+                    </div>
+                    <div>
+                      <div class="carousel-image"><img width="80%" src="gorsel/diamond.png" alt="Diamond"></div>
+                    </div>
+                    <div>
+                      <div class="carousel-image"><img width="80%" src="gorsel/ditas.png" alt="Ditas"></div>
+                    </div>
+                    <div>
+                      <div class="carousel-image"><img width="80%" src="gorsel/fanuc.png" alt="Fanuc"></div>
+                    </div>
+                    <div>
+                      <div class="carousel-image"><img width="80%" src="gorsel/fitweekend.png" alt="Fitweekend"></div>
+                    </div>
+                    <div>
+                      <div class="carousel-image"><img width="80%" src="gorsel/funtrack.png" alt="Funtrack"></div>
+                    </div>
+                    <div>
+                      <div class="carousel-image"><img width="80%" src="gorsel/genius.png" alt="Genius"></div>
+                    </div>
+                    <div>
+                      <div class="carousel-image"><img width="80%" src="gorsel/keramik2.png" alt="Keramik"></div>
+                    </div>
+                    <div>
+                      <div class="carousel-image"><img width="80%" src="gorsel/maritas.png" alt="Maritas"></div>
+                    </div>
+                    <div>
+                      <div class="carousel-image"><img width="80%" src="gorsel/mednetic.png" alt="Mednetic"></div>
+                    </div>
+                    <div>
+                      <div class="carousel-image"><img width="80%" src="gorsel/moted.png" alt="Moted"></div>
+                    </div>
+                    <div>
+                      <div class="carousel-image"><img width="80%" src="gorsel/nurolteknoloji.png" alt="Nurol Teknoloji"></div>
+                    </div>
+                    <div>
+                      <div class="carousel-image"><img width="80%" src="gorsel/temsan.png" alt="Temsan"></div>
+                    </div>
+                    <div>
+                      <div class="carousel-image"><img width="80%" src="gorsel/yapimerkezi.png" alt="Yapimerkezi"></div>
+                    </div>
+                    <div>
+                      <div class="carousel-image"><img width="80%" src="gorsel/yapiray.png" alt="Yapıray"></div>
+                    </div>
+                    <div>
+                     <div class="carousel-image"><img width="80%" src="gorsel/yaskawa.png" alt="Yaskawa"></div> 
+                    </div>
+                    <div>
+                      <div class="carousel-image"><img width="80%" src="gorsel/zwilling.png" alt="Zwilling"></div>
+                    </div>

@@ -1,0 +1,8 @@
+
+@font-face {
+  font-family: 'Gotham-ExtraLight';
+  src: url('Gotham-ExtraLight.eot?#iefix') format('embedded-opentype'),  url('Gotham-ExtraLight.otf')  format('opentype'),
+	     url('Gotham-ExtraLight.woff') format('woff'), url('Gotham-ExtraLight.ttf')  format('truetype'), url('Gotham-ExtraLight.svg#Gotham-ExtraLight') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}

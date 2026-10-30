@@ -1,0 +1,760 @@
+<!doctype html><html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Nomia · Sana kavruldu</title>
+<!--
+  NOMIA · "SANA KAVRULDU" WEB SİTESİ · v1 · 29 Eylül 2026
+  Kaynak: Nomia İçerik Kitabı v2 (29.09.2026). Metinler kitaptan; editör notları siteye taşınmadı.
+  Kitabın kuralları uygulandı: doğrulanmamış puan, sertifika, hız ve teslimat vaatleri yok; fiyat yok; "Bana kavur" bir ürün eşleştirme akışıdır, siparişe özel kavurma değildir.
+  Görseller: True_images klasörü (yaşam tarzı, çekirdek, tarla). Çekirdek ve tarla görselleri temsilidir (klasör README'si).
+  Tadım notları: bölge tipik profilidir; doğrulanmış parti notları gelince NOMIA.coffees içinde güncellenir. Arayüzde bu not görünür.
+  Tat çarkı: Nomia'ya özgü Türkçe taksonomi; başka bir çarkın kopyası değildir.
+  v4.1: Satış katmanı eklendi (v3 sitesinden taşındı, "sen" diline uyarlandı): abonelik planları + ilk kutu hediyeleri, hediye aboneliği (3/6/12 ay), ekipman+abonelik paketleri, ekipman ve merch, localStorage sepet. [FİYAT] alanları fiyat listesi bağlanınca dolar.
+-->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Urbanist:wght@500;600;700&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+:root{--paper:#F4F0E8;--surface:#FBF9F4;--ink:#1E1B17;--muted:#5E584F;--line:#DAD3C6;--navy:#1F2A44;--red:#D9432F;--sand:#D7B98C;--cream:#EEE6D5;--brown:#4B2C22;--green:#24503B;--blue:#3D6B87;--on-dark:#F3EEE5;--on-dark-muted:#CFC8BA}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--paper:#16181F;--surface:#1F222B;--ink:#EBE5D8;--muted:#A59D90;--line:#32363F;--cream:#23262F;--sand:#C6A672}}
+:root[data-theme="dark"]{--paper:#16181F;--surface:#1F222B;--ink:#EBE5D8;--muted:#A59D90;--line:#32363F;--cream:#23262F;--sand:#C6A672}
+*{box-sizing:border-box}html{overflow-x:hidden}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:Manrope,"Helvetica Neue",Arial,sans-serif;font-size:17px;line-height:1.6;overflow-x:hidden}
+img{max-width:100%;display:block;height:auto}a{color:inherit}
+h1,h2,h3,h4{font-family:Urbanist,"Helvetica Neue",Arial,sans-serif;line-height:1.1;margin:0;text-wrap:balance;letter-spacing:-.01em}
+h1{font-size:clamp(40px,6vw,84px);font-weight:700}h2{font-size:clamp(28px,3.6vw,46px);font-weight:700}h3{font-size:21px;font-weight:700}h4{font-size:17px;font-weight:700}
+p{margin:0}ul,ol{margin:0;padding-left:20px}li{margin-bottom:6px}
+.wrap{max-width:1600px;margin:0 auto;padding-inline:clamp(16px,3.5vw,56px)}
+section{padding-block:clamp(44px,5vw,72px)}
+.eyebrow{font-family:"JetBrains Mono",monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--red)}.eyebrow.sand{color:var(--sand)}
+.lede{font-size:clamp(17px,1.8vw,21px);color:var(--muted);max-width:62ch}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 22px;border-radius:8px;font-weight:700;font-size:15.5px;text-decoration:none;border:1.5px solid transparent;cursor:pointer;font-family:inherit;transition:transform .15s ease}
+.btn:hover{transform:translateY(-1px)}.btn:focus-visible{outline:3px solid var(--red);outline-offset:3px}
+.btn.primary{background:var(--red);color:var(--on-dark)}.btn.navy{background:var(--navy);color:var(--on-dark)}.btn.ghost{border-color:var(--ink);color:var(--ink);background:transparent}.btn.ghost.on-dark{border-color:var(--on-dark);color:var(--on-dark)}.btn.sand{background:var(--sand);color:#2A1810}
+.link{font-weight:700;text-decoration:underline;text-underline-offset:4px}
+.grid{display:grid;gap:18px}.g2{grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}.g3{grid-template-columns:repeat(auto-fit,minmax(250px,1fr))}.g4{grid-template-columns:repeat(auto-fit,minmax(230px,1fr))}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:22px 24px}.card h3,.card h4{margin-bottom:8px}.card p,.card li{color:var(--muted)}
+.note{font-size:14px;color:var(--muted)}.mono{font-family:"JetBrains Mono",monospace;font-size:12px;letter-spacing:.08em;text-transform:uppercase}
+.tag{display:inline-block;font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;padding:4px 10px;border-radius:999px;background:var(--cream);color:var(--ink)}
+html.js .page{display:none}html.js .page.active{display:block}
+
+/* Üst menü · Kitap: Kahveler / Bana kavur / Abonelik / Demleme rehberleri / İşletmeler için */
+header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:color-mix(in srgb,var(--paper) 90%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+header.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:64px}
+.logo{font-family:Urbanist,sans-serif;font-weight:600;font-size:26px;letter-spacing:.1em;text-decoration:none;color:var(--ink);line-height:1}
+.logo small{display:block;font-family:Manrope,sans-serif;font-size:8.5px;letter-spacing:.24em;font-weight:500;color:var(--muted);margin-top:2px}
+nav.main{display:flex;gap:20px;font-weight:600;font-size:15px}nav.main a{text-decoration:none;color:var(--muted);padding:6px 0;border-bottom:2px solid transparent}
+nav.main a:hover,nav.main a[aria-current="page"]{color:var(--ink);border-color:var(--red)}
+.menu{display:none}
+@media (max-width:960px){nav.main{display:none}.menu{display:block;position:relative}.menu summary{list-style:none;cursor:pointer;font-weight:700;padding:8px 12px;border:1.5px solid var(--ink);border-radius:8px}.menu summary::-webkit-details-marker{display:none}.menu ul{position:absolute;right:0;top:44px;background:var(--surface);border:1px solid var(--line);border-radius:10px;list-style:none;padding:10px;margin:0;min-width:220px;display:grid;gap:4px;box-shadow:0 12px 30px -16px rgba(0,0,0,.4);z-index:30}.menu a{display:block;padding:10px 12px;text-decoration:none;font-weight:600;border-radius:6px}.menu a:hover{background:var(--cream)}}
+
+/* Tam genişlik bloklar */
+.herosplit{display:grid;grid-template-columns:minmax(360px,42%) minmax(0,1fr);min-height:clamp(560px,86vh,880px);background:var(--navy);color:var(--on-dark)}
+.herosplit .txt{min-width:0;display:flex;flex-direction:column;justify-content:center;padding:clamp(32px,5vw,80px) clamp(20px,4vw,64px)}
+.herosplit h1{color:var(--on-dark)}.herosplit .lede{color:var(--on-dark-muted);max-width:46ch}
+.herosplit figure{position:relative;overflow:hidden;margin:0;min-height:360px}.herosplit figure img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 45%}
+@media (max-width:900px){.herosplit{grid-template-columns:minmax(0,1fr)}.herosplit figure{order:-1;min-height:300px}}
+.band{position:relative;min-height:clamp(320px,52vh,600px);display:flex;align-items:flex-end;overflow:hidden;color:var(--on-dark)}
+.band>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.band::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(20,18,16,.05),rgba(20,18,16,.3) 45%,rgba(20,18,16,.8))}
+.band .in{position:relative;z-index:1;width:100%;padding:clamp(28px,4vw,64px) clamp(16px,3.5vw,56px)}.band h1,.band h2,.band h3{color:var(--on-dark)}.band p{color:#E9E2D4}.band .eyebrow{color:var(--sand)}
+.split{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);min-height:520px}.split>*{min-width:0}
+.split>figure{position:relative;overflow:hidden;background:var(--cream);margin:0}.split>figure img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.split>.txt{display:flex;flex-direction:column;justify-content:center;padding:clamp(32px,5vw,88px) clamp(20px,5vw,88px);gap:14px}.split.rev>figure{order:2}
+@media (max-width:900px){.split{grid-template-columns:minmax(0,1fr)}.split>figure{min-height:320px;order:0!important}}
+.pref{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.pref a{position:relative;display:block;aspect-ratio:4/5;overflow:hidden;border-radius:12px;text-decoration:none;color:var(--on-dark)}
+.pref img{width:100%;height:100%;object-fit:cover;transition:transform .6s ease}.pref a:hover img{transform:scale(1.04)}
+.pref .t{position:absolute;left:0;right:0;bottom:0;padding:18px 20px;background:linear-gradient(180deg,transparent,rgba(20,18,16,.8))}
+.pref b{font-family:Urbanist,sans-serif;font-size:22px;display:block}.pref span{font-size:14px;color:#E9E2D4}.pref .link{font-size:14px;display:block;margin-top:6px}
+@media (max-width:760px){.pref{grid-template-columns:minmax(0,1fr)}.pref a{aspect-ratio:3/2}}
+.gallery{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px}.gallery figure{aspect-ratio:4/5;overflow:hidden;margin:0;background:var(--cream)}.gallery img{width:100%;height:100%;object-fit:cover;transition:transform .6s ease}.gallery figure:hover img{transform:scale(1.04)}
+@media (max-width:900px){.gallery{grid-template-columns:repeat(3,minmax(0,1fr))}}
+
+/* Kahve kartları */
+.coffees{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px}
+.cf{background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden;display:flex;flex-direction:column;cursor:pointer;transition:transform .2s ease,box-shadow .2s ease;text-align:left;padding:0;font:inherit;color:inherit}
+.cf:hover{transform:translateY(-3px);box-shadow:0 18px 30px -24px rgba(0,0,0,.5)}
+.cf .ph{aspect-ratio:4/3;overflow:hidden;position:relative}.cf .ph img{width:100%;height:100%;object-fit:cover}
+.cf .ph .bl{position:absolute;left:12px;top:12px;font-family:"JetBrains Mono",monospace;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:#F3EEE5;background:var(--c,#1F2A44);padding:4px 9px;border-radius:999px}
+.cf .body{padding:14px 16px 16px;display:flex;flex-direction:column;gap:6px;flex:1}
+.cf h4{font-size:17px}.cf .n{font-weight:700;font-size:14.5px}.cf .m{font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--muted);letter-spacing:.06em}
+.cf.dim{opacity:.35}
+.filters{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.filters select,.filters button{font:600 14px Manrope,sans-serif;padding:8px 12px;border-radius:8px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.filters button.on{background:var(--navy);color:var(--on-dark);border-color:var(--navy)}
+.meter{display:grid;grid-template-columns:64px 1fr;gap:5px 10px;align-items:center;font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:.1em;color:var(--muted)}
+.meter i{display:block;height:6px;background:var(--line);border-radius:4px;position:relative;overflow:hidden}.meter i::after{content:"";position:absolute;inset:0;width:var(--v);background:var(--c,var(--navy));border-radius:4px}
+
+/* Ürün detayı */
+dialog.prod{border:0;border-radius:16px;padding:0;width:min(1100px,calc(100% - 24px));max-height:calc(100vh - 40px);background:var(--surface);color:var(--ink);box-shadow:0 30px 60px -20px rgba(0,0,0,.5)}
+dialog.prod::backdrop{background:rgba(20,18,16,.6)}
+.pd{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr)}
+.pd .imgs{display:grid;grid-template-rows:1fr 1fr;min-height:420px}.pd .imgs img{width:100%;height:100%;object-fit:cover;min-height:210px}
+.pd .txt{padding:28px 30px;display:flex;flex-direction:column;gap:12px;overflow:auto}
+.pd .close{position:absolute;right:12px;top:12px;border:0;background:var(--navy);color:var(--on-dark);width:38px;height:38px;border-radius:50%;font-size:20px;cursor:pointer}
+.pd .notes{display:flex;flex-wrap:wrap;gap:6px}.pd .notes span{padding:5px 11px;border-radius:999px;font-size:13.5px;font-weight:600;color:#F3EEE5;background:var(--c)}
+.pd dl{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;font-size:14.5px;margin:0}.pd dt{color:var(--muted)}.pd dd{margin:0}
+@media (max-width:820px){.pd{grid-template-columns:minmax(0,1fr)}.pd .imgs{grid-template-rows:1fr;grid-template-columns:1fr 1fr;min-height:200px}}
+
+/* Tat çarkı */
+.wheelwrap{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(300px,.8fr);gap:28px;align-items:start}
+@media (max-width:980px){.wheelwrap{grid-template-columns:minmax(0,1fr)}}
+.wheel{width:100%;max-width:820px;margin:0 auto;display:block;user-select:none}
+.wheel path{stroke:var(--paper);stroke-width:1.2;cursor:pointer;transition:opacity .2s ease}
+.wheel text{pointer-events:none;font-family:Manrope,sans-serif;font-weight:600;fill:#1E1B17}
+.wheel.hasfocus path{opacity:.25}.wheel.hasfocus path.on{opacity:1}
+.wheel path.sel{stroke:#1E1B17;stroke-width:2.2}
+.winfo{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:22px 24px;display:grid;gap:12px;position:sticky;top:84px}
+.winfo .big{font-family:Urbanist,sans-serif;font-size:30px;font-weight:700;line-height:1.05}
+.winfo .chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{border:1.5px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:6px 12px;font:600 13.5px Manrope,sans-serif;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+.chip i{width:10px;height:10px;border-radius:50%;display:inline-block;background:var(--c)}
+.chip.on{background:var(--navy);color:var(--on-dark);border-color:var(--navy)}
+.legend{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px}
+.legend div{display:flex;align-items:center;gap:8px;font-size:13.5px}.legend i{width:14px;height:14px;border-radius:3px;display:inline-block;flex-shrink:0}
+.scale{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;font-size:13px;text-align:center}
+.scale div{background:var(--cream);border-radius:8px;padding:8px 6px}.scale b{display:block;font-family:Urbanist,sans-serif;font-size:15px}
+
+/* Bana kavur */
+.quiz{max-width:900px;margin:0 auto}
+.q{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:26px 28px;display:grid;gap:14px}
+.q .opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:8px}
+.q .opts button{border:1.5px solid var(--line);background:var(--paper);color:var(--ink);border-radius:10px;padding:14px 12px;font:600 15px Manrope,sans-serif;cursor:pointer;text-align:left}
+.q .opts button.on{border-color:var(--navy);background:var(--navy);color:var(--on-dark)}
+.steps{display:flex;gap:6px}.steps i{flex:1;height:6px;border-radius:3px;background:var(--line)}.steps i.on{background:var(--red)}
+.res{display:grid;gap:14px}
+.res .why{font-size:14px;color:var(--muted)}
+
+/* Rehberler */
+.recipe{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:22px 24px;display:grid;gap:10px}
+.recipe .spec{font-family:"JetBrains Mono",monospace;font-size:12.5px;color:var(--muted);letter-spacing:.03em}
+.recipe ol{font-size:15px;color:var(--muted)}
+details.faq{border-bottom:1px solid var(--line);padding-block:4px}details.faq summary{cursor:pointer;font-weight:700;font-size:17px;padding:12px 0;list-style:none;display:flex;justify-content:space-between;gap:16px}details.faq summary::-webkit-details-marker{display:none}details.faq summary::after{content:"+";font-family:Urbanist,sans-serif;font-size:22px;color:var(--red)}details.faq[open] summary::after{content:"–"}details.faq p{padding-bottom:14px;color:var(--muted);max-width:70ch}
+.dark{background:var(--navy);color:var(--on-dark)}.dark h2,.dark h3,.dark h4{color:var(--on-dark)}.dark p,.dark li{color:var(--on-dark-muted)}.dark .card{background:#2A3654;border-color:#2A3654}
+.article{max-width:760px;margin:0 auto;display:grid;gap:16px;font-size:18px}.article h2{font-size:30px;margin-top:10px}.article p{color:var(--ink)}
+footer{background:var(--navy);color:var(--on-dark-muted);padding-block:48px 36px;font-size:14px}footer .wrap{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:32px}footer .logo{color:var(--on-dark)}footer .logo small{color:var(--on-dark-muted)}footer a{color:var(--on-dark);text-decoration:none}footer ul{list-style:none;padding:0;margin:0;display:grid;gap:8px}footer .legal{grid-column:1/-1;border-top:1px solid rgba(243,238,229,.15);padding-top:18px;font-size:12.5px;line-height:1.6;opacity:.8}
+@media (max-width:760px){footer .wrap{grid-template-columns:1fr}}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(20px);background:var(--navy);color:var(--on-dark);padding:10px 16px;border-radius:999px;font-weight:600;font-size:14px;opacity:0;transition:all .3s ease;z-index:50;pointer-events:none}.toast.show{opacity:1;transform:translateX(-50%)}
+/* Satış blokları */
+.plans{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+.plan{background:var(--surface);border:1.5px solid var(--line);border-radius:14px;padding:22px 22px 20px;display:flex;flex-direction:column;gap:10px;position:relative}
+.plan.one{border-color:var(--red);box-shadow:0 18px 34px -26px rgba(217,67,47,.6)}
+.plan .badge{position:absolute;top:-11px;left:18px;background:var(--red);color:#F3EEE5;font:700 11px/1 "JetBrains Mono",monospace;letter-spacing:.1em;text-transform:uppercase;padding:6px 10px;border-radius:999px}
+.plan h3{font-size:24px}.plan .amt{font-family:Urbanist,sans-serif;font-size:20px;font-weight:700}.plan .price{font-family:"JetBrains Mono",monospace;font-size:13px;color:var(--muted)}
+.plan ul{list-style:none;padding:0;display:grid;gap:5px;font-size:14.5px;color:var(--muted)}.plan li::before{content:"✓ ";color:var(--green);font-weight:700}
+.plan .gift{background:var(--cream);border-radius:10px;padding:10px 12px;font-size:14px}.plan .gift b{display:block;font-family:"JetBrains Mono",monospace;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--red);margin-bottom:2px}
+.plan .acts{display:grid;gap:8px;margin-top:auto}
+.shop{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px}
+.sh{background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden;display:flex;flex-direction:column}
+.sh .ph{aspect-ratio:1;background:var(--cream);overflow:hidden}.sh .ph img{width:100%;height:100%;object-fit:cover;transition:transform .5s ease}.sh:hover .ph img{transform:scale(1.04)}
+.sh .body{padding:14px 16px 16px;display:grid;gap:6px}.sh h4{font-size:16.5px}.sh p{font-size:14px;color:var(--muted)}.sh .row{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:4px}.sh .price{font-family:"JetBrains Mono",monospace;font-size:13px}
+.sh .btn{padding:8px 14px;font-size:14px;white-space:nowrap}.sh .tag{white-space:nowrap}
+.cartbtn{position:relative;border:1.5px solid var(--ink);background:transparent;color:var(--ink);border-radius:8px;padding:7px 12px;font:700 14px Manrope,sans-serif;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+.cartbtn i{background:var(--red);color:#F3EEE5;border-radius:999px;font-style:normal;font-size:11px;min-width:18px;height:18px;display:inline-grid;place-items:center;padding:0 5px}
+dialog.cart{border:0;padding:0;margin:0 0 0 auto;height:100dvh;max-height:100dvh;width:min(440px,100%);background:var(--surface);color:var(--ink);box-shadow:-20px 0 50px -20px rgba(0,0,0,.5)}
+dialog.cart::backdrop{background:rgba(20,18,16,.5)}
+.cartin{display:flex;flex-direction:column;height:100%}.cartin header{display:flex;justify-content:space-between;align-items:center;padding:18px 22px;border-bottom:1px solid var(--line)}
+.cartin .items{flex:1;overflow:auto;padding:12px 22px;display:grid;gap:10px;align-content:start}
+.ci{display:grid;grid-template-columns:56px 1fr auto;gap:12px;align-items:center;border:1px solid var(--line);border-radius:10px;padding:10px}.ci img{width:56px;height:56px;object-fit:cover;border-radius:8px;background:var(--cream)}.ci b{font-size:14.5px;display:block}.ci small{color:var(--muted);font-size:12.5px}
+.ci .qty{display:inline-flex;align-items:center;gap:4px}.ci .qty button{width:26px;height:26px;border-radius:6px;border:1.5px solid var(--line);background:var(--paper);color:var(--ink);cursor:pointer;font-weight:700}
+.cartin footer{padding:16px 22px 20px;border-top:1px solid var(--line);display:grid;gap:10px;background:var(--surface);color:var(--ink);font-size:14px}
+.pd select{font:15px Manrope,sans-serif;padding:8px 10px;border:1.5px solid var(--line);border-radius:8px;background:var(--paper);color:var(--ink);width:100%}
+.pd .opts{display:grid;grid-template-columns:1fr 1fr;gap:8px}.pd .opts label{font-size:12.5px;color:var(--muted);display:grid;gap:4px}
+.rules{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}.rules div{border-left:3px solid var(--sand);padding:4px 0 4px 14px;font-size:14.5px;color:var(--muted)}.rules b{display:block;color:var(--ink);font-family:Urbanist,sans-serif;font-size:17px;margin-bottom:2px}
+@media (max-width:760px){.plans{grid-template-columns:minmax(0,1fr)}}
+@media (prefers-reduced-motion:reduce){.btn,.cf,.pref img,.gallery img{transition:none}}
+</style></head><body>
+
+<header class="top"><div class="wrap">
+  <a class="logo" href="#/ana">nomia<small>coffee and roastery</small></a>
+  <nav class="main" aria-label="Ana menü"><a href="#/kahveler">Kahveler</a><a href="#/bana-kavur">Bana kavur</a><a href="#/tat-carki">Tat çarkı</a><a href="#/abonelik">Abonelik</a><a href="#/hediye">Hediye</a><a href="#/ekipman">Ekipman &amp; merch</a><a href="#/demleme">Demleme</a><a href="#/isletmeler">İşletmeler</a><a href="#/blog">Blog</a></nav>
+  <div style="display:flex;gap:8px;align-items:center"><button type="button" class="cartbtn" id="cartbtn" aria-label="Sepet">Sepet <i id="cartn">0</i></button>
+  <details class="menu"><summary>Menü</summary><ul><li><a href="#/ana">Ana sayfa</a></li><li><a href="#/kahveler">Kahveler</a></li><li><a href="#/bana-kavur">Bana kavur</a></li><li><a href="#/tat-carki">Tat çarkı</a></li><li><a href="#/tadim-seti">Tadım seti</a></li><li><a href="#/abonelik">Abonelik</a></li><li><a href="#/hediye">Hediye</a></li><li><a href="#/ekipman">Ekipman &amp; merch</a></li><li><a href="#/demleme">Demleme rehberleri</a></li><li><a href="#/isletmeler">İşletmeler için</a></li><li><a href="#/egitim">Barista eğitimi</a></li><li><a href="#/blog">Blog</a></li><li><a href="#/hakkimizda">Hakkımızda</a></li><li><a href="#/sss">SSS</a></li></ul></details></div>
+</div></header>
+
+<main>
+<!-- ================= ANA SAYFA · Kitap 04–05 ================= -->
+<div class="page active" id="p-ana">
+  <section class="herosplit" style="padding:0">
+    <div class="txt">
+      <p class="eyebrow sand">Nomia Coffee Roastery</p>
+      <h1 style="margin-top:12px">Sana kavruldu.</h1>
+      <p class="lede" style="margin-top:16px">Kahveni sade mi seversin, sütlü mü? V60 mı hazırlarsın, makinenin düğmesine mi basarsın? Nasıl içiyorsan, oradan başlayalım. Damak tadına ve demleme yöntemine uygun kahveyi birlikte bulalım.</p>
+      <div style="display:flex;flex-wrap:wrap;gap:12px;margin-top:22px"><a class="btn primary" href="#/bana-kavur">Bana kavur</a><a class="btn ghost on-dark" href="#/kahveler">Tüm kahveleri gör</a></div>
+    </div>
+    <figure><img src="assets/img/life/hero.webp" alt="Bisiklet sepetinde dört renkli Nomia paketi"></figure>
+  </section>
+
+  <!-- Abonelik planları (satış: ilk ekranın hemen altında) -->
+  <section style="background:var(--cream)"><div class="wrap">
+    <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:end;gap:12px"><div><p class="eyebrow">Abonelik</p><h2 style="margin-top:8px">Kahven düzenli gelsin. İlk kutuda hediyesi var.</h2></div><a class="link" href="#/abonelik">Kuralları ve tüm seçenekleri gör</a></div>
+    <div class="plans" id="plans-home" style="margin-top:24px"></div>
+    <p class="note" style="margin-top:14px">Kargo tüm planlarda dahil. Her 10. paket ücretsiz. Her gönderiden 3 gün öncesine kadar değiştir, atla ya da durdur. Taahhüt yok.</p>
+  </div></section>
+
+  <!-- 2. Tercih kartları -->
+  <section><div class="wrap">
+    <p class="eyebrow">Nasıl içersin?</p>
+    <h2 style="margin-top:10px">Bir tercihten başla.</h2>
+    <div class="pref" style="margin-top:24px">
+      <a href="#/kahveler?sut=sade"><img src="assets/img/life/sade.webp" alt=""><div class="t"><b>Sade seviyorsan.</b><span>Kahveni tadım notlarına göre karşılaştır.</span><span class="link">Sade içim için keşfet</span></div></a>
+      <a href="#/kahveler?sut=sutlu"><img src="assets/img/life/sutlu.webp" alt=""><div class="t"><b>Sütle seviyorsan.</b><span>Sütlü içeceklerinde aradığın tadı bul.</span><span class="link">Sütlü içim için keşfet</span></div></a>
+      <a href="#/kahveler?yontem=v60"><img src="assets/img/life/v60.webp" alt=""><div class="t"><b>V60'tan şaşmıyorsan.</b><span>Demleme yöntemine uygun seçeneklere bak.</span><span class="link">Filtre kahveleri gör</span></div></a>
+    </div>
+  </div></section>
+
+  <!-- 3. Tadım seti -->
+  <section style="padding:0"><div class="split">
+    <figure><img src="assets/img/life/tadim.webp" alt="Elde dört renkli Nomia paketi"></figure>
+    <div class="txt" style="background:var(--cream)">
+      <p class="eyebrow">Tadım seti</p>
+      <h2>Hangisi sana göre? Önce bir dene.</h2>
+      <p class="lede">Dört farklı kahve, 100'er gramlık paketlerde. Aynı yöntemle demle, tatlarını karşılaştır, bir sonraki fincanında hangisini istediğine karar ver.</p>
+      <div><a class="btn navy" href="#/tadim-seti">Tadım setini incele</a></div>
+    </div>
+  </div></section>
+
+  <!-- Tat çarkı teaser -->
+  <section><div class="wrap" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:36px;align-items:center">
+    <div>
+      <p class="eyebrow">Tat çarkı</p>
+      <h2 style="margin-top:10px">Fincanında ne arıyorsun?</h2>
+      <p class="lede" style="margin-top:12px">Meyve mi, çikolata mı, çiçek mi? Çarkta bir tada dokun; o tadı taşıyan kahveleri gör. Her aromanın adını bilmen gerekmiyor; "bunu sevdim" de bir tadım notudur.</p>
+      <div style="margin-top:18px"><a class="btn primary" href="#/tat-carki">Çarkı aç</a></div>
+    </div>
+    <div><svg class="wheel" id="wheel-mini" viewBox="0 0 800 800" role="img" aria-label="Tat çarkı"></svg></div>
+  </div></section>
+
+  <!-- 4. Abonelik -->
+  <section style="padding:0"><div class="split rev">
+    <figure><img src="assets/img/life/abonelik.webp" alt="Kitap okurken kahve içen kişi, yanında Nomia paketi"></figure>
+    <div class="txt">
+      <p class="eyebrow">Abonelik</p>
+      <h2>Sevdiğin kahveyi bulduysan, bir düzeni olsun.</h2>
+      <p class="lede">Her seferinde yeniden sipariş vermek yerine, kahveni düzenli gönderimle al. Sana uygun miktarı ve gönderim seçeneklerini incele.</p>
+      <div><a class="btn navy" href="#/abonelik">Aboneliği incele</a></div>
+    </div>
+  </div></section>
+
+  <!-- Hediye -->
+  <section style="padding:0"><div class="split rev">
+    <figure><img src="assets/img/shop/kutu4.webp" alt="Kraft hediye kutusunda dört Nomia paketi"></figure>
+    <div class="txt" style="background:var(--navy);color:var(--on-dark)">
+      <p class="eyebrow sand">Hediye</p>
+      <h2 style="color:var(--on-dark)">Kahve seven birine, ne sevdiğini sorarak hediye et.</h2>
+      <p class="lede" style="color:var(--on-dark-muted)">3, 6 ya da 12 aylık hediye aboneliği: ön ödemeli, otomatik yenilenmez. İlk kutu hediye kutusunda, kupayla gelir; alıcı kahvesini ve öğütümünü kendisi seçer. Tek seferlik hediye kutusu da var.</p>
+      <div style="display:flex;gap:10px;flex-wrap:wrap"><a class="btn sand" href="#/hediye">Hediye seçeneklerini gör</a><a class="btn ghost on-dark" href="#/tadim-seti">Tadım setini hediye et</a></div>
+    </div>
+  </div></section>
+
+  <!-- Ekipman & merch -->
+  <section><div class="wrap">
+    <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:end;gap:12px"><div><p class="eyebrow">Ekipman &amp; merch</p><h2 style="margin-top:8px">Kahvenin yanına.</h2><p class="lede" style="margin-top:8px">Rehberlerde kullandığımız ekipman ve Nomia merch. Abonelere ekipmanda indirim; kahveyle aynı kutuda, tek kargo.</p></div><a class="link" href="#/ekipman">Tümünü gör</a></div>
+    <div class="shop" id="shop-home" style="margin-top:22px"></div>
+  </div></section>
+
+  <!-- 5. Kavurma ve ürün bilgisi -->
+  <section class="band" style="padding:0"><img src="assets/img/life/kavurma.webp" alt="Elde tutulan mavi Nomia paketi"><div class="in">
+    <p class="eyebrow">Kavurma ve ürün bilgisi</p>
+    <h2 style="margin-top:10px;max-width:22ch">Kavurma tarihine de bakıyorsan, sana kavruldu.</h2>
+    <p style="margin-top:10px;max-width:60ch">Kahvenin tadım notlarını, kökenini ve önerilen demleme yöntemini ürün sayfasında bul. Kavurma tarihini paketinden kontrol et.</p>
+    <div style="margin-top:18px"><a class="btn sand" href="#/kahveler">Kahveleri tanı</a></div>
+  </div></section>
+
+  <!-- 6. Demleme rehberleri + 7. Destek -->
+  <section><div class="wrap grid g2">
+    <div class="split" style="min-height:auto;border-radius:14px;overflow:hidden;background:var(--surface);border:1px solid var(--line)"><figure style="min-height:260px"><img src="assets/img/life/demleme.webp" alt=""></figure><div class="txt" style="padding:28px"><p class="eyebrow">Demleme rehberleri</p><h3 style="font-size:26px">Kahven belli. Nasıl demleyeceğine bakalım.</h3><p style="color:var(--muted)">V60, filtre kahve makinesi, French press, espresso, cold brew veya Türk kahvesi. Ekipmanını seç; ölçüler, adımlar ve tadı ayarlamak için önerilerle başla.</p><div><a class="btn ghost" href="#/demleme">Rehberimi bul</a></div></div></div>
+    <div class="split" style="min-height:auto;border-radius:14px;overflow:hidden;background:var(--surface);border:1px solid var(--line)"><figure style="min-height:260px"><img src="assets/img/life/destek.webp" alt=""></figure><div class="txt" style="padding:28px"><p class="eyebrow">Destek</p><h3 style="font-size:26px">Tadı beklediğin gibi değil mi? Konuşalım.</h3><p style="color:var(--muted)">Hangi kahveyi, hangi ekipmanla hazırladığını bize anlat. Seçim ve demleme konusunda birlikte bakalım.</p><div><a class="btn ghost" href="mailto:[EPOSTA]?subject=Kahvem%20hakk%C4%B1nda">Bize yaz</a></div></div></div>
+  </div></section>
+
+  <!-- Galeri -->
+  <section style="padding-block:8px"><div class="gallery">
+    <figure><img src="assets/img/life/gal1.webp" alt=""></figure><figure><img src="assets/img/life/gal2.webp" alt=""></figure><figure><img src="assets/img/life/gal3.webp" alt=""></figure><figure><img src="assets/img/life/gal4.webp" alt=""></figure><figure><img src="assets/img/life/gal5.webp" alt=""></figure><figure><img src="assets/img/life/gal6.webp" alt=""></figure>
+  </div></section>
+
+  <!-- İşletmeler -->
+  <section class="dark"><div class="wrap" style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:16px">
+    <div><p class="eyebrow sand">İşletmeler için</p><h2 style="margin-top:8px">Menünüzdeki kahveyi birlikte seçelim.</h2></div>
+    <a class="btn sand" href="#/isletmeler">İş birliğini konuşalım</a>
+  </div></section>
+</div>
+
+<!-- ================= BANA KAVUR · Kitap 06 ================= -->
+<div class="page" id="p-bana-kavur">
+  <section class="band" style="padding:0;min-height:clamp(280px,42vh,460px)"><img src="assets/img/life/bana_kavur.webp" alt=""><div class="in"><p class="eyebrow">Bana kavur</p><h1 style="margin-top:8px;font-size:clamp(34px,4.6vw,64px)">Üç soru. Daha kolay bir seçim.</h1><p style="margin-top:8px;max-width:60ch">Nasıl içtiğini söyle; sana uygun kahveleri birlikte bulalım.</p></div></section>
+  <section><div class="wrap quiz" id="quiz"></div></section>
+  <p class="note" style="text-align:center;padding-bottom:40px">Bu bir ürün eşleştirme akışıdır; siparişe özel kavurma değildir. Her sonuçta eşleşmenin nedeni ürün bilgisiyle yazılır.</p>
+</div>
+
+<!-- ================= KAHVELER · Kitap 07 ================= -->
+<div class="page" id="p-kahveler">
+  <section><div class="wrap">
+    <p class="eyebrow">Kahveler</p>
+    <h1 style="margin-top:8px;font-size:clamp(34px,4.6vw,64px)">Fincanında ne olsun?</h1>
+    <p class="lede" style="margin-top:12px">Bildiğin tadı mı arıyorsun, farklı bir kahveyi mi denemek istiyorsun? Kahveleri tadım notlarına ve demleme yöntemine göre karşılaştır. Sana uygun olanı seç.</p>
+    <div class="filters" style="margin-top:22px" id="filters">
+      <select id="f-yontem" aria-label="Demleme yöntemi"><option value="">Demleme yöntemi</option></select>
+      <select id="f-tat" aria-label="Tat profili"><option value="">Tat profili</option><option value="dengeli">Dengeli ve tanıdık</option><option value="meyvemsi">Meyvemsi ve canlı</option><option value="govdeli">Belirgin gövde ve yoğun</option></select>
+      <select id="f-bolge" aria-label="Bölge"><option value="">Bölge</option><option>Güney Amerika</option><option>Orta Amerika</option><option>Afrika</option><option>Asya</option><option>Harman</option></select>
+      <select id="f-sut" aria-label="İçim"><option value="">Sade / sütlü</option><option value="sade">Sade</option><option value="sutlu">Sütlü</option></select>
+      <button type="button" id="f-clear">Temizle</button>
+      <span class="note" id="f-count"></span>
+    </div>
+    <div class="coffees" id="coffees" style="margin-top:20px"></div>
+    <div class="card" style="margin-top:24px;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:12px"><div><h3>Nereden başlayacağını bilmiyorsan</h3><p>Birkaç soruyla ilerleyelim.</p></div><a class="btn primary" href="#/bana-kavur">Bana kavur</a></div>
+    <p class="note" style="margin-top:14px">Tadım notları bölge tipik profilidir; her partinin doğrulanmış notları ürün bilgisine işlendikçe güncellenir. Gramaj ve öğütüm seçenekleri sipariş sırasında görünür.</p>
+  </div></section>
+</div>
+
+<!-- ================= TAT ÇARKI ================= -->
+<div class="page" id="p-tat-carki">
+  <section><div class="wrap">
+    <p class="eyebrow">Tat çarkı</p>
+    <h1 style="margin-top:8px;font-size:clamp(34px,4.6vw,64px)">Bir tada dokun, kahveni bul.</h1>
+    <p class="lede" style="margin-top:12px">İç halka ana tat ailesi, dış halka fincanda algılayabileceğin çağrışımlar. Bir dilime gel ya da dokun: açıklamasını ve o notu taşıyan kahveleri gör. Bir kahve seç: notları çarkta yanar.</p>
+    <div class="wheelwrap" style="margin-top:24px">
+      <div><svg class="wheel" id="wheel" viewBox="0 0 800 800" role="img" aria-label="Nomia tat çarkı"></svg>
+        <div class="legend" id="legend" style="margin-top:14px"></div></div>
+      <aside class="winfo" id="winfo"></aside>
+    </div>
+    <div class="grid g2" style="margin-top:28px">
+      <div class="card"><h3>Gövde</h3><p>Kahvenin ağızdaki ağırlığı. Süt gibi düşün: yağsız süt hafif, tam yağlı süt koyu.</p><div class="scale" style="margin-top:10px"><div><b>Hafif</b>çay gibi, ince</div><div><b>Orta</b>dengeli, yuvarlak</div><div><b>Koyu</b>kremsi, kaplayıcı</div></div></div>
+      <div class="card"><h3>Asidite</h3><p>Ekşilik değil, canlılık. Elmayı ısırınca hissettiğin parlaklık. Düşük asidite yumuşak ve sakin, yüksek asidite canlı ve meyvemsi demektir.</p><div class="scale" style="margin-top:10px"><div><b>Düşük</b>yumuşak, sakin</div><div><b>Orta</b>dengeli</div><div><b>Yüksek</b>parlak, canlı</div></div></div>
+    </div>
+    <p class="note" style="margin-top:16px">Tadım notları, kahveyi içerken algılanan tat ve koku çağrışımlarını tarif eder; ürüne aroma eklendiği anlamına gelmez. Çark Nomia'ya özgü Türkçe bir sözlüktür; kahvelerin notları bölge tipik profilidir ve doğrulanmış parti notlarıyla güncellenir.</p>
+  </div></section>
+</div>
+
+<!-- ================= TADIM SETİ · Kitap 08 ================= -->
+<div class="page" id="p-tadim-seti">
+  <section style="padding:0"><div class="split"><figure><img src="assets/img/life/tadim.webp" alt=""></figure><div class="txt">
+    <p class="eyebrow">Nomia 4'lü tadım seti</p><h1 style="font-size:clamp(34px,4.6vw,60px)">Hangisi sana göre? Önce bir dene.</h1>
+    <p class="lede">Dört farklı kahve, 100'er gramlık paketlerde. İlk kez Nomia deniyorsan veya kahvede ne sevdiğini biraz daha yakından tanımak istiyorsan, buradan başlayabilirsin.</p>
+    <p style="color:var(--muted)">Birini sade dene, bir diğerini her gün kullandığın yöntemle hazırla. Daha karşılaştırılabilir bir tadım için kahve ve su miktarını aynı tut. Hangisini yeniden içmek istediğine bak. Kahve seçmek için her aromanın adını bilmen gerekmiyor.</p>
+    <div style="display:flex;gap:12px;flex-wrap:wrap"><a class="btn primary" href="#/kahveler">Tadım setini seç</a><a class="btn ghost" href="#/kahveler">Setteki kahveleri gör</a></div>
+  </div></div></section>
+  <section><div class="wrap grid g2">
+    <div class="card"><h3>Setin içinde ne var?</h3><p>Dört ayrı kahve, toplam 400 g. Sete dahil kahvelerin güncel listesi ve tadım notları ürün bilgilerinde yer alır. Öğütüm seçeneğini kullandığın ekipmana göre belirle.</p></div>
+    <div class="card"><h3>Nasıl karşılaştırabilirsin?</h3><ul><li><b>Aynı ölçüyle başla.</b> Her kahvede benzer kahve-su oranı kullan.</li><li><b>Biraz soğuyunca yeniden tat.</b> Sıcaklık değiştikçe algıladığın tatlar da değişebilir.</li><li><b>Kendi kelimelerini kullan.</b> "Bunu daha çok sevdim" de bir tadım notudur.</li><li><b>Favorini işaretle.</b> Sonraki seçiminde nereden başlayacağını bil.</li></ul></div>
+  </div><p class="lede" style="text-align:center;margin:28px auto 0">Kararını ilk pakette vermek istemiyorsan, sana kavruldu.</p></section>
+</div>
+
+<!-- ================= ABONELİK · Kitap 09 ================= -->
+<div class="page" id="p-abonelik">
+  <section class="band" style="padding:0;min-height:clamp(280px,44vh,480px)"><img src="assets/img/life/abonelik.webp" alt=""><div class="in"><p class="eyebrow">Abonelik</p><h1 style="margin-top:8px;font-size:clamp(34px,4.6vw,64px)">Sevdiğin kahveyi bulduysan, bir düzeni olsun.</h1></div></section>
+  <section><div class="wrap">
+    <p class="lede">Kahveni seçtin. Şimdi ne kadar kahve tükettiğine bakalım. Nomia aboneliğiyle sevdiğin kahveyi düzenli gönderimle al; her seferinde yeniden sipariş verme adımını azalt.</p>
+    <div class="grid g3" style="margin-top:24px">
+      <div class="card"><span class="tag">1</span><h3 style="margin-top:10px">Kahveni seç.</h3><p>Tadım notlarına ve kullandığın ekipmana göre karar ver.</p></div>
+      <div class="card"><span class="tag">2</span><h3 style="margin-top:10px">Miktarı belirle.</h3><p>Evde kaç kişinin kahve içtiğini ve ne sıklıkla demlediğini düşün.</p></div>
+      <div class="card"><span class="tag">3</span><h3 style="margin-top:10px">Gönderim seçeneklerini incele.</h3><p>Planın içeriğini, gönderim aralığını ve her yenilemede ödeyeceğin toplam tutarı görerek seçimini tamamla.</p></div>
+    </div>
+    <div class="grid g2" style="margin-top:18px">
+      <div class="card"><h3>Ne kadar kahve gerekir?</h3><p>Fincan başına 15 g kullandığın bir tarifte 250 g kahveden yaklaşık 16, 500 g kahveden yaklaşık 33 fincan hazırlayabilirsin. Bu bir başlangıç hesabıdır; kullandığın tarif ve demleme sırasında harcanan kahve sonucu değiştirir.</p></div>
+      <div class="card"><h3>Henüz favorin yoksa</h3><p>Aboneliğe karar vermeden önce dört farklı kahveyi tadım setiyle karşılaştır. Sevdiğin tadı bulduğunda düzenli gönderim seçeneklerine bak.</p></div>
+    </div>
+    <h2 style="margin-top:40px">Planlar</h2>
+    <p class="note" style="margin-top:6px">Kahveyi, öğütümü ve sıklığı sen seçersin; plan yalnızca miktarı ve hediyeyi belirler. Fiyatlar fiyat listesi bağlanınca görünür.</p>
+    <div class="plans" id="plans-page" style="margin-top:18px"></div>
+    <h2 style="margin-top:40px">Ekipman + abonelik paketleri</h2>
+    <p class="note" style="margin-top:6px">Ekipmanı abonelikle birlikte alanlara ekipmanda indirim. Ekipman ilk kutuyla gelir.</p>
+    <div class="shop" id="bundles" style="margin-top:18px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr))"></div>
+    <h2 style="margin-top:40px">Kurallar</h2>
+    <div class="rules" style="margin-top:14px">
+      <div><b>Kargo dahil</b>Tüm planlarda. Kargoya veriliş 1–3 iş günü; takip numarası e-postayla.</div>
+      <div><b>Değiştir, atla, durdur</b>Her gönderiden 4 gün önce hatırlatma; 3 gün öncesine kadar değişiklik. İptal tek dokunuş.</div>
+      <div><b>Hediye kuralı</b>Plan hediyesi ilk kutuyla gelir; 3 aylık kullanım beklenir. Daha önce iptalde hediye bedeli son faturaya eklenir.</div>
+      <div><b>Beğenmezsen</b>Teslimattan sonraki 14 gün içinde yaz; sonraki gönderiyi farklı kahveyle ücretsiz değiştiririz (yılda en çok 2).</div>
+      <div><b>Her 10. paket ücretsiz</b>Bireysel planlarda otomatik uygulanır.</div>
+      <div><b>Açılmış paket iadesi yok</b>Kahve taze gıdadır. Hasarlı ya da yanlış ürün her koşulda yenilenir.</div>
+    </div>
+    <div style="margin-top:28px;display:flex;gap:12px;flex-wrap:wrap"><a class="btn ghost" href="#/hediye">Hediye aboneliği</a><a class="btn ghost" href="#/tadim-seti">Önce tadım setini dene</a></div>
+  </div></section>
+</div>
+
+<!-- ================= HEDİYE (v3 satış içeriğinden) ================= -->
+<div class="page" id="p-hediye">
+  <section style="padding:0"><div class="split"><figure><img src="assets/img/shop/kutu-acik.webp" alt="Açık kraft kutuda kahverengi Nomia paketi ve kart"></figure><div class="txt">
+    <p class="eyebrow">Hediye aboneliği</p><h1 style="font-size:clamp(34px,4.6vw,60px)">Kahve seven birine, ne sevdiğini sorarak.</h1>
+    <p class="lede">Ön ödemeli, süresi belli, otomatik yenilenmez. Sen süreyi seçersin; alıcı kahvesini ve öğütümünü e-postayla kendisi seçer. İlk kutu hediye kutusunda, el yazısı kart ve kupayla gelir.</p>
+  </div></div></section>
+  <section><div class="wrap">
+    <div class="plans" id="gifts"></div>
+    <div class="grid g2" style="margin-top:28px">
+      <div class="card"><h3>Tek seferlik hediye kutusu</h3><p>Kraft kutu, kart, Nomia kupa ve seçtiğin 250 g kahve. Aboneliğin tek seferlik hâli. Kutuya not yazabilirsin.</p><div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap"><button type="button" class="btn primary" data-add="m-kutu" data-ad="Hediye kutusu" data-img="kutu">Sepete ekle</button><a class="btn ghost" href="#/tadim-seti">Tadım setini hediye et</a></div></div>
+      <div class="card"><h3>Nasıl işler?</h3><ol style="color:var(--muted)"><li>Süreyi seç, ödemeyi yap; alıcının e-postasını ve teslim tarihini gir.</li><li>Alıcıya e-posta gider; kahvesini, öğütümünü ve adresini seçer. Kararsızsa "Bana kavur" yardımcı olur.</li><li>İlk kutu hediye kutusunda, kupayla gelir. Sonraki gönderiler seçtiği sıklıkta.</li><li>Süre bitince yenilenmez; alıcı isterse kendi aboneliğine geçer.</li></ol></div>
+    </div>
+    <div class="gallery" style="margin-top:28px;grid-template-columns:repeat(4,minmax(0,1fr))"><figure><img src="assets/img/shop/kutu.webp" alt=""></figure><figure><img src="assets/img/shop/kutu-kart.webp" alt=""></figure><figure><img src="assets/img/shop/kupa.webp" alt=""></figure><figure><img src="assets/img/shop/dort.webp" alt=""></figure></div>
+  </div></section>
+</div>
+
+<!-- ================= EKİPMAN & MERCH (v3 satış içeriğinden) ================= -->
+<div class="page" id="p-ekipman">
+  <section><div class="wrap">
+    <p class="eyebrow">Ekipman &amp; merch</p><h1 style="margin-top:8px;font-size:clamp(34px,4.6vw,64px)">Kahvenin yanına.</h1>
+    <p class="lede" style="margin-top:12px">Demleme rehberlerimizde kullandığımız ekipmanlar ve Nomia merch. Abonelere ekipmanda indirim. Ekipman kahveyle aynı kutuda gelir; kargo tek.</p>
+    <h2 style="margin-top:32px;font-size:28px">Demleme ekipmanı</h2>
+    <div class="shop" id="equip" style="margin-top:16px"></div>
+    <h2 style="margin-top:40px;font-size:28px">Merch</h2>
+    <div class="shop" id="merch" style="margin-top:16px"></div>
+    <p class="note" style="margin-top:16px">Ekipman fiyatları tedarikçi listesiyle güncellenir. Merch baskıları "Sana kavruldu." sistemine göre yeniden çizilecek; görseller mevcut mockup'lardır.</p>
+  </div></section>
+  <section class="dark"><div class="wrap" style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:16px"><div><h2>Ekipmanı abonelikle al, indirimli olsun.</h2><p>Filtre, espresso ve cezve paketleri: plan + ekipman, ilk kutuda.</p></div><a class="btn sand" href="#/abonelik">Paketleri gör</a></div></section>
+</div>
+
+<!-- ================= DEMLEME REHBERLERİ · Kitap 21–27 ================= -->
+<div class="page" id="p-demleme">
+  <section class="band" style="padding:0;min-height:clamp(280px,44vh,480px)"><img src="assets/img/life/demleme.webp" alt=""><div class="in"><p class="eyebrow">Demleme rehberleri</p><h1 style="margin-top:8px;font-size:clamp(34px,4.6vw,64px)">Kahven belli. Şimdi demleyelim.</h1><p style="margin-top:8px;max-width:60ch">Aynı kahve, farklı hazırlanınca farklı tat verebilir. Rehberlerimiz, ilk denemede nereden başlayacağını ve sonraki fincanda neyi değiştirebileceğini anlatır.</p></div></section>
+  <section><div class="wrap">
+    <div class="grid g2">
+      <div class="recipe"><p class="eyebrow">V60</p><h3>"V60'tan şaşmam" diyorsan.</h3><p class="spec">15 g kahve · 250 g su · orta-ince öğütüm · 92–96 °C · yaklaşık 2,5–3,5 dk</p><ol><li>Filtreyi sıcak suyla ıslat; biriken suyu dök.</li><li>15 g kahveyi ekle, yüzeyini düzleştir, teraziyi sıfırla.</li><li>Yaklaşık 40 g suyla ön demleme; 30–40 sn bekle.</li><li>Kalan suyu iki-üç sakin döküşte 250 g'a tamamla.</li><li>Akış bitince V60'ı kaldır; hafifçe karıştır, soğudukça tekrar tat.</li></ol><p class="note">Zayıf ve keskinse biraz daha ince öğüt; çok yavaş ve kuruysa daha kalın dene.</p><a class="link" href="#/kahveler?yontem=v60">Filtre için kahveleri incele</a></div>
+      <div class="recipe"><p class="eyebrow">Filtre kahve makinesi</p><h3>Düğmeye basıp devam ediyorsan.</h3><p class="spec">30 g kahve · 500 g su · orta öğütüm</p><ol><li>Hazne ve karaf temiz olsun; doğru boyutta filtre kullan.</li><li>Üreticinin önerdiği içme suyunu ekle; sıcak su koyma.</li><li>30 g orta öğütülmüş kahveyi filtreye koy, düzleştir.</li><li>Programı çalıştır; karaf yerinde olsun.</li><li>Bitince karafı hafifçe çevirerek karıştır, servis et.</li></ol><p class="note">Sıcak plakada uzun bekleyen kahvenin tadı değişir; ihtiyacın kadar demle.</p><a class="link" href="#/kahveler?yontem=makine">Makinen için kahve seç</a></div>
+      <div class="recipe"><p class="eyebrow">French press</p><h3>Kahveni pratik ve gövdeli seviyorsan.</h3><p class="spec">20 g kahve · 300 g su · orta-kalın öğütüm · 92–96 °C · 4 dk</p><ol><li>Hazneyi kontrol et; istersen sıcak suyla ısıt.</li><li>20 g kahveye 300 g suyu, tamamını ıslatarak dök.</li><li>Nazikçe karıştır; kapağı piston yukarıda yerleştir.</li><li>Yaklaşık 4 dakika demle.</li><li>Pistonu yavaşça indir; direnç varsa zorlama.</li><li>Kahveyi fincana aktar; haznede bırakma.</li></ol><a class="link" href="#/kahveler?yontem=frenchpress">French press için kahve seç</a></div>
+      <div class="recipe"><p class="eyebrow">Espresso</p><h3>Küçük fincan. Ayarı sende.</h3><p class="spec">18 g kahve · 36 g çıktı · ince öğütüm · 25–30 sn başlangıç hedefi</p><ol><li>Makineyi kılavuza göre ısıt; portafiltre temiz ve kuru.</li><li>Sepetine uygun dozu tart; örnekte 18 g.</li><li>Kahveyi eşit dağıt, düz ve dengeli sıkıştır.</li><li>Fincanı teraziye koy, sıfırla; 36 g'da durdur, süreyi not et.</li><li>Karıştır; biraz soğuyunca yeniden tat.</li></ol><p class="note">Akış çok hızlıysa daha ince, çok yavaşsa daha kalın. Her seferinde tek değişiklik.</p><a class="link" href="#/kahveler?yontem=espresso">Espresso için kahve seç</a></div>
+      <div class="recipe"><p class="eyebrow">Cold brew</p><h3>Kahveni soğuk demlemeyi seviyorsan.</h3><p class="spec">50 g kahve · 500 g içme suyu · kalın öğütüm · buzdolabında 14–18 saat</p><ol><li>Gıdaya uygun, kapaklı temiz bir cam kap seç.</li><li>50 g kahveye 500 g soğuk su; tamamı ıslanacak şekilde karıştır.</li><li>Kapağı kapat, buzdolabında 14–18 saat beklet.</li><li>Süzgeçten, gerekirse kâğıt filtreden geçir.</li><li>Tat; yoğunsa soğuk suyla ayarla.</li></ol><p class="note">Daha uzun süre her zaman daha iyi tat demek değildir. Küçük miktar hazırla, kısa sürede tüket.</p><a class="link" href="#/kahveler">Soğuk demleme için kahveleri incele</a></div>
+      <div class="recipe"><p class="eyebrow">Türk kahvesi</p><h3>Cezveden vazgeçmiyorsan.</h3><p class="spec">Fincan başına 7 g çok ince öğütüm · 70 g su</p><ol><li>Kahveyi ve oda sıcaklığındaki suyu cezveye koy; şeker tercihine göre.</li><li>Ocağa almadan topaklar dağılana kadar karıştır.</li><li>Düşük ateşte, cezveyi gözeterek ısıt.</li><li>Köpük yükselmeye başlayınca taşırmadan ocaktan al.</li><li>Fincana dök; telve çökene kadar kısa süre bekle.</li></ol><p class="note">Köpük görünümün bir parçasıdır; tek başına kalite ölçüsü değildir.</p><a class="link" href="#/kahveler?yontem=cezve">Kahveleri incele</a></div>
+    </div>
+    <div class="card" style="margin-top:22px"><h3>Bütün rehberler için ortak yaklaşım</h3><ul><li>Bunlar başlangıç reçeteleri. Kahveye, ekipmana ve damak tadına göre ayarlanabilir; tek bir süre veya oran kusursuz sonucun garantisi değildir.</li><li>Mümkünse tart. Gram cinsinden ölçü aynı tarifi yeniden hazırlamayı kolaylaştırır.</li><li>Bir seferde bir şeyi değiştir.</li><li>Önce ekipmanını tanı; özellikle basınçlı ve elektrikli ekipmanda kendi kullanım kılavuzun önceliklidir.</li></ul></div>
+  </div></section>
+</div>
+
+<!-- ================= İŞLETMELER · Kitap 12 ================= -->
+<div class="page" id="p-isletmeler">
+  <section class="band" style="padding:0;min-height:clamp(280px,44vh,480px)"><img src="assets/img/life/isletme.webp" alt=""><div class="in"><p class="eyebrow">İşletmeler için</p><h1 style="margin-top:8px;font-size:clamp(34px,4.6vw,64px);max-width:20ch">Misafiriniz bir fincan daha istiyorsa, oradan başlayalım.</h1><p style="margin-top:8px">İşletmenize uygun kahve, reçete ve ekip desteği.</p></div></section>
+  <section><div class="wrap">
+    <p class="lede">Bir kafede, restoranda veya ofiste kahve seçimi yalnızca çekirdekle bitmez. Ekipman, servis hızı, menü ve günlük tüketim birlikte düşünülür. Nomia ile önce nasıl bir kahve sunmak istediğinizi konuşalım.</p>
+    <div class="grid g2" style="margin-top:22px">
+      <div class="card"><h3>Kahveyi birlikte seçelim</h3><p>Sade espresso, sütlü içecekler veya filtre kahve. Menünüzde hangi içeceklerin öne çıktığını, misafirlerinizin ne sevdiğini ve ekibinizin nasıl çalıştığını değerlendirelim. Seçenekleri tadım üzerinden karşılaştıralım.</p></div>
+      <div class="card"><h3>Reçeteyi uygulanabilir hâle getirelim</h3><p>İyi bir fincanın yoğun bir servis saatinde de hazırlanabilmesi önemli. Kahve miktarı, öğütüm, çıktı ve hazırlama adımlarını ekipmanınıza uygun bir başlangıç reçetesinde buluşturalım.</p></div>
+      <div class="card"><h3>Ekibi destekleyelim</h3><p>Öğütüm, espresso, süt hazırlama ve bar akışı üzerine eğitim ihtiyaçlarını belirleyelim. Eğitim kapsamını, katılımcı sayısını ve çalışma biçimini işletmenizle birlikte planlayalım.</p></div>
+      <div class="card"><h3>Tedariki konuşalım</h3><p>Günlük tüketiminiz, depolama koşullarınız ve sipariş düzeniniz üzerinden ilerleyelim. Ürün, miktar, gönderim ve ticari koşulları teklif aşamasında netleştirelim.</p></div>
+    </div>
+    <div class="card" style="margin-top:18px"><h3>İş birliğini konuşalım</h3><p>İşletmenizi kısaca anlatın. Size uygun çalışma kapsamını birlikte değerlendirelim.</p><form class="grid g3" style="margin-top:12px" onsubmit="event.preventDefault();document.getElementById('toast').textContent='Form canlı sürümde gönderilir.';document.getElementById('toast').classList.add('show');setTimeout(function(){document.getElementById('toast').classList.remove('show')},2200)">
+      <label>İşletme adı<input required style="width:100%;margin-top:4px;padding:10px;border:1.5px solid var(--line);border-radius:8px;background:var(--paper);color:var(--ink);font:15px Manrope"></label>
+      <label>Şehir<input required style="width:100%;margin-top:4px;padding:10px;border:1.5px solid var(--line);border-radius:8px;background:var(--paper);color:var(--ink);font:15px Manrope"></label>
+      <label>İletişim<input required style="width:100%;margin-top:4px;padding:10px;border:1.5px solid var(--line);border-radius:8px;background:var(--paper);color:var(--ink);font:15px Manrope"></label>
+      <label>Kullanılan ekipman<input style="width:100%;margin-top:4px;padding:10px;border:1.5px solid var(--line);border-radius:8px;background:var(--paper);color:var(--ink);font:15px Manrope"></label>
+      <label>Yaklaşık tüketim<input style="width:100%;margin-top:4px;padding:10px;border:1.5px solid var(--line);border-radius:8px;background:var(--paper);color:var(--ink);font:15px Manrope"></label>
+      <label>İhtiyaç<input style="width:100%;margin-top:4px;padding:10px;border:1.5px solid var(--line);border-radius:8px;background:var(--paper);color:var(--ink);font:15px Manrope"></label>
+      <div style="grid-column:1/-1"><button class="btn navy" type="submit">İş birliğini konuşalım</button></div></form></div>
+    <p class="note" style="margin-top:12px">B2B ve eğitim desteği mevcuttur. Bedelsiz ekipman, sınırsız danışmanlık, kesintisiz stok veya belirli yanıt süresi vaat edilmez.</p>
+  </div></section>
+</div>
+
+<!-- ================= BARİSTA EĞİTİMİ · Kitap 13 ================= -->
+<div class="page" id="p-egitim">
+  <section class="band" style="padding:0;min-height:clamp(280px,44vh,480px)"><img src="assets/img/life/egitim.webp" alt=""><div class="in"><p class="eyebrow">Nomia barista eğitimi</p><h1 style="margin-top:8px;font-size:clamp(34px,4.6vw,64px);max-width:20ch">"Bir dahaki fincanı daha iyi yaparım" diyorsan.</h1></div></section>
+  <section><div class="wrap">
+    <p class="lede">İyi kahve hazırlamak, neyi neden değiştirdiğini anlamakla kolaylaşır. Nomia barista eğitimlerinde öğütümden demlemeye, espresso reçetesinden süt hazırlamaya kadar fincandaki tadı etkileyen adımları birlikte çalışıyoruz.</p>
+    <div class="grid g3" style="margin-top:22px">
+      <div class="card"><h4>Kahveyi tanıma</h4><p>Temel kavramlar, tadım ve kahvenin özelliklerini tarif etme.</p></div>
+      <div class="card"><h4>Öğütüm ve demleme</h4><p>Ölçü, oran, süre ve suyun sonuçla ilişkisi.</p></div>
+      <div class="card"><h4>Espresso</h4><p>Ekipmanı hazırlama, kahveyi dağıtma ve reçeteyi takip etme.</p></div>
+      <div class="card"><h4>Süt ve servis</h4><p>Süt dokusu, temel latte art ve hazırlama düzeni.</p></div>
+      <div class="card"><h4>Bar akışı</h4><p>Ekipman kullanımı, temizlik ve servis sırasında tutarlılık.</p></div>
+      <div class="card"><h4>Kimin için?</h4><p>Evde hazırladığı kahveyi daha iyi anlamak isteyenler, barista olarak gelişmek isteyenler ve ekip eğitimini planlayan işletmeler için.</p></div>
+    </div>
+    <div class="card" style="margin-top:18px;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:12px"><div><h3>Nasıl katılabilirsin?</h3><p>İzmir'deki eğitimlerin güncel takvimi, içerik kapsamı ve katılım koşulları için bize yaz. İşletme ekibin için eğitim istiyorsan ekipmanını ve katılımcı sayısını da paylaş.</p></div><div style="display:flex;gap:10px;flex-wrap:wrap"><a class="btn navy" href="mailto:[EPOSTA]?subject=Barista%20e%C4%9Fitimi">Eğitim bilgisi al</a><a class="btn ghost" href="#/isletmeler">İşletmem için eğitim planla</a></div></div>
+  </div></section>
+</div>
+
+<!-- ================= BLOG · Kitap 16–20 ================= -->
+<div class="page" id="p-blog">
+  <section><div class="wrap">
+    <p class="eyebrow">Blog</p><h1 style="margin-top:8px;font-size:clamp(34px,4.6vw,64px)">Kahveni biraz daha tanı.</h1>
+    <p class="lede" style="margin-top:12px">Tadını sevdiğin kahveyi nasıl seçtiğini, nasıl hazırladığını ve fincanındaki farkı neyin yarattığını merak ediyorsan, buradan başlayabilirsin.</p>
+    <div class="grid g4" style="margin-top:24px">
+      <a class="cf" href="#/blog/espresso" style="text-decoration:none"><div class="ph"><img src="assets/img/life/blog1.webp" alt=""><span class="bl">Kahve seçimi</span></div><div class="body"><h4>Espressoyu küçük, tadını yoğun seviyorsan.</h4><p class="note">Espressoyu yalnızca "sert kahve" diye düşünme. Yoğunluğu, dengesi ve evde hazırlarken dikkat edebileceğin adımlarla tanış.</p></div></a>
+      <a class="cf" href="#/blog/nitelik" style="text-decoration:none"><div class="ph"><img src="assets/img/life/blog2.webp" alt=""><span class="bl">Kahve bilgisi</span></div><div class="body"><h4>Nitelikli kahve: Etiketten fincana ne değişir?</h4><p class="note">Bir puan, bir köken adı ve birkaç tadım notu sana ne söyler?</p></div></a>
+      <a class="cf" href="#/blog/tazelik" style="text-decoration:none"><div class="ph"><img src="assets/img/life/blog3.webp" alt=""><span class="bl">Kahve bilgisi</span></div><div class="body"><h4>Kavurma tarihine bakıyorsan, devamını da bil.</h4><p class="note">Tazelik yalnızca bir tarih değil. Dinlendirme, ambalaj ve saklama alışkanlıklarını birlikte düşün.</p></div></a>
+      <a class="cf" href="#/blog/abonelik" style="text-decoration:none"><div class="ph"><img src="assets/img/life/blog4.webp" alt=""><span class="bl">Kahve düzeni</span></div><div class="body"><h4>Kahven ne kadar gidiyor? Aboneliğe oradan başla.</h4><p class="note">Paket büyüklüğünü fincan sayısıyla birlikte düşün.</p></div></a>
+    </div>
+  </div></section>
+  <section class="dark"><div class="wrap" style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:16px"><div><h2>Okudun. Şimdi demleyelim.</h2><p>Ekipmanına göre başlangıç reçetelerini ve uygulama adımlarını bul.</p></div><a class="btn sand" href="#/demleme">Demleme rehberlerine git</a></div></section>
+</div>
+
+<div class="page" id="p-blog-espresso"><section><div class="wrap article">
+  <p class="eyebrow">Blog · Kahve seçimi</p><h1 style="font-size:clamp(32px,4vw,52px)">Espressoyu küçük, tadını yoğun seviyorsan.</h1>
+  <p>Espresso bazen tek kelimeyle anlatılıyor: sert. Oysa küçük bir fincanda karşılaştığın yoğunluk, tek başına kahvenin acı olması gerektiği anlamına gelmez. Tadın dengesi, dokusu ve bitişi de o fincanın parçasıdır.</p>
+  <p>Espressoyu seviyorsan, sana uygun kahveyi seçmek için yalnızca "güçlü" yazan paketleri aramana gerek yok. Önce nasıl içtiğine bak: tek başına mı, su ekleyerek mi, sütle mi? Beklediğin tat bu seçime göre değişebilir.</p>
+  <h2>Yoğunluk başka, acılık başka</h2>
+  <p>Espresso, az miktarda suyla hazırlanan yoğun bir kahve içeceğidir. Bir yudumda çok belirgin tat alabilirsin. Ama yoğunluğu sevmen, rahatsız edici acılığı da sevmen gerektiği anlamına gelmez. Bazı kahvelerde meyvemsi canlılık, bazılarında kakao veya karamel çağrışımları öne çıkabilir. Seçtiğin kahvenin gerçek tadım notlarını incelemek, ne bekleyeceğini anlamana yardımcı olur.</p>
+  <h2>Sade mi, sütlü mü?</h2>
+  <p>"Kahvemi sade içerim" diyorsan, kahvenin kendi karakteri senin için daha görünür olabilir. Süt ekliyorsan, fincanda kahve ile sütün birlikte nasıl bir tat oluşturduğuna bakarsın. İki tercih de geçerlidir. Önemli olan fincanın sana nasıl geldiği. Bu yüzden "süt kahveyi bozar" gibi bir kurala ihtiyacımız yok. Doğru soru daha basit: Sen nasıl seviyorsun?</p>
+  <h2>Aynı kahve, farklı sonuç</h2>
+  <p>Kullandığın kahve miktarı, öğütüm, fincana aldığın içecek miktarı ve ekipmanın durumu sonucu değiştirebilir. Bir başlangıç reçetesi belirle. Kahveyi ve çıktıyı tart, süreyi not et, tadına bak. Fincanda bir şeyi değiştirmek istediğinde tek değişkenle ilerlemek farkı anlamanı kolaylaştırır.</p>
+  <h2>Bir sonraki fincan</h2>
+  <p>Espressoyu küçük, tadını yoğun seviyorsan, seçimini bu tercihten başlat. Kahvenin bilgilerine bak, ekipmanına uygun öğütümü seç ve reçeteni tadına göre geliştir. Nomia. Sana kavruldu.</p>
+  <div style="display:flex;gap:12px;flex-wrap:wrap"><a class="btn primary" href="#/kahveler?yontem=espresso">Espresso için kahveleri incele</a><a class="btn ghost" href="#/demleme">Evde espresso hazırlama</a></div>
+</div></section></div>
+
+<div class="page" id="p-blog-nitelik"><section><div class="wrap article">
+  <p class="eyebrow">Blog · Kahve bilgisi</p><h1 style="font-size:clamp(32px,4vw,52px)">Nitelikli kahve: Etiketten fincana ne değişir?</h1>
+  <p>Bir pakette ülke adı, işleme yöntemi, tadım notları ve bazen bir değerlendirme puanı görürsün. Hepsi aynı soruya farklı bir yerden yaklaşır: Bu kahveyi diğerinden ayıran ne? İyi bir seçim yapmak için kahve uzmanı olman gerekmiyor. Kendi damak tadını, kullandığın ekipmanı ve ürünün açıkça anlattığı özellikleri birlikte düşünmen yeterli bir başlangıç.</p>
+  <h2>Bilgi, seçimi kolaylaştırmalı</h2>
+  <p>Köken bilgisi kahvenin yetiştiği yeri anlatır. İşleme bilgisi, hasattan sonra nasıl hazırlandığına dair bir fikir verir. Tadım notları ise fincanda algılanabilecek çağrışımları tarif eder. Bunların hiçbiri tek başına "bu kahveyi kesin seversin" demez.</p>
+  <h2>Bir puandan fazlası</h2>
+  <p>Bir değerlendirme puanı, belirli bir yöntemle yapılmış tadımın bilgisi olabilir. Ancak kişisel beğeninin yerine geçmez. Puanı yüksek diye bir kahveyi sevmek zorunda değilsin. Ne sevdiğini öğrenmek, doğru seçime ulaşmak için en az ürün bilgisi kadar değerlidir.</p>
+  <h2>Tadım notlarını nasıl okumalı?</h2>
+  <p>"Kakao" veya "meyvemsi" gibi ifadeler, tadım sırasında algılanan çağrışımları anlatır. Aynı kelimeyi düşünmesen de kahveyi beğenebilirsin. Önce daha basit sorular sor: İçimi sana hafif mi geliyor, yoğun mu? Canlı tatları mı seviyorsun, daha sakin bir dengeyi mi?</p>
+  <h2>Nereden başlamalı?</h2>
+  <p>Aynı yöntemle iki farklı kahveyi karşılaştır. Ölçüleri mümkün olduğunca aynı tut. Birkaç yudum sonra hangisini neden tercih ettiğini kendi kelimelerinle not et. Kahvede ne sevdiğini öğrenmek istiyorsan, sana kavruldu.</p>
+  <div><a class="btn primary" href="#/tadim-seti">Tadım setini incele</a></div>
+</div></section></div>
+
+<div class="page" id="p-blog-tazelik"><section><div class="wrap article">
+  <p class="eyebrow">Blog · Kahve bilgisi</p><h1 style="font-size:clamp(32px,4vw,52px)">Kavurma tarihine bakıyorsan, devamını da bil.</h1>
+  <p>Kahve seçerken kavurma tarihini görmek iyi bir başlangıç. Ne aldığını bilmeni sağlar. Ancak tarih tek başına fincandaki tadı açıklamaz. Kavrum, ambalaj, saklama ve demleme de birlikte düşünülmeli. Kavurma sonrasında çekirdekten gaz çıkışı devam eder; dinlendirme ihtiyacı kahveye ve hazırlanışına göre değişebilir.</p>
+  <h2>Tarihi kontrol et, öneriyi de oku</h2>
+  <p>Paket üzerindeki kavurma tarihine bak. Ürüne özel bir dinlendirme veya demleme önerisi varsa onu da incele. Böyle bir bilgi yoksa varsayım yapmak yerine sor.</p>
+  <h2>Paket açıldıktan sonra</h2>
+  <p>Günlük kullandığın kahveyi serin, kuru ve doğrudan güneş almayan bir yerde tut. Paketi her kullanımın ardından kapat. Kahveyi geniş bir kavanoza boşaltmak tek başına tazeliği korumaz; önemli olan kapatılabilen uygun bir ambalaj ve kahvenin ısı, nem ve havayla temasını azaltan bir kullanım düzenidir.</p>
+  <h2>Çok almak her zaman daha uygun olmak değildir</h2>
+  <p>Büyük bir paket tüketim hızına uyuyorsa kullanışlıdır. Kahveyi yavaş tüketiyorsan daha küçük miktarlarla ilerlemeyi düşün. Paket büyüklüğünü evde kaç kişinin kahve içtiği, hangi reçeteyle demlediğin ve haftada kaç kez kahve hazırladığınla birlikte seç.</p>
+  <h2>Fincanı da dinle</h2>
+  <p>Tarihi bilmek tadı değerlendirmeyi kolaylaştırır; tadın yerine geçmez. Nomia'da kahvenin nereden geldiği kadar, ne zaman kavrulduğunu da bilmeni istiyoruz. Bilgisine bak, nasıl sevdiğine göre seç.</p>
+  <div><a class="btn primary" href="#/kahveler">Kahveleri incele</a></div>
+</div></section></div>
+
+<div class="page" id="p-blog-abonelik"><section><div class="wrap article">
+  <p class="eyebrow">Blog · Kahve düzeni</p><h1 style="font-size:clamp(32px,4vw,52px)">Kahven ne kadar gidiyor? Aboneliğe oradan başla.</h1>
+  <p>Abonelik seçerken ilk bakılan şey çoğu zaman paket fiyatı oluyor. Oysa daha önce cevaplanması gereken basit bir soru var: Sen ne kadar kahve tüketiyorsun? Her gün bir fincan hazırlayan biriyle, iki kişinin günde birkaç kez kahve içtiği bir evin ihtiyacı aynı değil.</p>
+  <h2>Fincan sayısını gramla birlikte düşün</h2>
+  <p>Kullandığın tarifte bir fincan için 15 g kahve harcıyorsan, 250 g paket yaklaşık 16 fincan eder. Aynı ölçüyle 500 g yaklaşık 33 fincan verir. Kendi ölçünü esas al; bir hafta boyunca ne kadar kahve kullandığını not etmek, tahminden daha işe yarar bir başlangıçtır.</p>
+  <h2>Düzenli gönderim sana ne sağlar?</h2>
+  <p>Sevdiğin kahve belliyse, yeniden sipariş verme adımını azaltabilir. Ama sırf abonelik var diye ihtiyacından fazla kahve almana gerek yok. Planı seçerken içeriğine, gönderim aralığına ve toplam tahsilat tutarına birlikte bak. Dört haftada bir yenilenen bir plan ile takvim ayında bir yenilenen plan aynı değildir.</p>
+  <h2>Hayatın değişirse plan da değişebilmeli</h2>
+  <p>Satın almadan önce değişiklik, ara verme ve iptal koşullarını oku. İşlemin nasıl yapıldığını ve hangi tarihe kadar yapılabildiğini bil.</p>
+  <h2>Önce tadını bul</h2>
+  <p>Henüz sevdiğin kahveyi seçmediysen, abonelik ilk adım olmak zorunda değil. Farklı kahveleri küçük paketlerle karşılaştır. Bir fincanla yetinmiyorsan, sana kavruldu. Ne kadar alacağına ise kendi kahve düzenine bakarak karar ver.</p>
+  <div><a class="btn primary" href="#/abonelik">Abonelik seçeneklerini incele</a></div>
+</div></section></div>
+
+<!-- ================= HAKKIMIZDA · Kitap 10 ================= -->
+<div class="page" id="p-hakkimizda">
+  <section style="padding:0"><div class="split"><figure><img src="assets/img/life/hakkimizda.webp" alt=""></figure><div class="txt">
+    <p class="eyebrow">Hakkımızda</p><h1 style="font-size:clamp(34px,4.6vw,60px)">Kahveni nasıl sevdiğinle ilgileniyoruz.</h1>
+    <p class="lede">Bazılarımız ilk fincanı sade içer. Bazılarımız sütü eklemeden kahvesine dokunmaz. Birimiz V60'ın başında ölçü tutar, birimiz makinenin düğmesine basıp güne devam eder.</p>
+    <p style="color:var(--muted)">Nomia'da başlangıç noktamız bu: Kahve konusunda herkesin aynı şeyi sevmesi gerekmiyor. Biz, kahveni seçerken neyle karşılaşacağını bilmeni istiyoruz. Fincanda nasıl bir tat aradığını, hangi ekipmanı kullandığını ve ne kadar kahve tükettiğini önemsiyoruz.</p>
+  </div></div></section>
+  <section><div class="wrap grid g2">
+    <div class="card"><h3>Seçerken de demlerken de</h3><p>Tadım notları, öğütüm seçenekleri ve demleme rehberleri; kahveyi daha karmaşık göstermek için değil, işini kolaylaştırmak için var. Kahvenin nereden geldiğini merak edersen kökenine bakabilirsin. Önceliğin her sabah sevdiğin fincanı hazırlamaksa, oradan başlayabiliriz.</p></div>
+    <div class="card"><h3>İyi bir fincanın devamı</h3><p>Bir kahveyi sevdiğinde ona yeniden ulaşabilmek de deneyimin parçası. Abonelik fikrimiz, bu devamlılığı kolaylaştırmak üzerine kurulu. Seçimini yaparken de paketi açtıktan sonra da sorularına yer var.</p></div>
+  </div><div class="wrap" style="margin-top:24px"><p class="lede">Kahveni nasıl sevdiğini sen söylersin. Biz o tercihe uygun seçenekleri bulmana yardımcı oluruz. Nomia. Sana kavruldu.</p><div style="margin-top:14px"><a class="btn primary" href="#/bana-kavur">Bana kavur</a></div></div></section>
+</div>
+
+<!-- ================= SSS · Kitap 14–15 ================= -->
+<div class="page" id="p-sss"><section><div class="wrap" style="max-width:880px">
+  <p class="eyebrow">Sıkça sorulan sorular</p><h1 style="margin-top:8px;margin-bottom:18px;font-size:clamp(34px,4.6vw,60px)">Kahveni seçmeden önce.</h1>
+  <details class="faq" open><summary>Nomia nasıl bir kahve markası?</summary><p>Nomia, kahveni damak tadına ve demleme yöntemine göre seçmeni kolaylaştırmak isteyen bir kahve markası. Ürün bilgileri, öğütüm seçenekleri ve demleme rehberleriyle seçimini destekliyoruz.</p></details>
+  <details class="faq"><summary>"Sana kavruldu" ne demek?</summary><p>Kahveyi nasıl sevdiğini önemsediğimiz anlamına geliyor. Sade veya sütlü, filtre veya espresso: sana uygun seçeneği bulmanı istiyoruz.</p></details>
+  <details class="faq"><summary>"Bana kavur" siparişe özel kavurma mı?</summary><p>"Bana kavur", sana uygun kahveyi seçmeye başladığın alan. Burada damak tadına ve demleme yöntemine göre mevcut kahveleri keşfedersin. Siparişe özel kavurma hizmeti sunulduğu anlamına gelmez.</p></details>
+  <details class="faq"><summary>Hangi kahveyle başlamalıyım?</summary><p>Önce kullandığın ekipmanı, sonra sevdiğin tatları düşün. Kararsızsan dört farklı kahveyi içeren tadım setiyle karşılaştırma yapabilir veya bize nasıl kahve sevdiğini anlatabilirsin.</p></details>
+  <details class="faq"><summary>Çekirdek mi, öğütülmüş mü almalıyım?</summary><p>Kendi öğütücün varsa çekirdek tercih edebilirsin. Öğütülmüş alacaksan ürün sayfasında kullandığın ekipmanı seç. Her ürün için sunulan seçenekleri sipariş sırasında görebilirsin.</p></details>
+  <details class="faq"><summary>Tadım notları kahveye aroma eklendiği anlamına mı gelir?</summary><p>Tadım notları, kahveyi içerken algılanan tat ve koku çağrışımlarını tarif eder. Bir ürünün içeriğine ilişkin bilgi için ürün açıklamasına bakmalısın; tadım notunu içerik listesi gibi okumamalısın.</p></details>
+  <details class="faq"><summary>Kavurma tarihini nereden öğrenebilirim?</summary><p>Kavurma tarihini paket üzerinde görebilirsin. Kahvenin demleme ve dinlendirme önerileri için ürün bilgilerini inceleyebilir veya bize yazabilirsin.</p></details>
+  <h3 style="margin:26px 0 6px">Siparişten sonra da buradayız.</h3>
+  <details class="faq"><summary>Kahvemi nasıl saklamalıyım?</summary><p>Günlük kullanım için kahveni serin, kuru ve doğrudan ışık almayan bir yerde tut. Paketi her kullanımdan sonra sıkıca kapat; ısı, nem ve sık hava temasıyla karşılaşmasını azalt.</p></details>
+  <details class="faq"><summary>Siparişim ne zaman kargoya verilir?</summary><p>Siparişleri genellikle 1-3 iş günü içinde kargoya teslim ediyoruz. Bu süre kargoya verilişi ifade eder; adresine ulaşma süresi ayrıca değişebilir. Kargo takip bilgisi oluştuğunda seninle paylaşılır.</p></details>
+  <details class="faq"><summary>Kahvenin tadı beklediğim gibi değilse?</summary><p>Hangi kahveyi, hangi ekipmanla ve hangi ölçülerle demlediğini bize yaz. Seçim ve demleme adımlarına birlikte bakalım. Hasarlı veya yanlış ürün geldiyse sipariş bilgilerinle iletişime geç.</p></details>
+  <details class="faq"><summary>Abonelikte ne sıklıkla kahve gelir?</summary><p>Gönderim aralığı seçtiğin plana bağlıdır. Planı seçerken paket içeriğini, gönderim aralığını ve yenileme tutarını birlikte kontrol et.</p></details>
+  <details class="faq"><summary>Aboneliğimi değiştirebilir veya iptal edebilir miyim?</summary><p>İşlem yöntemi ve zaman sınırları seçtiğin planın koşullarında açıklanır. Yenilemeden önce bu bilgileri kontrol et; bir konuda yardıma ihtiyacın varsa bize yaz.</p></details>
+  <details class="faq"><summary>İşletmem için nasıl görüşebilirim?</summary><p>İşletmeler için sayfasından bize ulaşabilirsin. Ekipmanını, yaklaşık tüketimini ve aradığın kahve deneyimini paylaşman görüşmeye iyi bir başlangıç olur.</p></details>
+  <details class="faq"><summary>Kahvelerin sertifikaları veya tadım puanları var mı?</summary><p>Bir kahveye ait doğrulanmış sertifika veya değerlendirme bilgisi varsa ilgili ürün sayfasında belirtilir. Ayrıntılı bilgi için ürün adıyla birlikte bize ulaşabilirsin.</p></details>
+</div></section></div>
+</main>
+
+<dialog class="prod" id="prod"></dialog>
+<dialog class="cart" id="cart"></dialog>
+<div class="toast" id="toast"></div>
+
+<footer><div class="wrap">
+  <div><a class="logo" href="#/ana">nomia<small>coffee and roastery</small></a><p style="margin-top:12px;max-width:38ch">Nomia. Sana kavruldu.</p></div>
+  <div><p class="mono" style="color:var(--sand);margin-bottom:10px">Site</p><ul><li><a href="#/kahveler">Kahveler</a></li><li><a href="#/abonelik">Abonelik</a></li><li><a href="#/hediye">Hediye</a></li><li><a href="#/ekipman">Ekipman &amp; merch</a></li><li><a href="#/hakkimizda">Hakkımızda</a></li><li><a href="#/sss">Sıkça sorulan sorular</a></li><li><a href="mailto:[EPOSTA]">İletişim</a></li></ul></div>
+  <div><p class="mono" style="color:var(--sand);margin-bottom:10px">İşletmeler için</p><p>Menünüzdeki kahveyi birlikte seçelim.</p><p style="margin-top:8px"><a href="#/isletmeler" class="link">İş birliğini konuşalım</a></p></div>
+  <div class="legal">Nomia Kahve Üretim Danışmanlık Ticaret Limited Şirketi · Egemenlik Mahallesi 6106 Sk. No:38/1 Bornova / İzmir · © 2026 Nomia</div>
+</div></footer>
+
+<script>
+window.NOMIA={"plans": [{"id": "baslangic", "ad": "Başlangıç", "miktar": "250 g / ay", "siklik": "4 haftada bir", "fincan": "≈ 16 fincan", "hediye": "Nomia seramik kupa", "kim": "Günde bir fincan içen, tek kişi.", "sonraki": "10. paket ücretsiz"}, {"id": "sabit", "ad": "Sabit", "miktar": "2 × 250 g ya da 500 g / ay", "siklik": "2 ya da 4 haftada bir", "fincan": "≈ 33 fincan", "hediye": "V60 başlangıç seti", "kim": "İki kişilik ev ya da günde iki fincan.", "sonraki": "10. paket ücretsiz", "one": true}, {"id": "tutkulu", "ad": "Tutkulu", "miktar": "4 × 250 g ya da 1 kg / ay", "siklik": "2 haftada bir", "fincan": "≈ 66 fincan", "hediye": "El değirmeni", "kim": "Her gün birkaç kez demleyen, farklı kahve deneyen.", "sonraki": "6. ayda gooseneck kettle · 10. paket ücretsiz"}, {"id": "ofis", "ad": "Ofis", "miktar": "1 kg ve üzeri", "siklik": "Haftada ya da 2 haftada bir", "fincan": "Ekibe göre", "hediye": "Yarım günlük barista eğitimi", "kim": "Ofis ve küçük işletmeler.", "sonraki": "Ayda bir kalibrasyon ziyareti", "b2b": true}], "gifts": [{"id": "h3", "ad": "3 ay", "icerik": "3 × 250 g", "hediye": "Nomia kupa", "ek": "Hediye kutusu ve el yazısı kart", "img": "kutu"}, {"id": "h6", "ad": "6 ay", "icerik": "6 × 250 g", "hediye": "Nomia kupa + V60 seti", "ek": "Özel seçki bir kez dahil", "img": "kutu4", "one": true}, {"id": "h12", "ad": "12 ay", "icerik": "12 × 250 g", "hediye": "El değirmeni + kupa", "ek": "Özel seçki dört kez dahil", "img": "kutu-kart"}], "bundles": [{"id": "filtre", "ad": "Filtre paketi", "icerik": "Sabit plan + gooseneck kettle + cam server", "not_": "V60 seti zaten planın hediyesi.", "img": "v60"}, {"id": "espresso", "ad": "Espresso paketi", "icerik": "Tutkulu plan + hassas terazi", "not_": "El değirmeni zaten planın hediyesi.", "img": "terazi"}, {"id": "cezvep", "ad": "Cezve paketi", "icerik": "Başlangıç plan (cezve öğütümü) + bakır cezve + iki fincan", "not_": "Sumatra ya da Cerrado ile önerilir.", "img": "cezve"}], "equip": [{"id": "e-v60", "ad": "V60 başlangıç seti", "a": "Dripper 02, 40 kâğıt filtre, ölçü kaşığı. 1–4 fincan.", "etiket": "Sabit planda hediye", "img": "v60"}, {"id": "e-degirmen", "ad": "El değirmeni", "a": "Çelik konik bıçak, 30 g hazne, kademeli ayar.", "etiket": "Tutkulu planda hediye", "img": "degirmen"}, {"id": "e-fp", "ad": "French press", "a": "Cam hazne, çelik filtre. 350 ml ya da 1 L.", "etiket": "2 boy", "img": "frenchpress"}, {"id": "e-cezve", "ad": "Bakır cezve", "a": "Kalaylı iç yüzey, ahşap sap. 2 kişilik.", "etiket": "Cezve paketi", "img": "cezve"}, {"id": "e-terazi", "ad": "Hassas terazi", "a": "0,1 g hassasiyet, zamanlayıcı, 2 kg kapasite.", "etiket": "Espresso paketi", "img": "terazi"}, {"id": "e-moka", "ad": "Moka pot", "a": "Alüminyum, ocak üstü, 3 fincan.", "etiket": "3 fincan", "img": "moka"}], "merch": [{"id": "m-kupa", "ad": "Nomia kupa 300 ml", "a": "Seramik, mat sır. Bulaşık makinesine uygun.", "etiket": "Başlangıç planda hediye", "img": "kupa"}, {"id": "m-termos", "ad": "Termos 500 ml", "a": "Çift cidarlı çelik, 8 saat sıcak tutar.", "etiket": "Yol için", "img": "termos"}, {"id": "m-canta", "ad": "Kanvas çanta", "a": "Ham kanvas, tek renk baskı.", "etiket": "Doğal", "img": "canta"}, {"id": "m-tisort", "ad": "Tişört", "a": "%100 pamuk. Göğüste küçük nomia, sırtta baskı.", "etiket": "S–XL", "img": "tisort"}, {"id": "m-sapka", "ad": "Şapka", "a": "Pamuk, ayarlanabilir, nakışlı.", "etiket": "Tek beden", "img": "sapka"}, {"id": "m-kutu", "ad": "Hediye kutusu", "a": "Kraft kutu, kart, kupa ve seçtiğin 250 g.", "etiket": "Tek sefer", "img": "kutu"}], "coffees": [{"id": "cerrado", "ad": "Brezilya · Cerrado", "ulke": "Brezilya", "bolge": "Güney Amerika", "pfx": "BRAZIL_CERRADO", "notlar": ["Kakao", "Fındık", "Esmer şeker"], "govde": 3, "asidite": 1, "tat": "dengeli", "yontem": ["espresso", "moka", "makine"], "sut": "ikisi", "aciklama": "Yuvarlak, düşük asiditeli ve tanıdık. Sütle en çok eşleşen profil."}, {"id": "mogiana", "ad": "Brezilya · Mogiana", "ulke": "Brezilya", "bolge": "Güney Amerika", "pfx": "BRAZIL_MOGIANA", "notlar": ["Sütlü çikolata", "Fındık", "Karamel"], "govde": 2, "asidite": 1, "tat": "dengeli", "yontem": ["espresso", "makine", "frenchpress"], "sut": "ikisi", "aciklama": "Tatlı ve yumuşak. Sabah rutini için sorunsuz bir başlangıç."}, {"id": "medellin", "ad": "Kolombiya · Medellín", "ulke": "Kolombiya", "bolge": "Güney Amerika", "pfx": "COLOMBIA_MEDELLIN", "notlar": ["Karamel", "Kırmızı elma", "Sütlü çikolata"], "govde": 2, "asidite": 2, "tat": "dengeli", "yontem": ["makine", "v60", "espresso"], "sut": "ikisi", "aciklama": "Dengeli, temiz, her yöntemde çalışan bir Kolombiya."}, {"id": "aipe", "ad": "Kolombiya · Huila–Aipe", "ulke": "Kolombiya", "bolge": "Güney Amerika", "pfx": "COLOMBIA_HUILA-AIPE", "notlar": ["Kırmızı meyve", "Karamel", "Portakal"], "govde": 2, "asidite": 2, "tat": "meyvemsi", "yontem": ["v60", "makine"], "sut": "sade", "aciklama": "Meyvemsi başlar, karamelle biter. Sade içimde açılır."}, {"id": "algeciras", "ad": "Kolombiya · Huila–Algeciras", "ulke": "Kolombiya", "bolge": "Güney Amerika", "pfx": "COLOMBIA_HUILA-ALGECIRAS", "notlar": ["Şeftali", "Esmer şeker", "Kakao"], "govde": 2, "asidite": 2, "tat": "dengeli", "yontem": ["v60", "makine", "espresso"], "sut": "ikisi", "aciklama": "Sert çekirdekli meyve tatlılığı, kakaolu bitiş."}, {"id": "letty", "ad": "Kolombiya · El Paraíso–Letty", "ulke": "Kolombiya", "bolge": "Güney Amerika", "pfx": "COLOMBIA_FINCA-EL-PARAISO-LETTY", "notlar": ["Yasemin", "Tropikal meyve", "Bal"], "govde": 1, "asidite": 3, "tat": "meyvemsi", "yontem": ["v60"], "sut": "sade", "aciklama": "Geisha karakteri: çiçeksi, parlak, ince. Özel seçki.", "ozel": true}, {"id": "chirripo", "ad": "Kosta Rika · Chirripó", "ulke": "Kosta Rika", "bolge": "Orta Amerika", "pfx": "COSTA-RICA_CHIRRIPO-MOUNTAIN", "notlar": ["Bal", "Kırmızı elma", "Tarçın"], "govde": 2, "asidite": 2, "tat": "dengeli", "yontem": ["makine", "v60"], "sut": "ikisi", "aciklama": "Ballı, temiz, hafif baharatlı. Filtre için rahat bir seçim."}, {"id": "huehue", "ad": "Guatemala · Huehuetenango", "ulke": "Guatemala", "bolge": "Orta Amerika", "pfx": "GUATEMALA_HUEHUETENANGO", "notlar": ["Bitter çikolata", "Kırmızı meyve", "Tarçın"], "govde": 3, "asidite": 2, "tat": "govdeli", "yontem": ["espresso", "frenchpress", "moka"], "sut": "ikisi", "aciklama": "Yoğun ve çikolatalı; meyve alttan gelir. Espresso ve French press."}, {"id": "honduras", "ad": "Honduras · Inholer", "ulke": "Honduras", "bolge": "Orta Amerika", "pfx": "HONDURAS_INHOLER-RAIN-FOREST", "notlar": ["Karamel", "Kuru üzüm", "Kakao"], "govde": 2, "asidite": 1, "tat": "dengeli", "yontem": ["makine", "frenchpress"], "sut": "ikisi", "aciklama": "Tatlı, kuru meyveli, gövdesi orta. Makine ve French press."}, {"id": "volcan", "ad": "Panama · Volcán", "ulke": "Panama", "bolge": "Orta Amerika", "pfx": "PANAMA_VOLCAN", "notlar": ["Portakal çiçeği", "Turunçgil", "Bal"], "govde": 1, "asidite": 3, "tat": "meyvemsi", "yontem": ["v60"], "sut": "sade", "aciklama": "Çiçeksi ve turunçgilli, hafif gövde. Özel seçki.", "ozel": true}, {"id": "yirga", "ad": "Etiyopya · Yirgacheffe", "ulke": "Etiyopya", "bolge": "Afrika", "pfx": "ETHIOPIA_YIRGACHEFFE", "notlar": ["Bergamot", "Yasemin", "Limon"], "govde": 1, "asidite": 3, "tat": "meyvemsi", "yontem": ["v60", "makine"], "sut": "sade", "aciklama": "Çay gibi hafif, çiçeksi, parlak. Sade içenler için."}, {"id": "hambela", "ad": "Etiyopya · Guji–Hambela", "ulke": "Etiyopya", "bolge": "Afrika", "pfx": "ETHIOPIA_GUJI-HAMBELA", "notlar": ["Çilek", "Yaban mersini", "Bal"], "govde": 2, "asidite": 3, "tat": "meyvemsi", "yontem": ["v60", "makine"], "sut": "sade", "aciklama": "Meyveli ve tatlı; soğudukça meyve öne çıkar."}, {"id": "oromia", "ad": "Etiyopya · Oromia", "ulke": "Etiyopya", "bolge": "Afrika", "pfx": "ETHIOPIA_OROMIA", "notlar": ["Kırmızı meyve", "Siyah çay", "Kakao"], "govde": 2, "asidite": 2, "tat": "meyvemsi", "yontem": ["makine", "frenchpress", "v60"], "sut": "ikisi", "aciklama": "Meyve ile kakao arasında; sütle de dengesini korur."}, {"id": "sumatra", "ad": "Endonezya · Sumatra", "ulke": "Endonezya", "bolge": "Asya", "pfx": "INDONESIA_SUMATRA", "notlar": ["Toprak", "Sedir", "Bitter çikolata", "Tütün"], "govde": 3, "asidite": 1, "tat": "govdeli", "yontem": ["frenchpress", "cezve", "espresso"], "sut": "ikisi", "aciklama": "Koyu gövde, düşük asidite, topraksı. Cezve ve French press."}, {"id": "harman1", "ad": "Harman · Mogiana–Huehuetenango", "ulke": "Brezilya · Guatemala", "bolge": "Harman", "pfx": "BRAZIL_MOGIANA", "notlar": ["Sütlü çikolata", "Fındık", "Kırmızı meyve"], "govde": 3, "asidite": 1, "tat": "dengeli", "yontem": ["espresso", "moka", "makine"], "sut": "sutlu", "aciklama": "Sütlü içecekler için kurulmuş harman: çikolata önde, meyve arkada.", "harman": ["mogiana", "huehue"]}, {"id": "harman2", "ad": "Harman · Yirgacheffe–Medellín", "ulke": "Etiyopya · Kolombiya", "bolge": "Harman", "pfx": "ETHIOPIA_YIRGACHEFFE", "notlar": ["Karamel", "Turunçgil", "Çiçeksi"], "govde": 2, "asidite": 2, "tat": "meyvemsi", "yontem": ["v60", "makine"], "sut": "ikisi", "aciklama": "Filtre harmanı: Medellín'in tatlılığı, Yirgacheffe'nin parlaklığı.", "harman": ["yirga", "medellin"]}], "yontem": {"v60": "V60 / pour over", "makine": "Filtre kahve makinesi", "frenchpress": "French press", "espresso": "Espresso makinesi", "moka": "Moka pot", "cezve": "Türk kahvesi"}, "bolgeRenk": {"Güney Amerika": "#4B2C22", "Orta Amerika": "#D9432F", "Afrika": "#24503B", "Asya": "#3D6B87", "Harman": "#1F2A44"}, "wheel": [{"ad": "Meyve", "renk": "#C0392B", "alt": [{"ad": "Kırmızı meyve", "renk": "#D9534F", "n": ["Çilek", "Ahududu", "Kiraz", "Kırmızı elma"]}, {"ad": "Koyu meyve", "renk": "#7B2D4A", "n": ["Yaban mersini", "Böğürtlen", "Erik", "Siyah üzüm"]}, {"ad": "Turunçgil", "renk": "#E8A33D", "n": ["Limon", "Portakal", "Greyfurt", "Bergamot", "Mandalina"]}, {"ad": "Tropikal", "renk": "#E0B23A", "n": ["Ananas", "Mango", "Tropikal meyve", "Çarkıfelek"]}, {"ad": "Sert çekirdekli", "renk": "#E39A6B", "n": ["Şeftali", "Kayısı", "Nektarin"]}, {"ad": "Kuru meyve", "renk": "#A0522D", "n": ["Kuru üzüm", "Hurma", "İncir", "Kuru erik"]}]}, {"ad": "Çiçeksi", "renk": "#B77DBE", "alt": [{"ad": "Çiçek", "renk": "#C9A0DC", "n": ["Yasemin", "Gül", "Portakal çiçeği", "Papatya", "Lavanta", "Çiçeksi"]}]}, {"ad": "Tatlı", "renk": "#D4A017", "alt": [{"ad": "Şekerli", "renk": "#E2B84A", "n": ["Bal", "Karamel", "Esmer şeker", "Pekmez", "Akçaağaç"]}, {"ad": "Vanilya", "renk": "#EBD9A5", "n": ["Vanilya", "Krema"]}]}, {"ad": "Çikolata", "renk": "#5C3A21", "alt": [{"ad": "Kakao", "renk": "#7A4B2B", "n": ["Sütlü çikolata", "Bitter çikolata", "Kakao"]}]}, {"ad": "Kuruyemiş & Tahıl", "kisa": "Kuruyemiş", "renk": "#B08968", "alt": [{"ad": "Kuruyemiş", "renk": "#C49A6C", "n": ["Fındık", "Badem", "Ceviz", "Yer fıstığı"]}, {"ad": "Tahıl", "renk": "#D7B98C", "n": ["Ekmek kabuğu", "Malt", "Tahıl"]}]}, {"ad": "Baharat", "renk": "#B5541C", "alt": [{"ad": "Sıcak baharat", "renk": "#C96A2E", "n": ["Tarçın", "Karanfil", "Kakule", "Anason"]}, {"ad": "Keskin", "renk": "#8C3B12", "n": ["Karabiber", "Zencefil"]}]}, {"ad": "Bitkisel & Topraksı", "kisa": "Bitkisel", "renk": "#4E7A4F", "alt": [{"ad": "Çay & ot", "renk": "#7FA36B", "n": ["Siyah çay", "Yeşil çay", "Taze ot", "Bitkisel"]}, {"ad": "Topraksı", "renk": "#6B5B3E", "n": ["Toprak", "Tütün", "Deri", "Sedir", "Odunsu"]}]}, {"ad": "Kavrulmuş", "renk": "#3B2A22", "alt": [{"ad": "Kavrum", "renk": "#5A4033", "n": ["Dumanlı", "Tost", "Kavrulmuş tahıl", "Kül"]}]}, {"ad": "Fermente", "renk": "#7B2C5E", "alt": [{"ad": "Şarabımsı", "renk": "#9A4D7F", "n": ["Kırmızı şarap", "Rom", "Şarabımsı", "Aşırı olgun meyve"]}]}], "nota": {"Bergamot": "Earl Grey çayındaki koku. Yıkanmış Etiyopya kahvelerinde sık.", "Yasemin": "Hafif, çiçeksi; genelde açık kavrum ve yüksek rakım.", "Kakao": "Şekersiz kakao tozu gibi; kavrum orta-koyuya gidince belirginleşir.", "Fındık": "Kavrulmuş fındık; Brezilya ve sütlü içimle iyi.", "Karamel": "Isıtılmış şeker; orta kavrumun imzası.", "Toprak": "Nemli toprak, orman zemini; ıslak kabuk soyma işlemli Sumatra'da tipik.", "Esmer şeker": "Karamelden daha koyu, pekmezimsi tatlılık.", "Bal": "Sıvı bal tatlılığı ve yoğunluğu.", "Çilek": "Taze çilek; doğal işlemli Etiyopya kahvelerinde.", "Kırmızı elma": "Sulu, hafif ekşi tatlılık.", "Portakal": "Tatlı turunçgil; Kolombiya'da sık.", "Limon": "Parlak, keskin turunçgil asiditesi.", "Tarçın": "Sıcak baharat; Orta Amerika kahvelerinde.", "Sedir": "Odunsu, kuru; Sumatra'nın imzası.", "Tütün": "Kuru yaprak, hafif tatlı; koyu gövdeli kahvelerde.", "Siyah çay": "Demli çay tanenleri; ince gövdeli kahvelerde.", "Kuru üzüm": "Yoğun, kuru meyve tatlılığı.", "Şeftali": "Olgun sert çekirdekli meyve; yumuşak asidite.", "Tropikal meyve": "Ananas, mango çağrışımı; Geisha ve doğal işlemde.", "Portakal çiçeği": "Narin çiçek kokusu; Panama Geisha'da.", "Turunçgil": "Genel turunçgil parlaklığı.", "Çiçeksi": "Belirgin bir çiçek adı olmadan çiçek kokusu.", "Sütlü çikolata": "Tatlı, yumuşak çikolata.", "Bitter çikolata": "Yoğun, az tatlı çikolata; gövdeli kahvelerde.", "Kırmızı meyve": "Çilek, kiraz, ahududu arası genel meyvemsilik.", "Yaban mersini": "Koyu, tatlı meyve; doğal işlemli Guji'de."}};
+(function(){
+  document.documentElement.classList.add('js');
+  var D=window.NOMIA, C=D.coffees, Y=D.yontem, BR=D.bolgeRenk, W=D.wheel, NA=D.nota;
+  var byId={}; C.forEach(function(c){byId[c.id]=c;});
+  function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+  function toast(m){var el=document.getElementById('toast');el.textContent=m;el.classList.add('show');clearTimeout(toast.t);toast.t=setTimeout(function(){el.classList.remove('show');},2200);}
+  var pct=function(v){return [0,34,66,100][v]+'%';};
+  var TAT={dengeli:'Dengeli ve tanıdık',meyvemsi:'Meyvemsi ve canlı',govdeli:'Belirgin gövde ve yoğun'};
+  var SUT={sade:'Sade içim için',sutlu:'Sütlü içim için',ikisi:'Sade ya da sütlü'};
+
+  /* ---------- Kahve kartı ---------- */
+  function card(c,why){
+    return '<button type="button" class="cf" data-id="'+c.id+'" style="--c:'+BR[c.bolge]+'"><div class="ph"><img src="assets/img/farm/'+c.id+'.webp" alt="'+esc(c.ad)+' bölgesini temsil eden tarla" loading="lazy"><span class="bl">'+esc(c.bolge)+'</span></div><div class="body"><h4>'+esc(c.ad)+'</h4><p class="n">'+esc(c.notlar.join(' · '))+'</p><p class="m">'+esc(c.yontem.map(function(y){return Y[y].split(' /')[0];}).join(' · '))+'</p>'+(why?'<p class="why">'+esc(why)+'</p>':'')+'<div class="meter" style="--c:'+BR[c.bolge]+';margin-top:4px"><span>Gövde</span><i style="--v:'+pct(c.govde)+'"></i><span>Asidite</span><i style="--v:'+pct(c.asidite)+'"></i></div></div></button>';
+  }
+  document.addEventListener('click',function(e){var b=e.target.closest('.cf[data-id]');if(b) openProd(b.getAttribute('data-id'));});
+
+  /* ---------- Ürün detayı ---------- */
+  function openProd(id){
+    var c=byId[id]; if(!c) return;
+    var d=document.getElementById('prod');
+    d.innerHTML='<div class="pd" style="position:relative"><div class="imgs"><img src="assets/img/farm/'+c.id+'.webp" alt="'+esc(c.ad)+' bölgesini temsil eden kahve tarlası"><img src="assets/img/beans/'+c.id+'-macro.webp" alt="Çekirdek yakın plan"></div><div class="txt">'
+      +'<span class="tag" style="background:'+BR[c.bolge]+';color:#F3EEE5;align-self:flex-start">'+esc(c.bolge)+(c.ozel?' · Özel seçki':'')+'</span><h2 style="font-size:32px">'+esc(c.ad)+'</h2>'
+      +'<p style="color:var(--muted)">'+esc(c.aciklama)+'</p>'
+      +'<div class="notes" style="--c:'+BR[c.bolge]+'">'+c.notlar.map(function(n){return '<span>'+esc(n)+'</span>';}).join('')+'</div>'
+      +'<div class="meter" style="--c:'+BR[c.bolge]+'"><span>Gövde</span><i style="--v:'+pct(c.govde)+'"></i><span>Asidite</span><i style="--v:'+pct(c.asidite)+'"></i></div>'
+      +'<dl><dt>Köken</dt><dd>'+esc(c.ulke)+(c.harman?' · harman':'')+'</dd><dt>Kavrum</dt><dd>Orta</dd><dt>Demleme önerisi</dt><dd>'+esc(c.yontem.map(function(y){return Y[y];}).join(', '))+'</dd><dt>İçim</dt><dd>'+esc(SUT[c.sut])+'</dd><dt>Gramaj</dt><dd>250 g · 100 g (tadım seti)</dd><dt>Öğütüm</dt><dd>Çekirdek ya da ekipmanına göre öğütülmüş</dd><dt>Kavurma tarihi</dt><dd>Paketin üzerinde</dd></dl>'
+      +'<p class="note">Tadım notları bölge tipik profilidir; bu partinin doğrulanmış notları eklendikçe güncellenir. Sertifika ya da değerlendirme bilgisi varsa burada belirtilir.</p>'
+      +'<div class="opts"><label>Gramaj<select id="o-gram"><option>250 g</option><option>500 g</option><option>1 kg</option></select></label><label>Öğütüm<select id="o-ogut"><option>Çekirdek</option><option>V60 / pour over</option><option>Filtre kahve makinesi</option><option>French press</option><option>Espresso</option><option>Moka pot</option><option>Türk kahvesi</option></select></label></div>'
+      +'<div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:6px"><button type="button" class="btn primary" data-cart>Sepete ekle</button><a class="btn navy" href="#/abonelik">Abonelikle al</a><a class="btn ghost" href="#/demleme">Demleme önerisini gör</a><a class="btn ghost" href="#/tat-carki?kahve='+c.id+'">Çarkta gör</a></div>'
+      +'<p class="note">Seçiminden emin değil misin? <a href="mailto:[EPOSTA]" class="link">Bize nasıl kahve sevdiğini anlat.</a></p></div><button type="button" class="close" aria-label="Kapat">×</button></div>';
+    d.querySelector('.close').addEventListener('click',function(){d.close();});
+    d.querySelector('[data-cart]').addEventListener('click',function(){addCart({id:c.id,ad:c.ad,sec:d.querySelector('#o-gram').value+' · '+d.querySelector('#o-ogut').value,img:'farm/'+c.id});d.close();});
+    d.addEventListener('click',function(e){if(e.target===d) d.close();});
+    d.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){d.close();});});
+    d.showModal();
+  }
+
+  /* ---------- Kahveler: filtre ---------- */
+  var fy=document.getElementById('f-yontem'); Object.keys(Y).forEach(function(k){var o=document.createElement('option');o.value=k;o.textContent=Y[k];fy.appendChild(o);});
+  function readQ(){var h=location.hash,q={};var i=h.indexOf('?');if(i>=0){h.slice(i+1).split('&').forEach(function(p){var kv=p.split('=');q[decodeURIComponent(kv[0])]=decodeURIComponent(kv[1]||'');});}return q;}
+  function renderCoffees(){
+    var y=fy.value,t=document.getElementById('f-tat').value,b=document.getElementById('f-bolge').value,s=document.getElementById('f-sut').value;
+    var list=C.filter(function(c){return (!y||c.yontem.indexOf(y)>=0)&&(!t||c.tat===t)&&(!b||c.bolge===b)&&(!s||c.sut===s||c.sut==='ikisi');});
+    document.getElementById('coffees').innerHTML=list.map(function(c){return card(c);}).join('')||'<p class="note">Bu tercihlere uygun bir kahve şu an listelenmiyor. Seçimlerini değiştirebilir veya bize yazabilirsin.</p>';
+    document.getElementById('f-count').textContent=list.length+' kahve';
+  }
+  ['f-yontem','f-tat','f-bolge','f-sut'].forEach(function(id){document.getElementById(id).addEventListener('change',renderCoffees);});
+  document.getElementById('f-clear').addEventListener('click',function(){['f-yontem','f-tat','f-bolge','f-sut'].forEach(function(id){document.getElementById(id).value='';});renderCoffees();});
+  function applyQ(){var q=readQ();if(q.yontem)fy.value=q.yontem;if(q.sut)document.getElementById('f-sut').value=q.sut;if(q.tat)document.getElementById('f-tat').value=q.tat;if(q.bolge)document.getElementById('f-bolge').value=q.bolge;}
+
+  /* ---------- Bana kavur ---------- */
+  var QA={ekipman:null,sut:null,tat:null};
+  var QS=[
+    {k:'ekipman',s:'Kahveni nasıl hazırlıyorsun?',h:'Ekipmanını bilmek, uygun kahveyi ve öğütümü seçmemize yardımcı olur.',o:[['makine','Filtre kahve makinesi'],['v60','V60'],['frenchpress','French press'],['espresso','Espresso makinesi'],['moka','Moka pot'],['cezve','Türk kahvesi'],['','Henüz karar vermedim']]},
+    {k:'sut',s:'Genellikle nasıl içiyorsun?',h:'Bir tercih diğerinden daha doğru değil. Kahveni nasıl sevdiğin önemli.',o:[['sade','Sade'],['sutlu','Sütlü'],['ikisi','İkisini de severim']]},
+    {k:'tat',s:'Fincanında ne arıyorsun?',h:'Emin değilsen farklı kahveleri deneyerek başlayabilirsin.',o:[['dengeli','Dengeli ve tanıdık tatlar'],['meyvemsi','Meyvemsi ve canlı tatlar'],['govdeli','Belirgin gövde ve yoğun tat'],['','Henüz bilmiyorum']]}
+  ];
+  var qstep=0;
+  function renderQuiz(){
+    var el=document.getElementById('quiz'); if(!el) return;
+    if(qstep<QS.length){var q=QS[qstep];
+      el.innerHTML='<div class="q"><div class="steps">'+QS.map(function(_,i){return '<i class="'+(i<=qstep?'on':'')+'"></i>';}).join('')+'</div><p class="eyebrow">Soru '+(qstep+1)+' / 3</p><h2>'+esc(q.s)+'</h2><p class="note">'+esc(q.h)+'</p><div class="opts">'+q.o.map(function(o){return '<button type="button" data-v="'+o[0]+'">'+esc(o[1])+'</button>';}).join('')+'</div>'+(qstep>0?'<div><button type="button" class="chip" id="qback">← Geri</button></div>':'')+'</div>';
+      el.querySelectorAll('.opts button').forEach(function(b){b.addEventListener('click',function(){QA[q.k]=b.getAttribute('data-v')||null;qstep++;renderQuiz();window.scrollTo({top:el.offsetTop-90,behavior:'smooth'});});});
+      var back=el.querySelector('#qback'); if(back) back.addEventListener('click',function(){qstep--;renderQuiz();});
+      return;
+    }
+    var scored=C.map(function(c){var s=0,why=[];
+      if(QA.ekipman){ if(c.yontem.indexOf(QA.ekipman)>=0){s+=3;why.push(Y[QA.ekipman]+' için önerilir');} else s-=2; }
+      if(QA.sut){ if(c.sut===QA.sut||c.sut==='ikisi'||QA.sut==='ikisi'){s+=2;why.push(QA.sut==='sutlu'?'sütle dengesini korur':QA.sut==='sade'?'sade içimde karakteri görünür':'iki içimde de çalışır');} else s-=2; }
+      if(QA.tat){ if(c.tat===QA.tat){s+=3;why.push(TAT[QA.tat].toLowerCase()+' profil');} }
+      return {c:c,s:s,why:why};}).sort(function(a,b){return b.s-a.s;});
+    var top=scored.filter(function(x){return x.s>0;}).slice(0,3);
+    var el2=document.getElementById('quiz');
+    el2.innerHTML='<div class="q"><div class="steps"><i class="on"></i><i class="on"></i><i class="on"></i></div><p class="eyebrow">Sonuç</p><h2>'+(top.length?'Bu kahveler sana göre olabilir.':'Bu tercihlere uygun bir kahve şu an listelenmiyor.')+'</h2><p class="note">'+(top.length?'Seçimlerine göre karşılaştırabileceğin kahveleri bir araya getirdik. Tadım notlarını incele, sana yakın gelenle başla.':'Seçimlerini değiştirebilir veya bize yazabilirsin.')+'</p>'
+      +'<div class="coffees" style="grid-template-columns:repeat(auto-fit,minmax(240px,1fr))">'+top.map(function(x){return card(x.c,'Neden: '+x.why.join(', ')+'.');}).join('')+'</div>'
+      +'<div style="display:flex;gap:10px;flex-wrap:wrap"><a class="btn ghost" href="#/tadim-seti">Önce tadım setini dene</a><button type="button" class="chip" id="qreset">Baştan başla</button></div></div>';
+    el2.querySelector('#qreset').addEventListener('click',function(){qstep=0;QA={ekipman:null,sut:null,tat:null};renderQuiz();});
+  }
+
+  /* ---------- Tat çarkı ---------- */
+  var NOTE_INDEX={}; C.forEach(function(c){c.notlar.forEach(function(n){(NOTE_INDEX[n]=NOTE_INDEX[n]||[]).push(c.id);});});
+  var leaves=[]; W.forEach(function(k){k.alt.forEach(function(a){a.n.forEach(function(n){leaves.push({n:n,a:a,k:k});});});});
+  function arc(cx,cy,r0,r1,a0,a1){var p=function(r,a){return [cx+r*Math.cos(a),cy+r*Math.sin(a)];};var s0=p(r0,a0),e0=p(r0,a1),s1=p(r1,a1),e1=p(r1,a0);var big=(a1-a0)>Math.PI?1:0;return 'M'+s0.join(' ')+' A'+r0+' '+r0+' 0 '+big+' 1 '+e0.join(' ')+' L'+s1.join(' ')+' A'+r1+' '+r1+' 0 '+big+' 0 '+e1.join(' ')+' Z';}
+  function shade(hex,f){var n=parseInt(hex.slice(1),16),r=n>>16,g=(n>>8)&255,b=n&255;r=Math.round(r+(255-r)*f);g=Math.round(g+(255-g)*f);b=Math.round(b+(255-b)*f);return '#'+((1<<24)+(r<<16)+(g<<8)+b).toString(16).slice(1);}
+  function buildWheel(svg,mini){
+    var cx=400,cy=400,R=[70,175,275,392],total=leaves.length,a=-Math.PI/2,gap=0.006,out=[];
+    W.forEach(function(k){var kn=k.alt.reduce(function(s,x){return s+x.n.length;},0),ka=a,kspan=kn/total*2*Math.PI;
+      out.push('<path class="seg k" data-k="'+esc(k.ad)+'" d="'+arc(cx,cy,R[0],R[1],ka+gap,ka+kspan-gap)+'" fill="'+k.renk+'"><title>'+esc(k.ad)+'</title></path>');
+      var mid=ka+kspan/2,rr=(R[0]+R[1])/2,deg=mid*180/Math.PI,flip=(deg>90&&deg<270);
+      out.push('<text x="'+(cx+rr*Math.cos(mid))+'" y="'+(cy+rr*Math.sin(mid))+'" transform="rotate('+(deg+(flip?180:0))+' '+(cx+rr*Math.cos(mid))+' '+(cy+rr*Math.sin(mid))+')" text-anchor="middle" dominant-baseline="middle" font-size="'+(mini?13:14)+'" fill="#F3EEE5">'+esc(k.kisa||k.ad)+'</text>');
+      k.alt.forEach(function(al){var an=al.n.length,aa=a,aspan=an/total*2*Math.PI;
+        out.push('<path class="seg a" data-k="'+esc(k.ad)+'" data-a="'+esc(al.ad)+'" d="'+arc(cx,cy,R[1],R[2],aa+gap,aa+aspan-gap)+'" fill="'+al.renk+'"><title>'+esc(al.ad)+'</title></path>');
+        var m2=aa+aspan/2,r2=(R[1]+R[2])/2,d2=m2*180/Math.PI,f2=(d2>90&&d2<270);
+        out.push('<text x="'+(cx+r2*Math.cos(m2))+'" y="'+(cy+r2*Math.sin(m2))+'" transform="rotate('+(d2+(f2?180:0))+' '+(cx+r2*Math.cos(m2))+' '+(cy+r2*Math.sin(m2))+')" text-anchor="middle" dominant-baseline="middle" font-size="'+(mini?10.5:11.5)+'" fill="#1E1B17">'+esc(al.ad)+'</text>');
+        al.n.forEach(function(n,i){var na=a+i*(2*Math.PI/total),nspan=2*Math.PI/total,has=!!NOTE_INDEX[n];
+          out.push('<path class="seg n" data-k="'+esc(k.ad)+'" data-a="'+esc(al.ad)+'" data-n="'+esc(n)+'" d="'+arc(cx,cy,R[2],R[3],na+gap,na+nspan-gap)+'" fill="'+shade(al.renk,has?0.15:0.55)+'"><title>'+esc(n)+'</title></path>');
+          var m3=na+nspan/2,r3=R[2]+12,d3=m3*180/Math.PI,f3=(d3>90&&d3<270);
+          out.push('<text x="'+(cx+r3*Math.cos(m3))+'" y="'+(cy+r3*Math.sin(m3))+'" transform="rotate('+(d3+(f3?180:0))+' '+(cx+r3*Math.cos(m3))+' '+(cy+r3*Math.sin(m3))+')" text-anchor="'+(f3?'end':'start')+'" dominant-baseline="middle" font-size="'+(mini?9:10)+'" fill="#1E1B17"'+(has?' font-weight="700"':' opacity=".7"')+'>'+esc(n)+'</text>');
+        });
+        a+=aspan;});
+    });
+    out.push('<circle cx="400" cy="400" r="'+(R[0]-6)+'" fill="var(--paper)"/><text x="400" y="392" text-anchor="middle" font-family="Urbanist" font-size="20" font-weight="700" fill="var(--ink)">nomia</text><text x="400" y="412" text-anchor="middle" font-size="9" letter-spacing="2" fill="var(--muted)">TAT ÇARKI</text>');
+    svg.innerHTML=out.join('');
+  }
+  var SEL=null;
+  function info(html){var el=document.getElementById('winfo');if(el)el.innerHTML=html;}
+  function chipsFor(ids){return ids.map(function(id){var c=byId[id];return '<button type="button" class="chip" data-coffee="'+id+'"><i style="--c:'+BR[c.bolge]+'"></i>'+esc(c.ad)+'</button>';}).join('');}
+  function defaultInfo(){info('<p class="eyebrow">Nasıl kullanılır</p><div class="big">Bir dilime dokun.</div><p class="note">Dış halkadaki koyu dilimler, listedeki kahvelerde bulunan notlar. Açık dilimler sözlükte var, şu an bir kahvede yok.</p><p class="mono" style="margin-top:6px">Kahveler</p><div class="chips">'+chipsFor(C.map(function(c){return c.id;}))+'</div>'); bindChips();}
+  function bindChips(){document.querySelectorAll('#winfo [data-coffee]').forEach(function(b){b.addEventListener('click',function(){selectCoffee(b.getAttribute('data-coffee'));});});}
+  function highlight(svg,pred){svg.classList.add('hasfocus');svg.querySelectorAll('path.seg').forEach(function(p){p.classList.toggle('on',pred(p));});}
+  function clearHi(svg){svg.classList.remove('hasfocus');svg.querySelectorAll('path.seg').forEach(function(p){p.classList.remove('on','sel');});}
+  function selectNote(n){var svg=document.getElementById('wheel');SEL={n:n};highlight(svg,function(p){return p.getAttribute('data-n')===n||(!p.getAttribute('data-n')&&false);});svg.querySelectorAll('path.n[data-n="'+CSS.escape(n)+'"]').forEach(function(p){p.classList.add('sel');});
+    var ids=NOTE_INDEX[n]||[];info('<p class="eyebrow">Tadım notu</p><div class="big">'+esc(n)+'</div><p style="color:var(--muted)">'+esc(NA[n]||'Fincanda algılanabilecek bir çağrışım.')+'</p><p class="mono">'+(ids.length?ids.length+' kahvede':'Şu an listede bir kahvede yok')+'</p><div class="chips">'+chipsFor(ids)+'</div>'+(ids.length?'<a class="btn primary" href="#/kahveler" style="justify-self:start">Kahveleri gör</a>':'')+'<button type="button" class="chip" id="wclear">Seçimi kaldır</button>');bindChips();document.getElementById('wclear').addEventListener('click',function(){SEL=null;clearHi(svg);defaultInfo();});}
+  function selectCoffee(id){var svg=document.getElementById('wheel'),c=byId[id];SEL={c:id};highlight(svg,function(p){var n=p.getAttribute('data-n');return n?c.notlar.indexOf(n)>=0:false;});
+    info('<p class="eyebrow">'+esc(c.bolge)+'</p><div class="big">'+esc(c.ad)+'</div><p style="color:var(--muted)">'+esc(c.aciklama)+'</p><div class="chips">'+c.notlar.map(function(n){return '<button type="button" class="chip on" data-note="'+esc(n)+'">'+esc(n)+'</button>';}).join('')+'</div><div class="meter" style="--c:'+BR[c.bolge]+'"><span>Gövde</span><i style="--v:'+pct(c.govde)+'"></i><span>Asidite</span><i style="--v:'+pct(c.asidite)+'"></i></div><div style="display:flex;gap:8px;flex-wrap:wrap"><button type="button" class="btn primary" data-open="'+id+'">Kahveyi incele</button><button type="button" class="chip" id="wclear">Seçimi kaldır</button></div>');
+    document.getElementById('wclear').addEventListener('click',function(){SEL=null;clearHi(svg);defaultInfo();});document.querySelector('#winfo [data-open]').addEventListener('click',function(){openProd(id);});document.querySelectorAll('#winfo [data-note]').forEach(function(b){b.addEventListener('click',function(){selectNote(b.getAttribute('data-note'));});});}
+  function initWheel(){
+    var svg=document.getElementById('wheel'),mini=document.getElementById('wheel-mini');
+    if(mini&&!mini.dataset.built){buildWheel(mini,true);mini.dataset.built=1;mini.style.cursor='pointer';mini.addEventListener('click',function(){location.hash='#/tat-carki';});}
+    if(!svg||svg.dataset.built) return; buildWheel(svg,false); svg.dataset.built=1;
+    var lg=document.getElementById('legend'); lg.innerHTML=W.map(function(k){return '<div><i style="background:'+k.renk+'"></i>'+esc(k.ad)+'</div>';}).join('');
+    svg.addEventListener('mouseover',function(e){var p=e.target.closest('path.seg');if(!p||SEL)return;var n=p.getAttribute('data-n'),a=p.getAttribute('data-a'),k=p.getAttribute('data-k');
+      if(n){highlight(svg,function(q){return q.getAttribute('data-n')===n;});var ids=NOTE_INDEX[n]||[];info('<p class="eyebrow">'+esc(k)+' · '+esc(a)+'</p><div class="big">'+esc(n)+'</div><p style="color:var(--muted)">'+esc(NA[n]||'')+'</p><p class="mono">'+(ids.length?ids.length+' kahvede · dokun':'Listede yok')+'</p>');}
+      else if(a){highlight(svg,function(q){return q.getAttribute('data-a')===a;});info('<p class="eyebrow">'+esc(k)+'</p><div class="big">'+esc(a)+'</div><p class="note">Dış halkada bu ailenin notları.</p>');}
+      else{highlight(svg,function(q){return q.getAttribute('data-k')===k;});info('<p class="eyebrow">Tat ailesi</p><div class="big">'+esc(k)+'</div>');}});
+    svg.addEventListener('mouseleave',function(){if(!SEL){clearHi(svg);defaultInfo();}});
+    svg.addEventListener('click',function(e){var p=e.target.closest('path.seg');if(!p)return;var n=p.getAttribute('data-n');if(n){selectNote(n);}else{SEL=null;clearHi(svg);defaultInfo();}});
+    defaultInfo();
+    var q=readQ(); if(q.kahve&&byId[q.kahve]) selectCoffee(q.kahve);
+  }
+
+  /* ---------- Sepet (localStorage; canlı sürümde ödeme sağlayıcıya bağlanır) ---------- */
+  var CART=[]; try{CART=JSON.parse(localStorage.getItem('nomia_cart')||'[]');}catch(e){CART=[];}
+  function saveCart(){try{localStorage.setItem('nomia_cart',JSON.stringify(CART));}catch(e){} document.getElementById('cartn').textContent=CART.reduce(function(s,i){return s+i.n;},0);}
+  function addCart(it){var f=CART.filter(function(x){return x.id===it.id&&x.sec===it.sec;})[0]; if(f) f.n++; else CART.push({id:it.id,ad:it.ad,sec:it.sec||'',img:it.img||'',n:1}); saveCart(); toast(it.ad+' sepete eklendi'); }
+  function renderCart(){var d=document.getElementById('cart');
+    d.innerHTML='<div class="cartin"><header><h3>Sepet</h3><button type="button" class="close" style="position:static" aria-label="Kapat">×</button></header><div class="items">'+(CART.length?CART.map(function(i,ix){return '<div class="ci"><img src="assets/img/'+i.img+'.webp" alt=""><div><b>'+esc(i.ad)+'</b><small>'+esc(i.sec)+'</small><small style="display:block">[FİYAT] ₺</small></div><span class="qty"><button type="button" data-q="-1" data-ix="'+ix+'">−</button>'+i.n+'<button type="button" data-q="1" data-ix="'+ix+'">+</button></span></div>';}).join(''):'<p class="note">Sepetin boş. Kahvelerden, planlardan ya da ekipmandan ekle.</p>')+'</div><footer><div style="display:flex;justify-content:space-between"><span>Kargo</span><b>Abonelikte dahil</b></div><div style="display:flex;justify-content:space-between"><span>Toplam</span><b>Fiyat listesi bağlanınca</b></div><button type="button" class="btn primary" id="checkout"'+(CART.length?'':' disabled')+'>Ödemeye geç</button><p class="note">Ödeme, adres ve fatura adımları canlı sürümde ödeme sağlayıcıyla tamamlanır.</p></footer></div>';
+    d.querySelector('.close').addEventListener('click',function(){d.close();});
+    d.querySelectorAll('[data-q]').forEach(function(b){b.addEventListener('click',function(){var ix=+b.getAttribute('data-ix');CART[ix].n+=+b.getAttribute('data-q');if(CART[ix].n<=0)CART.splice(ix,1);saveCart();renderCart();});});
+    var co=d.querySelector('#checkout'); if(co) co.addEventListener('click',function(){toast('Ödeme adımı canlı sürümde açılır.');});
+    d.addEventListener('click',function(e){if(e.target===d)d.close();});
+  }
+  document.getElementById('cartbtn').addEventListener('click',function(){renderCart();document.getElementById('cart').showModal();});
+  document.addEventListener('click',function(e){var b=e.target.closest('[data-add]');if(b){addCart({id:b.getAttribute('data-add'),ad:b.getAttribute('data-ad'),sec:b.getAttribute('data-sec')||'',img:b.getAttribute('data-img')?'shop/'+b.getAttribute('data-img'):''});}});
+  saveCart();
+
+  /* ---------- Planlar, hediyeler, paketler, ekipman, merch ---------- */
+  function planCard(p,gift){
+    return '<div class="plan'+(p.one?' one':'')+'">'+(p.one?'<span class="badge">En çok seçilen</span>':'')+'<h3>'+esc(p.ad)+'</h3><div class="amt">'+esc(p.miktar||p.icerik)+'</div><div class="price">'+(p.b2b?'Teklifle':'[FİYAT] ₺'+(gift?' tek ödeme':' / gönderim'))+'</div>'
+      +'<ul>'+(gift?'<li>'+esc(p.ek)+'</li><li>Alıcı kahvesini kendisi seçer</li><li>Otomatik yenilenmez</li>':'<li>'+esc(p.siklik)+'</li><li>'+esc(p.fincan)+' (15 g / fincan)</li><li>'+esc(p.sonraki)+'</li>')+'</ul>'
+      +'<div class="gift"><b>'+(gift?'Kutuda':'İlk kutuda hediye')+'</b>'+esc(p.hediye)+'</div>'+(p.kim?'<p class="note">'+esc(p.kim)+'</p>':'')
+      +'<div class="acts">'+(p.b2b?'<a class="btn navy" href="#/isletmeler">Teklif iste</a>':'<button type="button" class="btn primary" data-add="'+(gift?'hediye-':'plan-')+p.id+'" data-ad="'+esc(gift?'Hediye aboneliği · '+p.ad:p.ad+' plan')+'" data-sec="'+esc(p.miktar||p.icerik)+'" data-img="'+(gift?p.img:'kutu')+'">'+(gift?'Hediye et':'Planı seç')+'</button>'+(gift?'':'<a class="btn ghost" href="#/hediye">Hediye et</a>'))+'</div></div>';
+  }
+  function shopCard(s,bundle){
+    return '<div class="sh"><div class="ph"><img src="assets/img/shop/'+s.img+'.webp" alt="'+esc(s.ad)+'" loading="lazy"></div><div class="body"><h4>'+esc(s.ad)+'</h4><p>'+esc(s.a||s.icerik)+'</p>'+(bundle?'<p class="note">'+esc(s.not_)+'</p>':'')+'<div class="row"><span class="tag">'+esc(s.etiket||'Plan + ekipman')+'</span><span class="price">[FİYAT] ₺'+(bundle?' / ilk ay':'')+'</span></div><div class="row"><span class="note">'+(bundle?'':'Abonelere indirim')+'</span><button type="button" class="btn navy" data-add="'+s.id+'" data-ad="'+esc(s.ad)+'" data-img="'+s.img+'">Sepete ekle</button></div></div></div>';
+  }
+  function renderShop(){
+    var ph=document.getElementById('plans-home'); if(ph&&!ph.innerHTML) ph.innerHTML=D.plans.map(function(p){return planCard(p);}).join('');
+    var pp=document.getElementById('plans-page'); if(pp&&!pp.innerHTML) pp.innerHTML=D.plans.map(function(p){return planCard(p);}).join('');
+    var g=document.getElementById('gifts'); if(g&&!g.innerHTML) g.innerHTML=D.gifts.map(function(p){return planCard(p,true);}).join('');
+    var b=document.getElementById('bundles'); if(b&&!b.innerHTML) b.innerHTML=D.bundles.map(function(s){return shopCard(s,true);}).join('');
+    var e=document.getElementById('equip'); if(e&&!e.innerHTML) e.innerHTML=D.equip.map(function(s){return shopCard(s);}).join('');
+    var m=document.getElementById('merch'); if(m&&!m.innerHTML) m.innerHTML=D.merch.map(function(s){return shopCard(s);}).join('');
+    var sh=document.getElementById('shop-home'); if(sh&&!sh.innerHTML) sh.innerHTML=[D.equip[0],D.equip[1],D.merch[0],D.merch[1],D.equip[3],D.merch[2]].map(function(s){return shopCard(s);}).join('');
+  }
+  renderShop();
+
+  /* ---------- Yönlendirme ---------- */
+  var titles={ana:'Nomia · Sana kavruldu',kahveler:'Kahveler · Nomia','bana-kavur':'Bana kavur · Nomia','tat-carki':'Tat çarkı · Nomia','tadim-seti':'Tadım seti · Nomia',abonelik:'Abonelik · Nomia',hediye:'Hediye · Nomia',ekipman:'Ekipman & merch · Nomia',demleme:'Demleme rehberleri · Nomia',isletmeler:'İşletmeler için · Nomia',egitim:'Barista eğitimi · Nomia',blog:'Blog · Nomia',hakkimizda:'Hakkımızda · Nomia',sss:'Sıkça sorulan sorular · Nomia'};
+  var pages=[].slice.call(document.querySelectorAll('.page'));
+  function show(){
+    var h=(location.hash||'#/ana').replace(/^#\/?/,''),id=h.split('?')[0].replace(/\//g,'-')||'ana';
+    if(!document.getElementById('p-'+id)) id='ana';
+    pages.forEach(function(p){p.classList.toggle('active',p.id==='p-'+id);});
+    [].forEach.call(document.querySelectorAll('nav.main a'),function(a){a.setAttribute('aria-current',a.getAttribute('href').replace(/^#\//,'')===id?'page':'false');});
+    var m=document.querySelector('details.menu'); if(m) m.open=false;
+    document.title=titles[id]||titles.ana; window.scrollTo(0,0);
+    if(id==='kahveler'){applyQ();renderCoffees();}
+    if(id==='bana-kavur'){renderQuiz();}
+    if(id==='tat-carki'||id==='ana'){initWheel(); if(id==='tat-carki'){var q=readQ(); if(q.kahve&&byId[q.kahve]) selectCoffee(q.kahve);}}
+  }
+  window.addEventListener('hashchange',show); show(); initWheel();
+})();
+</script>
+</body></html>

@@ -1,0 +1,1650 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alyans Logistics — Chartering &amp; Shipping Since 1989</title>
+<meta name="description" content="Pioneering international logistics since 1989. Maritime, air, road, and rail solutions across the globe. NATO-certified, mission-critical cargo.">
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+/* ===== RESET & CUSTOM PROPERTIES ===== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --al-bg: #0B1A2E;
+  --al-surface: #111E30;
+  --al-surface-2: #162438;
+  --al-accent: #D63B30;
+  --al-accent-glow: rgba(214,59,48,0.15);
+  --al-ink: #F0EDE8;
+  --al-muted: #7A8494;
+  --al-border: rgba(122,132,148,0.18);
+  --al-border-strong: rgba(122,132,148,0.28);
+  --al-nav-bg: rgba(11,26,46,0.92);
+  --al-nav-border: rgba(122,132,148,0.15);
+  --al-glass: rgba(11,26,46,0.85);
+  --al-card-hover: rgba(214,59,48,0.06);
+  --al-timeline-line: rgba(214,59,48,0.25);
+  --font-display: "Outfit", system-ui, -apple-system, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+}
+
+html { -webkit-text-size-adjust: 100%; scroll-snap-type: y proximity; }
+body {
+  font-family: var(--font-display);
+  background: var(--al-bg);
+  color: var(--al-ink);
+  line-height: 1.6;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+img, video { display: block; max-width: 100%; }
+a { color: inherit; text-decoration: none; }
+button { font: inherit; cursor: pointer; border: none; background: none; color: inherit; }
+ul, ol { list-style: none; }
+
+/* ===== UTILITY CLASSES ===== */
+.al-container { max-width: 1280px; margin: 0 auto; padding: 0 clamp(1.25rem, 4vw, 3rem); }
+.al-kicker {
+  font-family: var(--font-mono);
+  font-size: 0.88rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--al-accent);
+  margin-bottom: 1.25rem;
+  text-shadow: 0 1px 8px rgba(0,0,0,0.6);
+}
+.al-section-title {
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  text-wrap: balance;
+  margin-bottom: 1.5rem;
+  text-shadow: 0 2px 16px rgba(0,0,0,0.5), 0 4px 32px rgba(0,0,0,0.25);
+}
+.al-section-body {
+  font-size: clamp(1.1rem, 1.5vw, 1.3rem);
+  color: rgba(220,225,235,1);
+  line-height: 1.65;
+  max-width: 56ch;
+  text-shadow: 0 1px 8px rgba(0,0,0,0.5);
+}
+.al-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.85rem 1.75rem;
+  font-weight: 600;
+  font-size: 0.9rem;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+}
+.al-btn--primary { background: var(--al-accent); color: #fff; }
+.al-btn--primary:hover { background: #c13028; transform: translateY(-1px); }
+.al-btn--outline { border: 1px solid var(--al-border-strong); color: var(--al-ink); background: transparent; }
+.al-btn--outline:hover { border-color: var(--al-ink); background: rgba(240,237,232,0.05); }
+.al-reveal { opacity: 0; transform: translateY(40px); }
+.al-reveal.is-visible { opacity: 1; transform: translateY(0); transition: opacity 0.8s cubic-bezier(0.22,1,0.36,1), transform 0.8s cubic-bezier(0.22,1,0.36,1); }
+
+/* ===== CINEMA STAGE — fixed fullscreen video backdrop ===== */
+.cinema {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  background: var(--al-bg);
+}
+.cinema__layer {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  will-change: opacity;
+}
+.cinema__layer--active { opacity: 1; }
+.cinema__layer video,
+.cinema__layer img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 50%;
+}
+.cinema__layer video {
+  transform: scale(1.05);
+}
+.cinema__layer[data-painted="true"] img { visibility: hidden; }
+
+/* Cinema overlay layers — one per section mood */
+.cinema__overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  opacity: 0;
+  pointer-events: none;
+  will-change: opacity;
+}
+.cinema__overlay--active { opacity: 1; }
+.cinema__overlay--hero {
+  background:
+    linear-gradient(to right, rgba(11,26,46,0.82) 0%, rgba(11,26,46,0.35) 40%, transparent 65%),
+    linear-gradient(to top, rgba(11,26,46,0.85) 0%, transparent 35%);
+}
+.cinema__overlay--about {
+  background: linear-gradient(135deg, rgba(11,26,46,0.92) 0%, rgba(11,26,46,0.80) 50%, rgba(11,26,46,0.65) 100%);
+}
+.cinema__overlay--pillar {
+  background:
+    linear-gradient(to bottom, rgba(11,26,46,0.85) 0%, rgba(11,26,46,0.55) 25%, rgba(11,26,46,0.50) 75%, rgba(11,26,46,0.88) 100%),
+    linear-gradient(to right, rgba(11,26,46,0.65) 0%, rgba(11,26,46,0.25) 60%);
+}
+.cinema__overlay--transport {
+  background: linear-gradient(135deg, rgba(11,26,46,0.90) 0%, rgba(11,26,46,0.78) 100%);
+}
+.cinema__overlay--defense {
+  background: linear-gradient(180deg, rgba(11,26,46,0.86) 0%, rgba(25,15,15,0.82) 50%, rgba(11,26,46,0.90) 100%);
+}
+.cinema__overlay--timeline {
+  background: rgba(11,26,46,0.92);
+}
+.cinema__overlay--dark {
+  background: rgba(11,26,46,0.95);
+}
+.cinema__vignette {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  background: radial-gradient(ellipse at center, transparent 55%, rgba(11,26,46,0.35) 100%);
+  pointer-events: none;
+}
+
+/* ===== NAVIGATION ===== */
+.al-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  padding: 0 clamp(1.25rem, 4vw, 3rem);
+  height: 72px;
+  display: flex;
+  align-items: center;
+  transition: background 0.4s, backdrop-filter 0.4s, border-color 0.4s;
+  border-bottom: 1px solid transparent;
+}
+.al-nav.is-scrolled {
+  background: var(--al-nav-bg);
+  backdrop-filter: blur(20px) saturate(1.4);
+  -webkit-backdrop-filter: blur(20px) saturate(1.4);
+  border-color: var(--al-nav-border);
+}
+.al-nav__inner { display: flex; align-items: center; justify-content: space-between; width: 100%; max-width: 1280px; margin: 0 auto; }
+.al-nav__logo img { height: 28px; width: auto; }
+.al-nav__links { display: flex; align-items: center; gap: 2rem; }
+.al-nav__link { font-size: 0.88rem; font-weight: 500; color: var(--al-muted); transition: color 0.25s; letter-spacing: 0.02em; }
+.al-nav__link:hover { color: var(--al-ink); }
+.al-nav__actions { display: flex; align-items: center; gap: 1rem; }
+.al-nav__search-btn { width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; border-radius: 8px; transition: background 0.2s; }
+.al-nav__search-btn:hover { background: rgba(240,237,232,0.08); }
+.al-nav__menu-btn { display: none; width: 36px; height: 36px; flex-direction: column; align-items: center; justify-content: center; gap: 5px; }
+.al-nav__menu-btn span { display: block; width: 22px; height: 2px; background: var(--al-ink); transition: transform 0.3s, opacity 0.3s; }
+
+@media (max-width: 860px) {
+  .al-nav__links { display: none; }
+  .al-nav__menu-btn { display: flex; }
+}
+
+/* ===== MOBILE MENU ===== */
+.al-mobile-menu { position: fixed; inset: 0; z-index: 200; background: var(--al-bg); display: flex; flex-direction: column; justify-content: center; padding: 2rem clamp(1.5rem, 6vw, 4rem); opacity: 0; pointer-events: none; transition: opacity 0.4s ease; }
+.al-mobile-menu.is-open { opacity: 1; pointer-events: auto; }
+.al-mobile-menu__close { position: absolute; top: 1.25rem; right: 1.25rem; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; }
+.al-mobile-menu__items { display: flex; flex-direction: column; gap: 2rem; }
+.al-mobile-menu__item { display: flex; align-items: baseline; gap: 1rem; opacity: 0; transform: translateY(20px); transition: opacity 0.4s ease, transform 0.4s ease; }
+.al-mobile-menu.is-open .al-mobile-menu__item { opacity: 1; transform: translateY(0); }
+.al-mobile-menu.is-open .al-mobile-menu__item:nth-child(1) { transition-delay: 0.1s; }
+.al-mobile-menu.is-open .al-mobile-menu__item:nth-child(2) { transition-delay: 0.15s; }
+.al-mobile-menu.is-open .al-mobile-menu__item:nth-child(3) { transition-delay: 0.2s; }
+.al-mobile-menu.is-open .al-mobile-menu__item:nth-child(4) { transition-delay: 0.25s; }
+.al-mobile-menu__num { font-family: var(--font-mono); font-size: 0.8rem; color: var(--al-muted); }
+.al-mobile-menu__label { font-size: clamp(2rem, 7vw, 3.5rem); font-weight: 700; letter-spacing: -0.03em; }
+.al-mobile-menu__footer { margin-top: 3rem; display: flex; flex-wrap: wrap; gap: 1rem; }
+
+/* ===== SEARCH OVERLAY ===== */
+.al-search { position: fixed; inset: 0; z-index: 250; background: rgba(11,26,46,0.95); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); display: flex; flex-direction: column; align-items: center; padding: 15vh 2rem 2rem; opacity: 0; pointer-events: none; transition: opacity 0.35s ease; }
+.al-search.is-open { opacity: 1; pointer-events: auto; }
+.al-search__close { position: absolute; top: 1.5rem; right: 1.5rem; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; }
+.al-search__input-wrap { width: 100%; max-width: 640px; position: relative; }
+.al-search__input { width: 100%; padding: 1.1rem 1.5rem 1.1rem 3.2rem; background: var(--al-surface); border: 1px solid var(--al-border); border-radius: 12px; color: var(--al-ink); font-size: 1.1rem; font-family: inherit; outline: none; transition: border-color 0.25s; }
+.al-search__input:focus { border-color: var(--al-accent); }
+.al-search__input::placeholder { color: var(--al-muted); }
+.al-search__icon { position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: var(--al-muted); }
+.al-search__hint { margin-top: 0.75rem; font-size: 0.8rem; color: var(--al-muted); }
+.al-search__results { width: 100%; max-width: 640px; margin-top: 1.5rem; max-height: 50vh; overflow-y: auto; }
+.al-search__result-item { display: block; padding: 0.85rem 1rem; border-radius: 8px; transition: background 0.2s; cursor: pointer; }
+.al-search__result-item:hover { background: var(--al-surface); }
+.al-search__result-title { font-weight: 600; font-size: 0.95rem; }
+.al-search__result-category { font-size: 0.78rem; color: var(--al-muted); font-family: var(--font-mono); margin-top: 0.15rem; }
+
+/* ===== HERO SECTIONS ===== */
+.hero {
+  position: relative;
+  z-index: 1;
+}
+.hero__ui {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  pointer-events: none;
+  opacity: 1;
+  transition: opacity 0.4s;
+}
+.hero__ui.is-hidden { opacity: 0; }
+.hero__progress {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: rgba(240,237,232,0.12);
+}
+.hero__progress span {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: var(--al-accent);
+  transform-origin: left center;
+  transform: scaleX(0);
+}
+.hero__route {
+  position: absolute;
+  top: clamp(1rem, 3vw, 2rem);
+  right: clamp(1rem, 4vw, 4rem);
+  display: flex;
+  gap: 0.25rem;
+  pointer-events: auto;
+}
+.hero__route-btn {
+  min-height: 2.75rem;
+  padding: 0.65rem 0.9rem;
+  color: var(--al-muted);
+  font-size: 0.88rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+.hero__route-btn:hover,
+.hero__route-btn[aria-current="step"] { color: var(--al-ink); }
+.hero__route-btn[aria-current="step"] {
+  text-decoration: underline;
+  text-decoration-color: var(--al-accent);
+  text-decoration-thickness: 0.15em;
+  text-underline-offset: 0.3em;
+}
+.hero__scroll-hint {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  opacity: 0.5;
+  transition: opacity 0.5s;
+}
+.hero__scroll-text { font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--al-muted); }
+.hero__scroll-mouse { width: 18px; height: 28px; border-radius: 14px; border: 1px solid rgba(240,237,232,0.25); display: flex; justify-content: center; padding-top: 6px; }
+.hero__scroll-dot { width: 2px; height: 6px; border-radius: 1px; background: rgba(240,237,232,0.45); animation: scrollDot 1.5s ease-in-out infinite; }
+@keyframes scrollDot {
+  0%, 100% { transform: translateY(0); opacity: 0.8; }
+  50% { transform: translateY(5px); opacity: 0.3; }
+}
+
+/* Hero scene content */
+.hero__scene {
+  position: relative;
+  min-height: 200dvh;
+}
+.hero__pin {
+  position: sticky;
+  top: 0;
+  display: flex;
+  align-items: center;
+  min-height: 100dvh;
+  padding: clamp(5rem, 9vw, 8rem) clamp(1.25rem, 6vw, 6rem);
+  pointer-events: none;
+}
+.hero__copy {
+  position: relative;
+  width: min(40rem, 48vw);
+  pointer-events: auto;
+}
+.hero__kicker {
+  max-width: 30ch;
+  margin: 0 0 1rem;
+  color: var(--al-accent);
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-shadow: 0 2px 12px rgba(0,0,0,0.7);
+}
+.hero__title {
+  max-width: 13ch;
+  margin: 0;
+  font-size: clamp(2.75rem, 6vw, 6.75rem);
+  font-weight: 700;
+  line-height: 0.94;
+  letter-spacing: -0.045em;
+  text-wrap: balance;
+  text-shadow: 0 2px 20px rgba(0,0,0,0.6), 0 4px 40px rgba(0,0,0,0.3);
+}
+.hero__body {
+  max-width: 42ch;
+  margin: 1.5rem 0 0;
+  color: var(--al-muted);
+  font-size: clamp(1rem, 1.35vw, 1.2rem);
+  line-height: 1.55;
+  text-shadow: 0 1px 8px rgba(0,0,0,0.6);
+}
+.hero__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  margin: 1.5rem 0 0;
+}
+.hero__tags li {
+  padding: 0.45rem 0.7rem;
+  border: 1px solid rgba(240,237,232,0.2);
+  color: var(--al-ink);
+  font-size: 0.82rem;
+  text-shadow: 0 1px 6px rgba(0,0,0,0.5);
+}
+
+@media (max-width: 860px) {
+  .hero__route { left: clamp(1rem, 4vw, 4rem); justify-content: flex-start; overflow-x: auto; }
+  .hero__pin {
+    align-items: flex-end;
+    justify-content: flex-start;
+    padding: 6.5rem 1.25rem calc(4rem + env(safe-area-inset-bottom, 0px)) 1.25rem;
+  }
+  .hero__copy { width: min(100%, 36rem); }
+  .hero__title { max-width: 14ch; font-size: clamp(2.3rem, 11vw, 4.5rem); }
+}
+
+/* ===== ABOUT SECTION ===== */
+.al-about {
+  position: relative;
+  z-index: 1;
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  scroll-snap-align: start;
+}
+.al-about__inner {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: clamp(2rem, 5vw, 4rem);
+  align-items: center;
+  padding: clamp(4rem, 8vw, 8rem) 0;
+}
+.al-about__text { max-width: 600px; }
+.al-about__text p { color: rgba(220,225,235,1); line-height: 1.7; margin-bottom: 1.25rem; font-size: clamp(1.05rem, 1.4vw, 1.25rem); text-shadow: 0 1px 8px rgba(0,0,0,0.5); }
+.al-about__ctas { display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 2rem; }
+.al-about__badges { display: flex; flex-direction: column; gap: 1rem; }
+.al-about__badge {
+  padding: 1.5rem;
+  border: 1px solid var(--al-border);
+  border-radius: 12px;
+  background: rgba(11,26,46,0.6);
+  backdrop-filter: blur(8px);
+  transition: border-color 0.3s, background 0.3s;
+}
+.al-about__badge:hover { border-color: var(--al-accent); background: var(--al-card-hover); }
+.al-about__badge-title { font-size: 1.25rem; font-weight: 700; margin-bottom: 0.25rem; text-shadow: 0 1px 6px rgba(0,0,0,0.4); }
+.al-about__badge-desc { font-size: 0.92rem; color: rgba(220,225,235,1); text-shadow: 0 1px 6px rgba(0,0,0,0.4); }
+.al-about__badge-accent { display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--al-accent); margin-right: 0.5rem; vertical-align: middle; }
+
+@media (max-width: 860px) {
+  .al-about__inner { grid-template-columns: 1fr; }
+}
+
+/* ===== SERVICES / PILLARS ===== */
+.al-services { position: relative; z-index: 1; padding: clamp(4rem, 8vw, 8rem) 0; overflow: hidden; scroll-snap-align: start; }
+.al-services__header { position: relative; z-index: 1; text-align: center; margin-bottom: 4rem; min-height: 60dvh; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.al-services__header .al-section-body { margin: 0 auto; }
+
+/* Pillar Showcase */
+.al-pillar {
+  position: relative;
+  z-index: 1;
+  min-height: 100dvh;
+  display: flex;
+  align-items: flex-start;
+  overflow: hidden;
+  scroll-snap-align: start;
+}
+.al-pillar__watermark {
+  position: absolute;
+  z-index: 0;
+  right: 5%;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: clamp(10rem, 28vw, 20rem);
+  font-weight: 800;
+  color: rgba(240,237,232,0.03);
+  line-height: 1;
+  pointer-events: none;
+  user-select: none;
+}
+.al-pillar__inner {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  padding: clamp(5rem, 9vw, 7rem) clamp(1.25rem, 4vw, 3rem) clamp(3rem, 5vw, 5rem);
+}
+.al-pillar__header { display: flex; align-items: flex-start; gap: 1rem; margin-bottom: 1rem; }
+.al-pillar__icon {
+  width: 48px; height: 48px; border-radius: 10px;
+  background: rgba(214,59,48,0.12);
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.al-pillar__icon svg { width: 24px; height: 24px; color: var(--al-accent); }
+.al-pillar__tagline { font-size: clamp(1rem, 1.2vw, 1.15rem); color: rgba(220,225,235,1); margin-bottom: 1.5rem; text-shadow: 0 1px 8px rgba(0,0,0,0.5); }
+.al-pillar__title { font-size: clamp(2.2rem, 5vw, 3.5rem); font-weight: 700; line-height: 1.1; letter-spacing: -0.02em; margin-bottom: 0.75rem; text-shadow: 0 2px 16px rgba(0,0,0,0.5), 0 4px 32px rgba(0,0,0,0.25); }
+.al-pillar__desc { font-size: clamp(1.05rem, 1.3vw, 1.2rem); color: rgba(220,225,235,1); max-width: 60ch; line-height: 1.6; margin-bottom: 2rem; text-shadow: 0 1px 8px rgba(0,0,0,0.5); }
+
+/* Service Grid */
+.al-svc-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--al-border); border: 1px solid var(--al-border); border-radius: 8px; overflow: hidden; max-width: 1000px; }
+.al-svc-grid__item { padding: 1.25rem 1.4rem; background: rgba(11,26,46,0.75); backdrop-filter: blur(6px); transition: background 0.3s; }
+.al-svc-grid__item:hover { background: var(--al-card-hover); }
+.al-svc-grid__item-title { font-size: 1rem; font-weight: 600; margin-bottom: 0.3rem; text-shadow: 0 1px 6px rgba(0,0,0,0.4); }
+.al-svc-grid__item-desc { font-size: 0.88rem; color: rgba(220,225,235,1); line-height: 1.5; text-shadow: 0 1px 6px rgba(0,0,0,0.4); }
+
+/* Transport Mode Cards */
+.al-transport-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; max-width: 900px; margin-bottom: 2rem; }
+.al-transport-card { padding: 1.5rem; background: rgba(11,26,46,0.6); border: 1px solid var(--al-border); border-radius: 10px; backdrop-filter: blur(6px); transition: border-color 0.3s, transform 0.3s; }
+.al-transport-card:hover { border-color: var(--al-accent); transform: translateY(-2px); }
+.al-transport-card__emoji { font-size: 1.8rem; margin-bottom: 0.5rem; }
+.al-transport-card__title { font-size: 1.05rem; font-weight: 600; margin-bottom: 0.3rem; text-shadow: 0 1px 6px rgba(0,0,0,0.4); }
+.al-transport-card__desc { font-size: 0.92rem; color: rgba(220,225,235,1); line-height: 1.5; text-shadow: 0 1px 6px rgba(0,0,0,0.4); }
+
+/* Specialized tags */
+.al-spec-tags { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 1rem; }
+.al-spec-tag { padding: 0.5rem 1rem; background: rgba(214,59,48,0.08); border: 1px solid rgba(214,59,48,0.2); border-radius: 20px; font-size: 0.88rem; font-weight: 500; color: var(--al-ink); text-shadow: 0 1px 6px rgba(0,0,0,0.4); }
+
+/* Marine List */
+.al-marine-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.75rem; max-width: 700px; }
+.al-marine-item { display: flex; align-items: center; gap: 0.65rem; padding: 0.85rem 1.1rem; background: rgba(11,26,46,0.5); border-radius: 8px; font-size: 1rem; transition: background 0.2s; text-shadow: 0 1px 6px rgba(0,0,0,0.4); }
+.al-marine-item:hover { background: rgba(11,26,46,0.7); }
+.al-marine-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--al-accent); flex-shrink: 0; }
+
+/* Liner Routes */
+.al-route-cards { display: flex; flex-direction: column; gap: 1rem; max-width: 800px; }
+.al-route-card { padding: 1.5rem; background: rgba(11,26,46,0.6); border: 1px solid var(--al-border); border-radius: 10px; backdrop-filter: blur(6px); }
+.al-route-card__path { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem; text-shadow: 0 1px 6px rgba(0,0,0,0.4); }
+.al-route-card__arrow { color: var(--al-accent); }
+.al-route-card__cargo { font-size: 0.95rem; color: rgba(220,225,235,1); line-height: 1.55; text-shadow: 0 1px 6px rgba(0,0,0,0.4); }
+
+/* Logistics capabilities */
+.al-logistics-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.65rem; max-width: 960px; }
+.al-logistics-item { display: flex; align-items: flex-start; gap: 0.6rem; padding: 0.85rem 1.1rem; background: rgba(11,26,46,0.5); border-radius: 8px; font-size: 0.95rem; line-height: 1.45; color: rgba(220,225,235,1); text-shadow: 0 1px 6px rgba(0,0,0,0.4); }
+.al-logistics-check { color: var(--al-accent); flex-shrink: 0; margin-top: 2px; }
+
+/* NATO Badge */
+.al-nato-badge { display: inline-flex; align-items: center; gap: 0.6rem; padding: 0.7rem 1.3rem; background: rgba(214,59,48,0.08); border: 1px solid rgba(214,59,48,0.25); border-radius: 8px; font-size: 0.95rem; font-weight: 600; margin-bottom: 1rem; text-shadow: 0 1px 6px rgba(0,0,0,0.4); }
+
+/* Pillar CTA */
+.al-pillar-cta { position: relative; z-index: 1; padding: clamp(3rem, 6vw, 5rem) 0; text-align: center; }
+
+@media (max-width: 860px) {
+  .al-svc-grid { grid-template-columns: 1fr 1fr; }
+  .al-transport-grid { grid-template-columns: 1fr 1fr; }
+  .al-marine-grid { grid-template-columns: 1fr; }
+  .al-logistics-grid { grid-template-columns: 1fr 1fr; }
+  .al-pillar__watermark { display: none; }
+}
+@media (max-width: 540px) {
+  .al-svc-grid { grid-template-columns: 1fr; }
+  .al-transport-grid { grid-template-columns: 1fr; }
+  .al-logistics-grid { grid-template-columns: 1fr; }
+}
+
+/* ===== STATS SECTION ===== */
+.al-stats {
+  position: relative;
+  z-index: 1;
+  padding: clamp(3rem, 6vw, 5rem) 0;
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  scroll-snap-align: start;
+}
+.al-stats > .al-container { width: 100%; }
+.al-stats__grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 1px;
+  background: var(--al-border);
+  border-radius: 12px;
+  overflow: hidden;
+}
+.al-stat {
+  padding: clamp(1.5rem, 3vw, 2.5rem) 1rem;
+  background: rgba(17,30,48,0.85);
+  backdrop-filter: blur(8px);
+  text-align: center;
+}
+.al-stat__number { font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 800; color: var(--al-ink); line-height: 1; margin-bottom: 0.5rem; }
+.al-stat__label { font-size: clamp(0.82rem, 1vw, 0.95rem); color: rgba(220,225,235,1); line-height: 1.3; text-shadow: 0 1px 6px rgba(0,0,0,0.4); }
+
+@media (max-width: 860px) { .al-stats__grid { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 540px) { .al-stats__grid { grid-template-columns: repeat(2, 1fr); } }
+
+/* ===== TRANSPORT INTERSTITIAL ===== */
+.al-transport-inter {
+  position: relative;
+  z-index: 1;
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  overflow: hidden;
+  scroll-snap-align: start;
+}
+.al-transport-inter__content { position: relative; z-index: 1; padding: clamp(3rem, 6vw, 5rem) 2rem; }
+.al-transport-inter__title { font-size: clamp(2.5rem, 7vw, 5rem); font-weight: 700; line-height: 1.1; letter-spacing: -0.03em; margin-bottom: 1.25rem; text-shadow: 0 2px 16px rgba(0,0,0,0.5), 0 4px 32px rgba(0,0,0,0.25); }
+.al-transport-inter__sub { font-size: clamp(1.1rem, 1.5vw, 1.3rem); color: rgba(220,225,235,1); max-width: 50ch; margin: 0 auto 2rem; line-height: 1.6; text-shadow: 0 1px 10px rgba(0,0,0,0.5); }
+.al-transport-pills { display: flex; flex-wrap: wrap; gap: 0.6rem; justify-content: center; }
+.al-transport-pill { padding: 0.65rem 1.3rem; border: 1px solid var(--al-border); border-radius: 24px; font-size: 1rem; font-weight: 500; display: flex; align-items: center; gap: 0.5rem; transition: border-color 0.3s; text-shadow: 0 1px 6px rgba(0,0,0,0.4); }
+.al-transport-pill:hover { border-color: var(--al-accent); }
+
+/* ===== DEFENSE SECTION ===== */
+.al-defense {
+  position: relative;
+  z-index: 1;
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  scroll-snap-align: start;
+}
+.al-defense__inner { position: relative; z-index: 1; text-align: center; padding: clamp(4rem, 8vw, 7rem) 0; max-width: 900px; margin: 0 auto; }
+.al-defense__title { font-size: clamp(2.5rem, 6vw, 4.5rem); font-weight: 700; line-height: 1.08; letter-spacing: -0.03em; margin-bottom: 1.5rem; text-shadow: 0 2px 16px rgba(0,0,0,0.5), 0 4px 32px rgba(0,0,0,0.25); }
+.al-defense__body { font-size: clamp(1.1rem, 1.4vw, 1.3rem); color: rgba(220,225,235,1); line-height: 1.7; max-width: 52ch; margin: 0 auto 3rem; text-shadow: 0 1px 10px rgba(0,0,0,0.5); }
+.al-defense__stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; margin-bottom: 3rem; }
+.al-defense__stat-num { font-size: clamp(2.5rem, 6vw, 4.5rem); font-weight: 800; line-height: 1; margin-bottom: 0.5rem; text-shadow: 0 2px 16px rgba(0,0,0,0.4); }
+.al-defense__stat-label { font-size: 0.95rem; color: rgba(220,225,235,1); line-height: 1.35; text-shadow: 0 1px 6px rgba(0,0,0,0.4); }
+
+@media (max-width: 640px) { .al-defense__stats { grid-template-columns: 1fr; gap: 1.5rem; } }
+
+/* ===== TIMELINE SECTION ===== */
+.al-timeline {
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+  padding: clamp(4rem, 8vw, 8rem) 0;
+  scroll-snap-align: start;
+}
+.al-timeline__inner { position: relative; z-index: 1; }
+.al-timeline__header { text-align: center; margin-bottom: clamp(3rem, 6vw, 5rem); }
+.al-timeline__track { position: relative; max-width: 900px; margin: 0 auto; }
+.al-timeline__line { position: absolute; left: 50%; transform: translateX(-50%); width: 2px; top: 0; bottom: 0; background: var(--al-timeline-line); }
+.al-timeline__entry { position: relative; display: flex; margin-bottom: 2.5rem; }
+.al-timeline__entry--left { justify-content: flex-start; padding-right: calc(50% + 2rem); }
+.al-timeline__entry--right { justify-content: flex-end; padding-left: calc(50% + 2rem); }
+.al-timeline__year { position: absolute; left: 50%; transform: translateX(-50%); top: 0; background: var(--al-accent); color: #fff; padding: 0.35rem 0.85rem; border-radius: 6px; font-family: var(--font-mono); font-size: 0.82rem; font-weight: 700; white-space: nowrap; z-index: 2; }
+.al-timeline__dot { position: absolute; left: 50%; transform: translateX(-50%); top: 2.5rem; width: 12px; height: 12px; border-radius: 50%; background: var(--al-accent); border: 3px solid var(--al-bg); z-index: 2; }
+.al-timeline__card { background: rgba(17,30,48,0.7); border: 1px solid var(--al-border); border-radius: 10px; padding: 1.25rem 1.5rem; backdrop-filter: blur(6px); margin-top: 1rem; }
+.al-timeline__card p { font-size: 1rem; color: rgba(220,225,235,1); line-height: 1.55; text-shadow: 0 1px 6px rgba(0,0,0,0.4); }
+
+@media (max-width: 860px) {
+  .al-timeline__line { left: 1rem; transform: none; }
+  .al-timeline__entry--left, .al-timeline__entry--right { padding: 0 0 0 3rem; justify-content: flex-start; }
+  .al-timeline__year { left: 1rem; transform: translateX(-50%); }
+  .al-timeline__dot { left: 1rem; transform: translateX(-50%); }
+}
+
+/* ===== INDUSTRIES SECTION ===== */
+.al-industries { position: relative; z-index: 1; padding: clamp(3rem, 6vw, 5rem) 0; text-align: center; min-height: 100dvh; display: flex; flex-direction: column; align-items: center; justify-content: center; scroll-snap-align: start; }
+.al-industries__header { margin-bottom: 2.5rem; }
+.al-industries__tags { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.7rem; }
+.al-industry-tag { padding: 0.7rem 1.4rem; border: 1px solid var(--al-border); border-radius: 24px; font-size: 1rem; font-weight: 500; transition: border-color 0.3s, background 0.3s; text-shadow: 0 1px 6px rgba(0,0,0,0.4); }
+.al-industry-tag:hover { border-color: var(--al-accent); background: var(--al-card-hover); }
+
+/* ===== CONTACT SECTION ===== */
+.al-contact { position: relative; z-index: 1; padding: clamp(4rem, 8vw, 7rem) 0; min-height: 100dvh; display: flex; align-items: center; scroll-snap-align: start; }
+.al-contact__inner { display: grid; grid-template-columns: 1.5fr 1fr; gap: clamp(2rem, 5vw, 4rem); align-items: start; }
+.al-contact__title { font-size: clamp(2.5rem, 6vw, 4.5rem); font-weight: 700; line-height: 1.1; letter-spacing: -0.03em; margin-bottom: 2rem; text-shadow: 0 2px 16px rgba(0,0,0,0.5); }
+.al-contact__info { display: flex; flex-direction: column; gap: 1.5rem; margin-bottom: 2.5rem; }
+.al-contact__info-item { display: flex; align-items: center; gap: 0.75rem; }
+.al-contact__info-icon { width: 40px; height: 40px; border-radius: 10px; background: rgba(214,59,48,0.1); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.al-contact__info-icon svg { width: 20px; height: 20px; color: var(--al-accent); }
+.al-contact__info-label { font-size: 0.82rem; font-family: var(--font-mono); font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(220,225,235,0.7); text-shadow: 0 1px 6px rgba(0,0,0,0.4); }
+.al-contact__info-value { font-size: 1.1rem; text-shadow: 0 1px 6px rgba(0,0,0,0.4); }
+.al-contact__info-value a { transition: color 0.2s; }
+.al-contact__info-value a:hover { color: var(--al-accent); }
+.al-contact__actions { display: flex; flex-direction: column; gap: 1rem; }
+.al-contact__note { font-size: 0.92rem; color: rgba(220,225,235,0.8); margin-top: 1rem; display: flex; align-items: center; gap: 0.5rem; text-shadow: 0 1px 6px rgba(0,0,0,0.4); }
+.al-contact__note-dot { width: 6px; height: 6px; border-radius: 50%; background: #4ade80; animation: pulse 2s ease-in-out infinite; }
+@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+@media (max-width: 860px) { .al-contact__inner { grid-template-columns: 1fr; } }
+
+/* ===== FOOTER ===== */
+.al-footer { position: relative; z-index: 1; padding: clamp(2rem, 4vw, 3rem) 0; }
+.al-footer__inner { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1.5rem; }
+.al-footer__brand { display: flex; align-items: center; gap: 0.75rem; }
+.al-footer__brand img { height: 24px; width: auto; }
+.al-footer__tagline { font-size: 0.82rem; color: var(--al-muted); }
+.al-footer__links { display: flex; gap: 1.5rem; }
+.al-footer__link { font-size: 0.85rem; color: var(--al-muted); transition: color 0.2s; }
+.al-footer__link:hover { color: var(--al-ink); }
+.al-footer__copy { font-size: 0.78rem; color: var(--al-muted); }
+
+@media (max-width: 640px) { .al-footer__inner { flex-direction: column; text-align: center; } }
+
+/* ===== REDUCED MOTION ===== */
+@media (prefers-reduced-motion: reduce) {
+  .hero__scene { min-height: 100dvh !important; }
+  .al-reveal { opacity: 1; transform: none; }
+  .hero__scroll-dot { animation: none; }
+  .al-contact__note-dot { animation: none; }
+  .cinema__layer video { transform: none; }
+  * { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+}
+</style>
+</head>
+<body>
+
+<!-- ============================== CINEMA STAGE ============================== -->
+<div class="cinema" id="cinema" aria-hidden="true">
+  <!-- Hero scroll-scrub video layers -->
+  <div class="cinema__layer cinema__layer--active" id="cl-0">
+    <img src="assets/world/scene-01-poster.png" alt="" loading="eager" fetchpriority="high">
+  </div>
+  <div class="cinema__layer" id="cl-1">
+    <img src="assets/world/scene-02-poster.png" alt="" loading="lazy">
+  </div>
+  <div class="cinema__layer" id="cl-2">
+    <img src="assets/world/scene-03-poster.png" alt="" loading="lazy">
+  </div>
+  <!-- Section video layers (lazy-loaded) -->
+  <div class="cinema__layer" id="cl-about" data-src="assets/sections/about-bg.mp4"></div>
+  <div class="cinema__layer" id="cl-agency" data-src="assets/sections/pillar-agency.mp4"></div>
+  <div class="cinema__layer" id="cl-transport" data-src="assets/sections/pillar-transport.mp4"></div>
+  <div class="cinema__layer" id="cl-marine" data-src="assets/sections/pillar-marine.mp4"></div>
+  <div class="cinema__layer" id="cl-liner" data-src="assets/sections/pillar-liner.mp4"></div>
+  <div class="cinema__layer" id="cl-logistics" data-src="assets/sections/pillar-logistics.mp4"></div>
+  <div class="cinema__layer" id="cl-trans-inter" data-src="assets/sections/transport-bg.mp4"></div>
+  <div class="cinema__layer" id="cl-defense" data-src="assets/sections/defense-bg.mp4"></div>
+  <div class="cinema__layer" id="cl-timeline" data-src="assets/sections/timeline-bg.mp4"></div>
+
+  <!-- Overlay layers (one per mood) -->
+  <div class="cinema__overlay cinema__overlay--hero cinema__overlay--active" id="co-hero"></div>
+  <div class="cinema__overlay cinema__overlay--about" id="co-about"></div>
+  <div class="cinema__overlay cinema__overlay--pillar" id="co-pillar"></div>
+  <div class="cinema__overlay cinema__overlay--transport" id="co-transport"></div>
+  <div class="cinema__overlay cinema__overlay--defense" id="co-defense"></div>
+  <div class="cinema__overlay cinema__overlay--timeline" id="co-timeline"></div>
+  <div class="cinema__overlay cinema__overlay--dark" id="co-dark"></div>
+
+  <div class="cinema__vignette"></div>
+</div>
+
+<!-- ============================== NAVIGATION ============================== -->
+<nav class="al-nav" id="mainNav">
+  <div class="al-nav__inner">
+    <a href="#" class="al-nav__logo">
+      <img src="assets/alyans-logo-white.png" alt="Alyans Logistics">
+    </a>
+    <div class="al-nav__links">
+      <a href="#about" class="al-nav__link">About</a>
+      <a href="#services" class="al-nav__link">Services</a>
+      <a href="#timeline" class="al-nav__link">History</a>
+      <a href="#contact" class="al-nav__link">Contact</a>
+    </div>
+    <div class="al-nav__actions">
+      <button class="al-nav__search-btn" id="searchOpenBtn" aria-label="Search">
+        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6.5"/><line x1="13" y1="13" x2="17" y2="17"/></svg>
+      </button>
+      <a href="mailto:operation@alyans.com.tr?subject=Quote%20Request" class="al-btn al-btn--primary" style="padding:0.55rem 1.15rem;font-size:0.82rem">Get a Quote</a>
+      <button class="al-nav__menu-btn" id="menuOpenBtn" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- ============================== MOBILE MENU ============================== -->
+<div class="al-mobile-menu" id="mobileMenu">
+  <button class="al-mobile-menu__close" id="menuCloseBtn" aria-label="Close menu">
+    <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>
+  </button>
+  <div class="al-mobile-menu__items">
+    <a href="#about" class="al-mobile-menu__item" onclick="closeMobileMenu()"><span class="al-mobile-menu__num">01</span><span class="al-mobile-menu__label">About</span></a>
+    <a href="#services" class="al-mobile-menu__item" onclick="closeMobileMenu()"><span class="al-mobile-menu__num">02</span><span class="al-mobile-menu__label">Services</span></a>
+    <a href="#timeline" class="al-mobile-menu__item" onclick="closeMobileMenu()"><span class="al-mobile-menu__num">03</span><span class="al-mobile-menu__label">History</span></a>
+    <a href="#contact" class="al-mobile-menu__item" onclick="closeMobileMenu()"><span class="al-mobile-menu__num">04</span><span class="al-mobile-menu__label">Contact</span></a>
+  </div>
+  <div class="al-mobile-menu__footer">
+    <button class="al-btn al-btn--outline" onclick="closeMobileMenu();openSearch();">Search</button>
+    <a href="mailto:operation@alyans.com.tr?subject=Quote%20Request" class="al-btn al-btn--primary">Get a Quote</a>
+  </div>
+</div>
+
+<!-- ============================== SEARCH OVERLAY ============================== -->
+<div class="al-search" id="searchOverlay">
+  <button class="al-search__close" id="searchCloseBtn" aria-label="Close search">
+    <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>
+  </button>
+  <div class="al-search__input-wrap">
+    <span class="al-search__icon">
+      <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6.5"/><line x1="13" y1="13" x2="17" y2="17"/></svg>
+    </span>
+    <input type="text" class="al-search__input" id="searchInput" placeholder="Search services, routes, capabilities..." autocomplete="off">
+  </div>
+  <p class="al-search__hint">Press <kbd>ESC</kbd> to close &middot; <kbd>Cmd+K</kbd> to open</p>
+  <div class="al-search__results" id="searchResults"></div>
+</div>
+
+<!-- ============================== HERO ============================== -->
+<section class="hero" id="hero">
+  <div class="hero__ui" id="heroUI">
+    <div class="hero__progress"><span id="heroProgressBar"></span></div>
+    <nav class="hero__route" aria-label="Scroll chapters">
+      <button class="hero__route-btn" aria-current="step" data-scene="0" type="button">Journey</button>
+      <button class="hero__route-btn" data-scene="1" type="button">Defense</button>
+      <button class="hero__route-btn" data-scene="2" type="button">Network</button>
+    </nav>
+    <div class="hero__scroll-hint" id="scrollHint">
+      <span class="hero__scroll-text">Scroll</span>
+      <div class="hero__scroll-mouse"><div class="hero__scroll-dot"></div></div>
+    </div>
+  </div>
+
+  <article class="hero__scene" id="journey">
+    <div class="hero__pin">
+      <div class="hero__copy">
+        <p class="hero__kicker">ALYANS LOGISTICS // EST. 1989</p>
+        <h1 class="hero__title">Beyond Transport, We Move Strategy.</h1>
+        <p class="hero__body">Pioneering international logistics since 1989. Maritime, air, road, and rail solutions across the globe.</p>
+        <ul class="hero__tags"><li>37+ Years</li><li>15+ Ports</li><li>24/7</li></ul>
+      </div>
+    </div>
+  </article>
+
+  <article class="hero__scene" id="defense-hero">
+    <div class="hero__pin">
+      <div class="hero__copy">
+        <p class="hero__kicker">DEFENSE &amp; SECURITY // NATO CERTIFIED</p>
+        <h2 class="hero__title">When Precision Is Non-Negotiable.</h2>
+        <p class="hero__body">From heavy defense equipment to CHF-47 helicopters &mdash; NATO-certified, mission-critical cargo across six continents.</p>
+        <ul class="hero__tags"><li>NATO / FSCC</li><li>15,000+ IMO 1 Containers</li><li>25+ Years</li></ul>
+      </div>
+    </div>
+  </article>
+
+  <article class="hero__scene" id="multimodal">
+    <div class="hero__pin">
+      <div class="hero__copy">
+        <p class="hero__kicker">MULTIMODAL NETWORK // SIX MODES</p>
+        <h2 class="hero__title">One Network. Every Route.</h2>
+        <p class="hero__body">Sea, air, rail, road and river &mdash; one integrated partner connecting every transport mode door-to-door.</p>
+        <ul class="hero__tags"><li>6 Continents</li><li>Door-to-Door</li><li>Project Cargo</li></ul>
+      </div>
+    </div>
+  </article>
+</section>
+
+<!-- ============================== ABOUT SECTION ============================== -->
+<section class="al-about" id="about">
+  <div class="al-container al-about__inner">
+    <div class="al-about__text al-reveal">
+      <p class="al-kicker">Since 1989</p>
+      <h2 class="al-section-title">Building the Future with Our Experience</h2>
+      <p>Alyans Chartering and Shipping Co. has been a cornerstone of international logistics since 1989. With roots tracing back to the Ottoman maritime era of 1880, we combine generations of shipping heritage with modern logistics excellence.</p>
+      <p>Our integrated approach spans ship agency, transport, marine services, liner operations, and comprehensive logistics &mdash; all backed by NATO/FSCC security clearance and a commitment to mission-critical precision.</p>
+      <div class="al-about__ctas">
+        <a href="#services" class="al-btn al-btn--primary">Explore Services</a>
+        <a href="#timeline" class="al-btn al-btn--outline">Our History</a>
+      </div>
+    </div>
+    <div class="al-about__badges al-reveal" style="transition-delay:0.15s">
+      <div class="al-about__badge">
+        <span class="al-about__badge-accent"></span>
+        <div class="al-about__badge-title">1880 Maritime Heritage</div>
+        <div class="al-about__badge-desc">A continuous legacy from Ottoman-era shipping to modern global logistics operations.</div>
+      </div>
+      <div class="al-about__badge">
+        <span class="al-about__badge-accent"></span>
+        <div class="al-about__badge-title">NATO FSCC Certified</div>
+        <div class="al-about__badge-desc">National security clearance for classified and mission-critical military cargo handling.</div>
+      </div>
+      <div class="al-about__badge">
+        <span class="al-about__badge-accent"></span>
+        <div class="al-about__badge-title">5 Service Pillars</div>
+        <div class="al-about__badge-desc">Ship Agency, Transport, Marine Services, Liner Services, and Logistics &mdash; fully integrated.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== SERVICES SECTION ============================== -->
+<section class="al-services" id="services">
+  <div class="al-container">
+    <div class="al-services__header al-reveal">
+      <p class="al-kicker">What We Do</p>
+      <h2 class="al-section-title">Five Pillars of Integrated Logistics</h2>
+      <p class="al-section-body">From port to final destination, our five specialized divisions work as one seamless operation &mdash; delivering reliability across every mode of transport.</p>
+    </div>
+  </div>
+
+  <!-- PILLAR 1: Ship Agency -->
+  <div class="al-pillar" id="pillar-agency">
+    <div class="al-pillar__watermark">01</div>
+    <div class="al-pillar__inner">
+      <div class="al-pillar__header al-reveal">
+        <div class="al-pillar__icon">
+          <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+        </div>
+        <div>
+          <p class="al-kicker" style="margin-bottom:0.25rem">Ship Agency</p>
+          <h3 class="al-pillar__title">Ship Agency</h3>
+        </div>
+      </div>
+      <p class="al-pillar__tagline al-reveal">Every Port. Every Detail.</p>
+      <p class="al-pillar__desc al-reveal">Comprehensive port agency services across 15+ Turkish ports and international destinations, ensuring seamless vessel operations from arrival to departure.</p>
+      <div class="al-svc-grid al-reveal">
+        <div class="al-svc-grid__item"><div class="al-svc-grid__item-title">Cargo Bookings &amp; Stevedoring</div><div class="al-svc-grid__item-desc">Full cargo booking management and professional stevedoring operations at all major Turkish ports.</div></div>
+        <div class="al-svc-grid__item"><div class="al-svc-grid__item-title">Port &amp; Straits Agency</div><div class="al-svc-grid__item-desc">Complete port and Turkish Straits transit agency for vessels of all sizes and types.</div></div>
+        <div class="al-svc-grid__item"><div class="al-svc-grid__item-title">Cargo Document Clearance</div><div class="al-svc-grid__item-desc">Expert handling of all cargo documentation, customs clearance, and regulatory compliance.</div></div>
+        <div class="al-svc-grid__item"><div class="al-svc-grid__item-title">Cargo Handling</div><div class="al-svc-grid__item-desc">Professional cargo handling including heavy lift, project cargo, and specialized equipment operations.</div></div>
+        <div class="al-svc-grid__item"><div class="al-svc-grid__item-title">Ship &amp; Crew Services</div><div class="al-svc-grid__item-desc">Complete crew management including embarkation, disembarkation, and shore leave coordination.</div></div>
+        <div class="al-svc-grid__item"><div class="al-svc-grid__item-title">Spares &amp; Stores Delivery</div><div class="al-svc-grid__item-desc">Efficient delivery of spare parts and ship stores to vessels at port or anchorage.</div></div>
+        <div class="al-svc-grid__item"><div class="al-svc-grid__item-title">Provisions &amp; Supplies</div><div class="al-svc-grid__item-desc">Fresh provisions, bonded stores, and technical supplies sourced and delivered on schedule.</div></div>
+        <div class="al-svc-grid__item"><div class="al-svc-grid__item-title">Bunker &amp; Fresh Water</div><div class="al-svc-grid__item-desc">Bunker fuel procurement and fresh water supply arranged at competitive rates across all ports.</div></div>
+        <div class="al-svc-grid__item"><div class="al-svc-grid__item-title">Medical Attendance</div><div class="al-svc-grid__item-desc">24/7 medical assistance coordination for crew members including hospital arrangements and repatriation.</div></div>
+        <div class="al-svc-grid__item"><div class="al-svc-grid__item-title">Underwater Inspections</div><div class="al-svc-grid__item-desc">Certified underwater hull inspections, propeller polishing, and in-water surveys by qualified divers.</div></div>
+        <div class="al-svc-grid__item"><div class="al-svc-grid__item-title">Marine Surveys</div><div class="al-svc-grid__item-desc">Independent marine surveys including condition, damage, pre-purchase, and on/off hire assessments.</div></div>
+        <div class="al-svc-grid__item"><div class="al-svc-grid__item-title">Engineering Services</div><div class="al-svc-grid__item-desc">Marine engineering support including repairs, maintenance, and technical supervision at port.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PILLAR 2: Transport -->
+  <div class="al-pillar" id="pillar-transport">
+    <div class="al-pillar__watermark">02</div>
+    <div class="al-pillar__inner">
+      <div class="al-pillar__header al-reveal">
+        <div class="al-pillar__icon">
+          <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
+        </div>
+        <div>
+          <p class="al-kicker" style="margin-bottom:0.25rem">Transport</p>
+          <h3 class="al-pillar__title">Transport</h3>
+        </div>
+      </div>
+      <p class="al-pillar__tagline al-reveal">Six Modes. One Network.</p>
+      <p class="al-pillar__desc al-reveal">Multimodal transport solutions connecting every corner of the globe through sea, air, rail, road, river, and chartering services.</p>
+      <div class="al-transport-grid al-reveal">
+        <div class="al-transport-card"><div class="al-transport-card__emoji">&#9875;</div><div class="al-transport-card__title">Sea / Liner Services</div><div class="al-transport-card__desc">FCL/LCL container shipping, breakbulk, and project cargo across all major trade routes worldwide.</div></div>
+        <div class="al-transport-card"><div class="al-transport-card__emoji">&#9992;</div><div class="al-transport-card__title">Air Freight</div><div class="al-transport-card__desc">Time-critical air cargo solutions including charter flights, express, and door-to-door services globally.</div></div>
+        <div class="al-transport-card"><div class="al-transport-card__emoji">&#128642;</div><div class="al-transport-card__title">Rail &amp; Intermodal</div><div class="al-transport-card__desc">Rail transport and intermodal connections including ferry operations across Europe and Asia.</div></div>
+        <div class="al-transport-card"><div class="al-transport-card__emoji">&#128666;</div><div class="al-transport-card__title">Road Transport</div><div class="al-transport-card__desc">FTL/LTL road haulage, project cargo, heavy lift, and oversized load transport across continents.</div></div>
+        <div class="al-transport-card"><div class="al-transport-card__emoji">&#127754;</div><div class="al-transport-card__title">River Transport</div><div class="al-transport-card__desc">Inland waterway transport via European river networks for bulk and project cargo.</div></div>
+        <div class="al-transport-card"><div class="al-transport-card__emoji">&#128674;</div><div class="al-transport-card__title">Ship Chartering</div><div class="al-transport-card__desc">Voyage and time charter services for vessels of all sizes, from handy to cape size and specialized tonnage.</div></div>
+      </div>
+      <div class="al-reveal">
+        <h4 style="font-size:1rem;font-weight:600;margin-bottom:0.75rem;color:var(--al-ink)">Specialized Capabilities</h4>
+        <div class="al-spec-tags">
+          <span class="al-spec-tag">Military Cargo Transportation</span>
+          <span class="al-spec-tag">Heavy Lift &amp; Project Cargo</span>
+          <span class="al-spec-tag">US FLAG / EXIMBANK Shipments</span>
+          <span class="al-spec-tag">FCL/LCL Container Services</span>
+          <span class="al-spec-tag">Dangerous Goods (DGR Certified)</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PILLAR 3: Marine Services -->
+  <div class="al-pillar" id="pillar-marine">
+    <div class="al-pillar__watermark">03</div>
+    <div class="al-pillar__inner">
+      <div class="al-pillar__header al-reveal">
+        <div class="al-pillar__icon">
+          <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22V2"/><path d="M5 12H2l10-10 10 10h-3"/><path d="M5 22h14"/></svg>
+        </div>
+        <div>
+          <p class="al-kicker" style="margin-bottom:0.25rem">Marine Services</p>
+          <h3 class="al-pillar__title">Marine Services</h3>
+        </div>
+      </div>
+      <p class="al-pillar__tagline al-reveal">From Hull to Bridge.</p>
+      <p class="al-pillar__desc al-reveal">End-to-end marine services covering every aspect of vessel ownership, management, and technical operations.</p>
+      <div class="al-marine-grid al-reveal">
+        <div class="al-marine-item"><span class="al-marine-dot"></span>Technical Management</div>
+        <div class="al-marine-item"><span class="al-marine-dot"></span>Ship Management &amp; Crewing</div>
+        <div class="al-marine-item"><span class="al-marine-dot"></span>Sale &amp; Purchase</div>
+        <div class="al-marine-item"><span class="al-marine-dot"></span>Offshore Equipment Supply</div>
+        <div class="al-marine-item"><span class="al-marine-dot"></span>Shore Based Logistics</div>
+        <div class="al-marine-item"><span class="al-marine-dot"></span>Marine Insurance</div>
+        <div class="al-marine-item"><span class="al-marine-dot"></span>S&amp;P Condition Surveys</div>
+        <div class="al-marine-item"><span class="al-marine-dot"></span>Ship Repairs &amp; Conversions</div>
+        <div class="al-marine-item"><span class="al-marine-dot"></span>New Building Supervision</div>
+        <div class="al-marine-item"><span class="al-marine-dot"></span>Project Consultancy</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PILLAR 4: Liner Services -->
+  <div class="al-pillar" id="pillar-liner">
+    <div class="al-pillar__watermark">04</div>
+    <div class="al-pillar__inner">
+      <div class="al-pillar__header al-reveal">
+        <div class="al-pillar__icon">
+          <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"/></svg>
+        </div>
+        <div>
+          <p class="al-kicker" style="margin-bottom:0.25rem">Liner Services</p>
+          <h3 class="al-pillar__title">Liner Services</h3>
+        </div>
+      </div>
+      <p class="al-pillar__tagline al-reveal">Global Routes. Strategic Cargo.</p>
+      <p class="al-pillar__desc al-reveal">Regular liner service operations on strategic trade lanes, specializing in heavy lift, project cargo, and military equipment transport.</p>
+      <div class="al-route-cards al-reveal">
+        <div class="al-route-card">
+          <div class="al-route-card__path">US East Coast &amp; Gulf <span class="al-route-card__arrow">&rarr;</span> Mediterranean, Eastern Med, Turkish &amp; Black Sea Ports</div>
+          <div class="al-route-card__cargo">Military cargo, project cargo, heavy lift, steel products, oilwell equipment, and general cargo on regular schedules.</div>
+        </div>
+        <div class="al-route-card">
+          <div class="al-route-card__path">North Adriatic Ports <span class="al-route-card__arrow">&rarr;</span> Turkish &amp; Black Sea Ports, River Ports</div>
+          <div class="al-route-card__cargo">Steel products, oilwell equipment, project cargo, heavy lift, rolling stock, and military equipment shipments.</div>
+        </div>
+        <div class="al-route-card">
+          <div class="al-route-card__path">World-Wide Operators <span class="al-route-card__arrow">&rarr;</span> Red Sea, Persian Gulf, Far East &amp; Europe</div>
+          <div class="al-route-card__cargo">Steel products, oilwell equipment, project cargo, heavy lift, and specialized cargo across global trade routes.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PILLAR 5: Logistics -->
+  <div class="al-pillar" id="pillar-logistics">
+    <div class="al-pillar__watermark">05</div>
+    <div class="al-pillar__inner">
+      <div class="al-pillar__header al-reveal">
+        <div class="al-pillar__icon">
+          <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4"/><path d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        </div>
+        <div>
+          <p class="al-kicker" style="margin-bottom:0.25rem">Logistics</p>
+          <h3 class="al-pillar__title">Logistics</h3>
+        </div>
+      </div>
+      <p class="al-pillar__tagline al-reveal">Mission-Grade Delivery.</p>
+      <div class="al-nato-badge al-reveal">
+        <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        NATO / FSCC Security Cleared
+      </div>
+      <p class="al-pillar__desc al-reveal">Full-spectrum logistics solutions with NATO/FSCC security clearance, specializing in military, dangerous, and mission-critical cargo operations.</p>
+      <div class="al-logistics-grid al-reveal">
+        <div class="al-logistics-item"><svg class="al-logistics-check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>NATO &amp; FSCC Security Clearance</div>
+        <div class="al-logistics-item"><svg class="al-logistics-check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Military &amp; Dangerous Cargo Handling</div>
+        <div class="al-logistics-item"><svg class="al-logistics-check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Door-to-Door Solutions</div>
+        <div class="al-logistics-item"><svg class="al-logistics-check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Custom Clearance</div>
+        <div class="al-logistics-item"><svg class="al-logistics-check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Warehousing &amp; Packaging</div>
+        <div class="al-logistics-item"><svg class="al-logistics-check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Heavy Lift &amp; Project Cargo Stevedoring</div>
+        <div class="al-logistics-item"><svg class="al-logistics-check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Purchase Order &amp; L/C Follow-up</div>
+        <div class="al-logistics-item"><svg class="al-logistics-check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Full Cargo Insurance &amp; Security</div>
+        <div class="al-logistics-item"><svg class="al-logistics-check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>All Surveys &amp; Inspections</div>
+        <div class="al-logistics-item"><svg class="al-logistics-check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>24/7 Communication Systems</div>
+        <div class="al-logistics-item"><svg class="al-logistics-check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Factory Dismantling &amp; Re-installation</div>
+        <div class="al-logistics-item"><svg class="al-logistics-check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Dependable On-time Delivery to Final Job Sites</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="al-pillar-cta">
+    <a href="mailto:operation@alyans.com.tr?subject=Service%20Quote%20Request" class="al-btn al-btn--primary al-reveal">
+      Request a Service Quote
+      <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>
+    </a>
+  </div>
+</section>
+
+<!-- ============================== STATS SECTION ============================== -->
+<section class="al-stats" id="stats-section">
+  <div class="al-container">
+    <div class="al-stats__grid">
+      <div class="al-stat al-reveal"><div class="al-stat__number" data-count="37">0</div><div class="al-stat__label">Years of Heritage</div></div>
+      <div class="al-stat al-reveal"><div class="al-stat__number" data-count="15">0</div><div class="al-stat__label">Turkish Ports</div></div>
+      <div class="al-stat al-reveal"><div class="al-stat__number" data-count="24" data-suffix="/7">0</div><div class="al-stat__label">Operations</div></div>
+      <div class="al-stat al-reveal"><div class="al-stat__number" data-count="6">0</div><div class="al-stat__label">Continents</div></div>
+      <div class="al-stat al-reveal"><div class="al-stat__number" data-count="15000" data-prefix="">0</div><div class="al-stat__label">IMO 1 Containers</div></div>
+      <div class="al-stat al-reveal"><div class="al-stat__number" data-count="5">0</div><div class="al-stat__label">Service Pillars</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== TRANSPORT INTERSTITIAL ============================== -->
+<section class="al-transport-inter" id="transport-inter">
+  <div class="al-transport-inter__content">
+    <h2 class="al-transport-inter__title al-reveal">Sea. Air. Rail. Road. River.</h2>
+    <p class="al-transport-inter__sub al-reveal">One integrated logistics partner connecting every transport mode across six continents.</p>
+    <div class="al-transport-pills al-reveal">
+      <span class="al-transport-pill">&#9875; Maritime</span>
+      <span class="al-transport-pill">&#9992; Air Freight</span>
+      <span class="al-transport-pill">&#128642; Rail</span>
+      <span class="al-transport-pill">&#128666; Road</span>
+      <span class="al-transport-pill">&#127754; River</span>
+      <span class="al-transport-pill">&#128674; Chartering</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== DEFENSE SECTION ============================== -->
+<section class="al-defense" id="defense">
+  <div class="al-container">
+    <div class="al-defense__inner">
+      <p class="al-kicker al-reveal" style="text-align:center">Defense &amp; Security</p>
+      <h2 class="al-defense__title al-reveal">Mission-Critical Transport.<br>NATO Compliant.</h2>
+      <p class="al-defense__body al-reveal">With over two decades of service to the Turkish Ministry of Defense and NATO/FSCC security clearance, Alyans specializes in the transport of military equipment, ammunition, and classified cargo across six continents.</p>
+      <div class="al-defense__stats al-reveal">
+        <div><div class="al-defense__stat-num" data-count="15000" data-prefix="">0</div><div class="al-defense__stat-label">IMO 1 Containers<br>Transported</div></div>
+        <div><div class="al-defense__stat-num" data-count="30" data-prefix="">0</div><div class="al-defense__stat-label">Defense &amp; Security<br>Operations</div></div>
+        <div><div class="al-defense__stat-num" style="font-size:clamp(1rem,2.5vw,1.5rem);">FSCC</div><div class="al-defense__stat-label">National Security<br>Clearance</div></div>
+      </div>
+      <div class="al-reveal" style="text-align:center">
+        <a href="mailto:operation@alyans.com.tr?subject=Classified%20Logistics%20Inquiry" class="al-btn al-btn--primary">
+          Discuss Classified Logistics
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== TIMELINE SECTION ============================== -->
+<section class="al-timeline" id="timeline">
+  <div class="al-container al-timeline__inner">
+    <div class="al-timeline__header">
+      <p class="al-kicker al-reveal">Our Heritage</p>
+      <h2 class="al-section-title al-reveal">A Maritime Legacy Since 1880</h2>
+    </div>
+    <div class="al-timeline__track">
+      <div class="al-timeline__line"></div>
+      <div class="al-timeline__entry al-timeline__entry--left al-reveal"><div class="al-timeline__year">1880</div><div class="al-timeline__dot"></div><div class="al-timeline__card"><p>Saadettin Avayni moves from Lebanon to Istanbul during the Ottoman era, entering the maritime and trading business and laying the foundations of a family shipping tradition that would continue for generations.</p></div></div>
+      <div class="al-timeline__entry al-timeline__entry--right al-reveal"><div class="al-timeline__year">1920</div><div class="al-timeline__dot"></div><div class="al-timeline__card"><p>Captain Mehmet Avayni takes over the family maritime business, expanding operations and establishing key trade routes across the Mediterranean and Black Sea.</p></div></div>
+      <div class="al-timeline__entry al-timeline__entry--left al-reveal"><div class="al-timeline__year">1971</div><div class="al-timeline__dot"></div><div class="al-timeline__card"><p>Captain Faruk Karakaya retires from the Turkish Navy and enters the commercial maritime sector, bringing military precision to civilian shipping operations.</p></div></div>
+      <div class="al-timeline__entry al-timeline__entry--right al-reveal"><div class="al-timeline__year">1986</div><div class="al-timeline__dot"></div><div class="al-timeline__card"><p>Captain Faruk Karakaya lost his life on 2 March 1986 while serving aboard M/T ATLAS-1, following an air attack in the Persian Gulf during the Iran&ndash;Iraq Tanker War. His legacy of courage, seamanship, and dedication to the maritime profession continues to inspire and guide the generations that followed.</p></div></div>
+      <div class="al-timeline__entry al-timeline__entry--left al-reveal"><div class="al-timeline__year">1989</div><div class="al-timeline__dot"></div><div class="al-timeline__card"><p>Capt. Hakan and Capt. Tarkan Karakaya found ALYANS Chartering and Shipping Co. in Istanbul, establishing the company as a specialist in international chartering and maritime services.</p></div></div>
+      <div class="al-timeline__entry al-timeline__entry--right al-reveal"><div class="al-timeline__year">1992</div><div class="al-timeline__dot"></div><div class="al-timeline__card"><p>Major agreements signed with CIS companies for chartering services. Alyans expands its Black Sea and Mediterranean operations significantly.</p></div></div>
+      <div class="al-timeline__entry al-timeline__entry--left al-reveal"><div class="al-timeline__year">1994</div><div class="al-timeline__dot"></div><div class="al-timeline__card"><p>Liner services and shipping agency established from Italian Adriatic ports to Turkish and Black Sea destinations, creating regular trade lane operations. Yearly served more than 1,600 ships.</p></div></div>
+      <div class="al-timeline__entry al-timeline__entry--right al-reveal"><div class="al-timeline__year">1995</div><div class="al-timeline__dot"></div><div class="al-timeline__card"><p>With two of our own 13,000 DWT vessels, MV MERİÇ and MV FIRAT, and a total fleet of seven vessels ranging from 13,000 to 19,000 DWT, Alyans established a regular general cargo, project cargo and container service connecting the USA, T&uuml;rkiye and Black Sea ports.</p></div></div>
+      <div class="al-timeline__entry al-timeline__entry--left al-reveal"><div class="al-timeline__year">1996</div><div class="al-timeline__dot"></div><div class="al-timeline__card"><p>Forwarding and Logistics division established, transforming Alyans from a chartering company into a full-service integrated logistics provider.</p></div></div>
+      <div class="al-timeline__entry al-timeline__entry--left al-reveal"><div class="al-timeline__year">1998</div><div class="al-timeline__dot"></div><div class="al-timeline__card"><p>Long-term contracts signed with Turkish Petroleum (TPAO) for oilfield equipment transportation, marking entry into the energy sector logistics.</p></div></div>
+      <div class="al-timeline__entry al-timeline__entry--right al-reveal"><div class="al-timeline__year">2000</div><div class="al-timeline__dot"></div><div class="al-timeline__card"><p>Long-term marine transport agreement signed with the Turkish Ministry of Defense, beginning a partnership that continues to this day.</p></div></div>
+      <div class="al-timeline__entry al-timeline__entry--left al-reveal"><div class="al-timeline__year">2002</div><div class="al-timeline__dot"></div><div class="al-timeline__card"><p>Worked for many years with ENKA&ndash;Bechtel on the Bautino Caspian Sea oil platform projects, serving as sea transporter, marine consultant, supplier, and shipping agent.</p></div></div>
+      <div class="al-timeline__entry al-timeline__entry--right al-reveal"><div class="al-timeline__year">2003</div><div class="al-timeline__dot"></div><div class="al-timeline__card"><p>Alyans acquired M/F ERDENİZ from Scandlines Denmark, at the time Turkey&rsquo;s largest rail-ferry vessel, enabling direct rail&ndash;sea intermodal transportation. Between 2003 and 2014, Alyans transported more than 8.5 million metric tons of coal, iron ore, and other bulk, military, containers and project cargoes.</p></div></div>
+      <div class="al-timeline__entry al-timeline__entry--right al-reveal"><div class="al-timeline__year">2007</div><div class="al-timeline__dot"></div><div class="al-timeline__card"><p>Successfully completes the transportation of heavy defense equipment for the Turkish Armed Forces, including 400 Leopard 2A4, many military vehicles and equipment, and more than 2,000 Class 1 containers &mdash; one of the largest military cargo operations in Turkish history.</p></div></div>
+      <div class="al-timeline__entry al-timeline__entry--left al-reveal"><div class="al-timeline__year">2015</div><div class="al-timeline__dot"></div><div class="al-timeline__card"><p>Undertakes and completes the transport of CHF-47 helicopters for the Turkish military, demonstrating capability in the most sensitive and complex defense logistics.</p></div></div>
+      <div class="al-timeline__entry al-timeline__entry--right al-reveal"><div class="al-timeline__year">2011</div><div class="al-timeline__dot"></div><div class="al-timeline__card"><p>Milgem Project &mdash; ADIK &amp; ALYANS Naval Shipbuilding Projects. Two LST (Landing Ship Tank) TCG Sancaktar &amp; TCG Bayraktar delivered successfully.</p></div></div>
+      <div class="al-timeline__entry al-timeline__entry--left al-reveal"><div class="al-timeline__year">2018</div><div class="al-timeline__dot"></div><div class="al-timeline__card"><p>Successfully completed major door-to-door heavy-lift transportation projects for power plants and industrial facilities located across Central Anatolia and the Eastern Black Sea region of T&uuml;rkiye.</p></div></div>
+      <div class="al-timeline__entry al-timeline__entry--right al-reveal"><div class="al-timeline__year">2020+</div><div class="al-timeline__dot"></div><div class="al-timeline__card"><p>Continuing to serve public and private sector clients with expanded capabilities in multimodal transport, defense logistics, and project cargo across six continents. To date, operations have included the transportation of more than 15,000 Class 1 containers, the worldwide carriage of commercial vessels and naval ships aboard semi-submersible vessels, as well as the ongoing transportation of a wide range of civil and defence-industry cargoes requiring complex handling and advanced technical expertise.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== INDUSTRIES SECTION ============================== -->
+<section class="al-industries" id="industries">
+  <div class="al-container">
+    <div class="al-industries__header">
+      <p class="al-kicker al-reveal">Industries We Serve</p>
+      <h2 class="al-section-title al-reveal">Trusted Across Sectors</h2>
+    </div>
+    <div class="al-industries__tags al-reveal">
+      <span class="al-industry-tag">Defense Industry</span>
+      <span class="al-industry-tag">Petroleum &amp; Oil</span>
+      <span class="al-industry-tag">Energy</span>
+      <span class="al-industry-tag">Iron &amp; Steel</span>
+      <span class="al-industry-tag">Construction &amp; Mining</span>
+      <span class="al-industry-tag">Public Sector</span>
+      <span class="al-industry-tag">Ore &amp; Minerals</span>
+      <span class="al-industry-tag">Healthcare</span>
+      <span class="al-industry-tag">Offshore &amp; Marine</span>
+      <span class="al-industry-tag">Agriculture &amp; Bulk</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== CONTACT SECTION ============================== -->
+<section class="al-contact" id="contact">
+  <div class="al-container">
+    <div class="al-contact__inner">
+      <div>
+        <h2 class="al-contact__title al-reveal">Ready to Move<br>Your Cargo?</h2>
+        <div class="al-contact__info al-reveal">
+          <div class="al-contact__info-item">
+            <div class="al-contact__info-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg></div>
+            <div><div class="al-contact__info-label">Phone</div><div class="al-contact__info-value"><a href="tel:+902122274891">+90 212 227 48 91</a></div></div>
+          </div>
+          <div class="al-contact__info-item">
+            <div class="al-contact__info-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg></div>
+            <div><div class="al-contact__info-label">Email</div><div class="al-contact__info-value"><a href="mailto:operation@alyans.com.tr">operation@alyans.com.tr</a></div></div>
+          </div>
+          <div class="al-contact__info-item">
+            <div class="al-contact__info-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17.657 16.657L13.414 20.9a2 2 0 01-2.828 0l-4.243-4.243a8 8 0 1111.314 0z"/><circle cx="12" cy="11" r="3"/></svg></div>
+            <div><div class="al-contact__info-label">Location</div><div class="al-contact__info-value">Istanbul, Turkey</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="al-contact__actions al-reveal">
+        <a href="mailto:operation@alyans.com.tr?subject=Quote%20Request" class="al-btn al-btn--primary" style="justify-content:center">
+          <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+          Request a Quote
+        </a>
+        <a href="tel:+902122274891" class="al-btn al-btn--outline" style="justify-content:center">
+          <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+          Call Operations
+        </a>
+        <div class="al-contact__note"><span class="al-contact__note-dot"></span>Available 24/7 for urgent cargo</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== FOOTER ============================== -->
+<footer class="al-footer">
+  <div class="al-container">
+    <div class="al-footer__inner">
+      <div class="al-footer__brand">
+        <img src="assets/alyans-logo-white.png" alt="Alyans">
+        <span class="al-footer__tagline">Chartering &amp; Shipping Co.</span>
+      </div>
+      <div class="al-footer__links">
+        <a href="#about" class="al-footer__link">About</a>
+        <a href="#services" class="al-footer__link">Services</a>
+        <a href="#timeline" class="al-footer__link">History</a>
+        <a href="#contact" class="al-footer__link">Contact</a>
+      </div>
+      <div class="al-footer__copy">&copy; 2026 Alyans. All rights reserved.</div>
+    </div>
+  </div>
+</footer>
+
+<!-- ============================== SCRIPTS ============================== -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+<script>
+(function() {
+  'use strict';
+  gsap.registerPlugin(ScrollTrigger);
+
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ============================================================
+     CINEMA ENGINE — unified video backdrop with crossfades
+     ============================================================ */
+  var heroScenes = [
+    { id: 'cl-0', src: 'assets/world/scene-01.mp4' },
+    { id: 'cl-1', src: 'assets/world/scene-02.mp4' },
+    { id: 'cl-2', src: 'assets/world/scene-03.mp4' },
+  ];
+
+  var cinemaSequence = [
+    { trigger: '#journey',        videoId: 'cl-0',          overlayId: 'co-hero' },
+    { trigger: '#defense-hero',   videoId: 'cl-1',          overlayId: 'co-hero' },
+    { trigger: '#multimodal',     videoId: 'cl-2',          overlayId: 'co-hero' },
+    { trigger: '#about',          videoId: 'cl-about',      overlayId: 'co-about' },
+    { trigger: '#services',       videoId: 'cl-about',      overlayId: 'co-dark' },
+    { trigger: '#pillar-agency',  videoId: 'cl-agency',     overlayId: 'co-pillar' },
+    { trigger: '#pillar-transport', videoId: 'cl-transport', overlayId: 'co-pillar' },
+    { trigger: '#pillar-marine',  videoId: 'cl-marine',     overlayId: 'co-pillar' },
+    { trigger: '#pillar-liner',   videoId: 'cl-liner',      overlayId: 'co-pillar' },
+    { trigger: '#pillar-logistics', videoId: 'cl-logistics', overlayId: 'co-pillar' },
+    { trigger: '#stats-section',  videoId: 'cl-logistics',  overlayId: 'co-dark' },
+    { trigger: '#transport-inter', videoId: 'cl-trans-inter', overlayId: 'co-transport' },
+    { trigger: '#defense',        videoId: 'cl-defense',    overlayId: 'co-defense' },
+    { trigger: '#timeline',       videoId: 'cl-timeline',   overlayId: 'co-timeline' },
+    { trigger: '#industries',     videoId: 'cl-timeline',   overlayId: 'co-dark' },
+    { trigger: '#contact',        videoId: 'cl-timeline',   overlayId: 'co-dark' },
+  ];
+
+  var currentVideoId = 'cl-0';
+  var currentOverlayId = 'co-hero';
+  var isInHero = true;
+
+  function cinemaTransition(newVideoId, newOverlayId) {
+    if (newVideoId === currentVideoId && newOverlayId === currentOverlayId) return;
+
+    if (newVideoId !== currentVideoId) {
+      var oldVid = document.getElementById(currentVideoId);
+      var newVid = document.getElementById(newVideoId);
+
+      loadCinemaVideo(newVideoId);
+
+      gsap.to(newVid, { opacity: 1, duration: 1, ease: 'power2.inOut' });
+      gsap.to(oldVid, { opacity: 0, duration: 0.8, ease: 'power2.inOut', delay: 0.15 });
+
+      pauseVideo(currentVideoId);
+      playVideo(newVideoId);
+
+      currentVideoId = newVideoId;
+    }
+
+    if (newOverlayId !== currentOverlayId) {
+      var oldOv = document.getElementById(currentOverlayId);
+      var newOv = document.getElementById(newOverlayId);
+      gsap.to(newOv, { opacity: 1, duration: 0.8, ease: 'power2.inOut' });
+      gsap.to(oldOv, { opacity: 0, duration: 0.8, ease: 'power2.inOut' });
+      currentOverlayId = newOverlayId;
+    }
+  }
+
+  function loadCinemaVideo(layerId) {
+    var layer = document.getElementById(layerId);
+    if (!layer || layer.querySelector('video')) return;
+    var src = layer.dataset.src;
+    if (!src) return;
+    var video = document.createElement('video');
+    video.muted = true;
+    video.loop = true;
+    video.playsInline = true;
+    video.setAttribute('muted', '');
+    video.setAttribute('playsinline', '');
+    video.src = src;
+    video.style.cssText = 'width:100%;height:100%;object-fit:cover;transform:scale(1.05)';
+    layer.appendChild(video);
+    video.play().catch(function(){});
+  }
+
+  function playVideo(layerId) {
+    var layer = document.getElementById(layerId);
+    if (!layer) return;
+    var v = layer.querySelector('video');
+    if (v && v.loop) v.play().catch(function(){});
+  }
+
+  function pauseVideo(layerId) {
+    var layer = document.getElementById(layerId);
+    if (!layer) return;
+    var v = layer.querySelector('video');
+    if (v && v.loop) v.pause();
+  }
+
+  cinemaSequence.forEach(function(entry) {
+    var el = document.querySelector(entry.trigger);
+    if (!el) return;
+
+    ScrollTrigger.create({
+      trigger: el,
+      start: 'top 55%',
+      onEnter: function() {
+        isInHero = entry.videoId.indexOf('cl-') === 0 && entry.videoId.length <= 4;
+        cinemaTransition(entry.videoId, entry.overlayId);
+      },
+      onEnterBack: function() {
+        isInHero = entry.videoId.indexOf('cl-') === 0 && entry.videoId.length <= 4;
+        cinemaTransition(entry.videoId, entry.overlayId);
+      }
+    });
+
+    if (entry.videoId.length > 4) {
+      ScrollTrigger.create({
+        trigger: el,
+        start: 'top bottom',
+        end: 'bottom top',
+        onEnter: function() { loadCinemaVideo(entry.videoId); },
+        onEnterBack: function() { loadCinemaVideo(entry.videoId); }
+      });
+    }
+  });
+
+  /* ============================================================
+     HERO SCROLL-SCRUB ENGINE
+     ============================================================ */
+  var heroSection = document.getElementById('hero');
+  var heroUI = document.getElementById('heroUI');
+  var heroProgressBar = document.getElementById('heroProgressBar');
+  var scrollHint = document.getElementById('scrollHint');
+  var routeBtns = heroUI.querySelectorAll('.hero__route-btn');
+  var sceneEls = heroSection.querySelectorAll('.hero__scene');
+  var layerEls = [
+    document.getElementById('cl-0'),
+    document.getElementById('cl-1'),
+    document.getElementById('cl-2'),
+  ];
+
+  var heroVideos = [null, null, null];
+  var heroVideoReady = [false, false, false];
+  var heroTargets = [0, 0, 0];
+  var heroValues = [0, 0, 0];
+  var activeScene = 0;
+
+  function clamp(v, lo, hi) {
+    if (lo === undefined) lo = 0;
+    if (hi === undefined) hi = 1;
+    return Math.min(hi, Math.max(lo, v));
+  }
+  function smoothstep(v) {
+    var x = clamp(v);
+    return x * x * (3 - 2 * x);
+  }
+
+  function loadHeroVideo(index) {
+    if (heroVideos[index] || reduceMotion) return;
+    var layer = layerEls[index];
+    var video = document.createElement('video');
+    video.className = '';
+    video.muted = true;
+    video.playsInline = true;
+    video.preload = 'auto';
+    video.setAttribute('muted', '');
+    video.setAttribute('playsinline', '');
+    video.style.cssText = 'width:100%;height:100%;object-fit:cover;position:absolute;inset:0;z-index:1;transform:scale(1.05)';
+
+    video.addEventListener('loadedmetadata', function() { heroVideoReady[index] = true; }, { once: true });
+    video.addEventListener('seeked', function() { layer.dataset.painted = 'true'; }, { once: true });
+
+    video.src = heroScenes[index].src;
+    layer.appendChild(video);
+    heroVideos[index] = video;
+  }
+
+  function getHeroScrollInfo() {
+    var heroRect = heroSection.getBoundingClientRect();
+    var pageY = window.scrollY || window.pageYOffset;
+    var heroTop = heroRect.top + pageY;
+    var totalScroll = 0;
+    var bandStarts = [];
+    var bandEnds = [];
+
+    for (var i = 0; i < sceneEls.length; i++) {
+      var rect = sceneEls[i].getBoundingClientRect();
+      var start = rect.top + pageY - heroTop;
+      var end = start + rect.height;
+      bandStarts.push(start);
+      bandEnds.push(end);
+      if (end > totalScroll) totalScroll = end;
+    }
+
+    return { heroTop: heroTop, totalScroll: Math.max(totalScroll, window.innerHeight), bandStarts: bandStarts, bandEnds: bandEnds };
+  }
+
+  function updateHeroScroll() {
+    if (!isInHero) return;
+
+    var info = getHeroScrollInfo();
+    var pageY = window.scrollY || window.pageYOffset;
+    var y = clamp(pageY - info.heroTop, 0, info.totalScroll);
+    var crossfade = 0.1 * window.innerHeight;
+    var curIdx = 0;
+
+    for (var i = 0; i < 3; i++) {
+      if (y >= info.bandStarts[i]) curIdx = i;
+
+      var length = Math.max(info.bandEnds[i] - info.bandStarts[i], 1);
+      var local = clamp((y - info.bandStarts[i]) / length);
+      heroTargets[i] = local;
+
+      var outside = 0;
+      if (y < info.bandStarts[i]) outside = info.bandStarts[i] - y;
+      if (y > info.bandEnds[i]) outside = y - info.bandEnds[i];
+      var opacity = smoothstep(1 - outside / Math.max(crossfade, 1));
+      if (reduceMotion) opacity = outside === 0 ? 1 : 0;
+
+      gsap.set(layerEls[i], { opacity: opacity });
+      layerEls[i].style.zIndex = i === curIdx ? '2' : '1';
+
+      if (y > info.bandStarts[i] - 1.5 * window.innerHeight &&
+          y < info.bandEnds[i] + 1.5 * window.innerHeight) {
+        loadHeroVideo(i);
+      }
+    }
+
+    var progress = clamp(y / info.totalScroll);
+    if (heroProgressBar) heroProgressBar.style.transform = 'scaleX(' + progress + ')';
+
+    if (curIdx !== activeScene) {
+      activeScene = curIdx;
+      routeBtns.forEach(function(btn, idx) {
+        if (idx === activeScene) btn.setAttribute('aria-current', 'step');
+        else btn.removeAttribute('aria-current');
+      });
+    }
+
+    if (scrollHint) scrollHint.style.opacity = y > 50 ? '0' : '0.5';
+  }
+
+  function updateHeroVideos() {
+    for (var i = 0; i < 3; i++) {
+      var video = heroVideos[i];
+      if (!video || !heroVideoReady[i] || video.seeking) continue;
+      heroValues[i] += (heroTargets[i] - heroValues[i]) * 0.2;
+      var targetTime = clamp(heroValues[i], 0, 0.999) * (video.duration || 1);
+      if (Math.abs(video.currentTime - targetTime) > 0.01) {
+        try { video.currentTime = targetTime; } catch(e) {}
+      }
+    }
+  }
+
+  function tick() {
+    updateHeroScroll();
+    updateHeroVideos();
+    requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+  loadHeroVideo(0);
+
+  ScrollTrigger.create({
+    trigger: '#hero',
+    start: 'top bottom',
+    end: 'bottom top',
+    onLeave: function() { heroUI.classList.add('is-hidden'); },
+    onEnterBack: function() { heroUI.classList.remove('is-hidden'); },
+    onEnter: function() { heroUI.classList.remove('is-hidden'); },
+  });
+
+  routeBtns.forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var idx = parseInt(btn.dataset.scene);
+      var info = getHeroScrollInfo();
+      var top = info.heroTop + info.bandStarts[idx] + 0.15 * (info.bandEnds[idx] - info.bandStarts[idx]);
+      window.scrollTo({ behavior: reduceMotion ? 'auto' : 'smooth', top: top });
+    });
+  });
+
+  /* ============================================================
+     NAVIGATION SCROLL EFFECT
+     ============================================================ */
+  var nav = document.getElementById('mainNav');
+  ScrollTrigger.create({
+    start: 'top -80',
+    end: 99999,
+    onUpdate: function(self) {
+      if (self.scroll() > 80) nav.classList.add('is-scrolled');
+      else nav.classList.remove('is-scrolled');
+    }
+  });
+
+  /* ============================================================
+     MOBILE MENU
+     ============================================================ */
+  var mobileMenu = document.getElementById('mobileMenu');
+  document.getElementById('menuOpenBtn').addEventListener('click', function() {
+    mobileMenu.classList.add('is-open');
+    document.body.style.overflow = 'hidden';
+  });
+  window.closeMobileMenu = function() {
+    mobileMenu.classList.remove('is-open');
+    document.body.style.overflow = '';
+  };
+  document.getElementById('menuCloseBtn').addEventListener('click', closeMobileMenu);
+
+  /* ============================================================
+     SEARCH OVERLAY
+     ============================================================ */
+  var searchOverlay = document.getElementById('searchOverlay');
+  var searchInput = document.getElementById('searchInput');
+  var searchResults = document.getElementById('searchResults');
+
+  window.openSearch = function() {
+    searchOverlay.classList.add('is-open');
+    document.body.style.overflow = 'hidden';
+    setTimeout(function() { searchInput.focus(); }, 100);
+  };
+  function closeSearch() {
+    searchOverlay.classList.remove('is-open');
+    document.body.style.overflow = '';
+    searchInput.value = '';
+    searchResults.innerHTML = '';
+  }
+  document.getElementById('searchOpenBtn').addEventListener('click', window.openSearch);
+  document.getElementById('searchCloseBtn').addEventListener('click', closeSearch);
+
+  document.addEventListener('keydown', function(e) {
+    if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+      e.preventDefault();
+      if (searchOverlay.classList.contains('is-open')) closeSearch();
+      else window.openSearch();
+    }
+    if (e.key === 'Escape') {
+      if (searchOverlay.classList.contains('is-open')) closeSearch();
+      if (mobileMenu.classList.contains('is-open')) closeMobileMenu();
+    }
+  });
+
+  var searchData = [
+    { title: 'Ship Agency', category: 'Service Pillar', section: '#pillar-agency' },
+    { title: 'Transport', category: 'Service Pillar', section: '#pillar-transport' },
+    { title: 'Marine Services', category: 'Service Pillar', section: '#pillar-marine' },
+    { title: 'Liner Services', category: 'Service Pillar', section: '#pillar-liner' },
+    { title: 'Logistics', category: 'Service Pillar', section: '#pillar-logistics' },
+    { title: 'Cargo Bookings & Stevedoring', category: 'Ship Agency', section: '#pillar-agency' },
+    { title: 'Port & Straits Agency', category: 'Ship Agency', section: '#pillar-agency' },
+    { title: 'Cargo Document Clearance', category: 'Ship Agency', section: '#pillar-agency' },
+    { title: 'Sea / Liner Services', category: 'Transport', section: '#pillar-transport' },
+    { title: 'Air Freight', category: 'Transport', section: '#pillar-transport' },
+    { title: 'Rail & Intermodal', category: 'Transport', section: '#pillar-transport' },
+    { title: 'Road Transport', category: 'Transport', section: '#pillar-transport' },
+    { title: 'Military Cargo Transportation', category: 'Specialized', section: '#pillar-transport' },
+    { title: 'Heavy Lift & Project Cargo', category: 'Specialized', section: '#pillar-transport' },
+    { title: 'Technical Management', category: 'Marine Services', section: '#pillar-marine' },
+    { title: 'Marine Insurance', category: 'Marine Services', section: '#pillar-marine' },
+    { title: 'US East Coast to Mediterranean', category: 'Liner Route', section: '#pillar-liner' },
+    { title: 'NATO & FSCC Security Clearance', category: 'Logistics', section: '#pillar-logistics' },
+    { title: 'Door-to-Door Solutions', category: 'Logistics', section: '#pillar-logistics' },
+    { title: 'Defense Industry', category: 'Industry', section: '#industries' },
+    { title: 'Petroleum & Oil', category: 'Industry', section: '#industries' },
+    { title: 'About Alyans', category: 'Section', section: '#about' },
+    { title: 'Company History', category: 'Section', section: '#timeline' },
+    { title: 'Contact & Quotes', category: 'Section', section: '#contact' },
+    { title: 'Defense & Security', category: 'Section', section: '#defense' },
+  ];
+
+  searchInput.addEventListener('input', function() {
+    var query = this.value.toLowerCase().trim();
+    searchResults.innerHTML = '';
+    if (query.length < 2) return;
+    var matches = searchData.filter(function(item) {
+      return item.title.toLowerCase().includes(query) || item.category.toLowerCase().includes(query);
+    }).slice(0, 10);
+    matches.forEach(function(item) {
+      var div = document.createElement('div');
+      div.className = 'al-search__result-item';
+      div.innerHTML = '<div class="al-search__result-title">' + item.title + '</div><div class="al-search__result-category">' + item.category + '</div>';
+      div.addEventListener('click', function() {
+        closeSearch();
+        document.querySelector(item.section).scrollIntoView({ behavior: 'smooth' });
+      });
+      searchResults.appendChild(div);
+    });
+  });
+
+  /* ============================================================
+     SECTION REVEAL ANIMATIONS
+     ============================================================ */
+  document.querySelectorAll('.al-reveal').forEach(function(el) {
+    ScrollTrigger.create({
+      trigger: el,
+      start: 'top 85%',
+      once: true,
+      onEnter: function() { el.classList.add('is-visible'); }
+    });
+  });
+
+  /* ============================================================
+     STAT COUNTER ANIMATIONS
+     ============================================================ */
+  document.querySelectorAll('[data-count]').forEach(function(el) {
+    var target = parseInt(el.dataset.count);
+    var suffix = el.dataset.suffix || '+';
+    var prefix = el.dataset.prefix !== undefined ? el.dataset.prefix : '';
+    ScrollTrigger.create({
+      trigger: el,
+      start: 'top 85%',
+      once: true,
+      onEnter: function() {
+        gsap.to({ val: 0 }, {
+          val: target, duration: 1.5, ease: 'power2.out',
+          onUpdate: function() { el.textContent = prefix + Math.round(this.targets()[0].val) + suffix; }
+        });
+      }
+    });
+  });
+
+  /* ============================================================
+     PILLAR STAGGERED REVEAL
+     ============================================================ */
+  document.querySelectorAll('.al-pillar').forEach(function(pillar) {
+    pillar.querySelectorAll('.al-reveal').forEach(function(el, i) {
+      el.style.transitionDelay = (i * 0.1) + 's';
+    });
+  });
+
+  /* ============================================================
+     TIMELINE STAGGERED REVEAL
+     ============================================================ */
+  document.querySelectorAll('.al-timeline__entry').forEach(function(entry) {
+    ScrollTrigger.create({
+      trigger: entry,
+      start: 'top 85%',
+      once: true,
+      onEnter: function() { entry.classList.add('is-visible'); }
+    });
+  });
+
+  /* ============================================================
+     INDUSTRY TAGS STAGGER
+     ============================================================ */
+  document.querySelectorAll('.al-industry-tag').forEach(function(tag, i) {
+    tag.style.opacity = '0';
+    tag.style.transform = 'translateY(15px)';
+    ScrollTrigger.create({
+      trigger: tag,
+      start: 'top 90%',
+      once: true,
+      onEnter: function() {
+        gsap.to(tag, { opacity: 1, y: 0, duration: 0.5, delay: i * 0.05, ease: 'power3.out' });
+      }
+    });
+  });
+
+})();
+</script>
+
+</body>
+</html>

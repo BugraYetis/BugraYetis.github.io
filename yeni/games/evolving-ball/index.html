@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>Evolving Ball</title>
+  <link rel="stylesheet" href="css/style.css?v=4">
+  <script>
+    const CANVAS_W = 400;
+    const CANVAS_H = 700;
+    function clamp(v, min, max) { return Math.max(min, Math.min(max, v)); }
+  </script>
+</head>
+<body>
+  <div id="game-container">
+    <canvas id="gameCanvas"></canvas>
+
+    <!-- ══ IN-GAME HUD ══ -->
+    <div id="hud" class="hidden">
+      <div id="hud-top">
+        <button id="hud-pause" class="icon-btn" aria-label="Pause">⏸</button>
+        <div id="hud-score">0m</div>
+        <div id="hud-coins-run"><span class="coin-dot">💰</span><span id="hud-coins-val">0</span></div>
+      </div>
+      <div id="hud-xp-wrap">
+        <div id="hud-xp-bar"></div>
+        <span id="hud-level-tag">Lv.1</span>
+      </div>
+    </div>
+
+    <!-- Power-up badges -->
+    <div id="status-bar" class="hidden"></div>
+
+    <!-- Gem combo badge -->
+    <div id="combo-badge" class="hidden"></div>
+
+    <!-- ══════════════════════════════════════
+         SCREEN: MAIN MENU
+         ══════════════════════════════════════ -->
+    <div id="screen-menu" class="screen">
+      <div class="menu-bg" aria-hidden="true">
+        <div class="blob blob-1"></div><div class="blob blob-2"></div>
+        <div class="blob blob-3"></div><div class="blob blob-4"></div>
+      </div>
+
+      <!-- ① HEADER: coins + level -->
+      <div class="menu-header">
+        <div class="topbar-coin">
+          <span class="coin-dot">💰</span><span id="menu-coins">0</span>
+        </div>
+        <div class="topbar-level" id="menu-player-level">Lv.1</div>
+      </div>
+
+      <!-- ② CENTER: logo + best + play -->
+      <div class="menu-center">
+        <div class="game-logo">
+          <span class="logo-word">EVOLVING</span>
+          <span class="logo-word logo-accent">BALL</span>
+        </div>
+
+        <div class="menu-meta">
+          <div id="menu-streak" class="streak-badge hidden"></div>
+          <div id="menu-best" class="menu-best-badge"></div>
+        </div>
+
+        <button id="play-btn" class="play-btn">
+          <span class="play-triangle">▶</span>
+          <span class="play-label">PLAY</span>
+        </button>
+
+        <!-- Active boosts indicator -->
+        <div id="prerun-row" class="prerun-row hidden">
+          <span class="prerun-label">⚡ Boost aktif:</span>
+          <span id="prerun-items"></span>
+          <button id="prerun-clear" class="prerun-clear">✕</button>
+        </div>
+      </div>
+
+      <!-- ③ FOOTER: quick-buy + nav -->
+      <div class="menu-footer">
+        <!-- Quick-buy consumables -->
+        <div class="quick-buy-label">⚡ Tek Kullanımlık Güçler</div>
+        <div class="quick-buy" id="quick-buy-row"></div>
+
+        <!-- 5-button nav -->
+        <nav class="menu-nav">
+          <button class="nav-btn" id="btn-skins">
+            <span class="nav-icon">👗</span><span class="nav-label">Skinler</span>
+          </button>
+          <button class="nav-btn" id="btn-shop">
+            <span class="nav-icon">🛒</span><span class="nav-label">Mağaza</span>
+          </button>
+          <button class="nav-btn" id="btn-missions">
+            <span class="nav-icon">🎯</span><span class="nav-label">Görevler</span>
+            <span class="nav-badge hidden" id="badge-missions">!</span>
+          </button>
+          <button class="nav-btn" id="btn-achievements">
+            <span class="nav-icon">🏆</span><span class="nav-label">Ödüller</span>
+            <span class="nav-badge hidden" id="badge-achievements">!</span>
+          </button>
+          <button class="nav-btn" id="btn-settings">
+            <span class="nav-icon">⚙️</span><span class="nav-label">Ayarlar</span>
+          </button>
+        </nav>
+      </div><!-- /menu-footer -->
+    </div>
+
+    <!-- ══════════════════════════════════════
+         SCREEN: DAILY REWARD  (modal overlay)
+         ══════════════════════════════════════ -->
+    <div id="screen-daily" class="screen daily-screen">
+      <div class="daily-star">⭐</div>
+      <h2 class="daily-title">Daily Reward!</h2>
+      <div id="daily-streak-text" class="daily-streak-text">Day 1</div>
+      <div class="daily-coin-display">
+        <span class="daily-coin-icon">💰</span>
+        <span id="daily-amount">50</span>
+      </div>
+      <div class="daily-days-row" id="daily-days-row"></div>
+      <button id="daily-claim-btn" class="btn btn--gold btn--wide">Claim Reward!</button>
+    </div>
+
+    <!-- ══════════════════════════════════════
+         SCREEN: SKINS
+         ══════════════════════════════════════ -->
+    <div id="screen-skins" class="screen sub-screen">
+      <div class="sub-header">
+        <button class="back-btn" id="skins-back">←</button>
+        <h2 class="sub-title">Skins</h2>
+        <div class="topbar-coin"><span class="coin-dot">💰</span><span id="skins-coins">0</span></div>
+      </div>
+      <div id="skins-grid" class="skins-grid"></div>
+    </div>
+
+    <!-- ══════════════════════════════════════
+         SCREEN: SHOP  (permanent + consumables)
+         ══════════════════════════════════════ -->
+    <div id="screen-shop" class="screen sub-screen">
+      <div class="sub-header">
+        <button class="back-btn" id="shop-back">←</button>
+        <h2 class="sub-title">Shop</h2>
+        <div class="topbar-coin"><span class="coin-dot">💰</span><span id="shop-coins">0</span></div>
+      </div>
+      <div class="shop-tabs">
+        <button class="shop-tab active" id="tab-permanent">Permanent</button>
+        <button class="shop-tab" id="tab-consumable">One-Run</button>
+      </div>
+      <div id="shop-list" class="shop-list"></div>
+    </div>
+
+    <!-- ══════════════════════════════════════
+         SCREEN: MISSIONS
+         ══════════════════════════════════════ -->
+    <div id="screen-missions" class="screen sub-screen">
+      <div class="sub-header">
+        <button class="back-btn" id="missions-back">←</button>
+        <h2 class="sub-title">Daily Missions</h2>
+        <div class="topbar-coin"><span class="coin-dot">💰</span><span id="missions-coins">0</span></div>
+      </div>
+      <div class="missions-refresh-note">🔄 Refreshes at midnight</div>
+      <div id="missions-list" class="missions-list"></div>
+    </div>
+
+    <!-- ══════════════════════════════════════
+         SCREEN: ACHIEVEMENTS
+         ══════════════════════════════════════ -->
+    <div id="screen-achievements" class="screen sub-screen">
+      <div class="sub-header">
+        <button class="back-btn" id="achievements-back">←</button>
+        <h2 class="sub-title">Achievements</h2>
+        <div class="topbar-coin"><span class="coin-dot">💰</span><span id="achievements-coins">0</span></div>
+      </div>
+      <div id="achievements-list" class="achievements-list"></div>
+    </div>
+
+    <!-- ══════════════════════════════════════
+         SCREEN: SETTINGS
+         ══════════════════════════════════════ -->
+    <div id="screen-settings" class="screen sub-screen">
+      <div class="sub-header">
+        <button class="back-btn" id="settings-back">←</button>
+        <h2 class="sub-title">Settings</h2>
+        <div style="width:60px"></div>
+      </div>
+      <div class="settings-list">
+        <div class="settings-row">
+          <div class="settings-label"><span class="settings-icon">🔊</span><span>Sound</span></div>
+          <div class="toggle" id="toggle-sound"><div class="toggle-knob"></div></div>
+        </div>
+        <div class="settings-row">
+          <div class="settings-label"><span class="settings-icon">📳</span><span>Vibration</span></div>
+          <div class="toggle" id="toggle-vibrate"><div class="toggle-knob"></div></div>
+        </div>
+        <div class="settings-divider"></div>
+        <div class="settings-info">
+          <p class="info-title">How to Play</p>
+          <p class="info-body">Drag left/right (or arrow keys) to dodge obstacles. Survive as long as possible. Level up to choose powerful upgrades!</p>
+        </div>
+        <div class="settings-info" style="margin-top:8px">
+          <p class="info-title">Economy</p>
+          <p class="info-body">Collect 💰 gems during runs. Spend coins on Skins, permanent upgrades, and one-run boosts. Complete daily missions for bonus rewards!</p>
+        </div>
+        <div class="settings-row settings-row--center">
+          <span class="version-text">Evolving Ball v2.0</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════
+         SCREEN: PAUSE
+         ══════════════════════════════════════ -->
+    <div id="screen-pause" class="screen">
+      <div class="pause-icon">⏸</div>
+      <h2 class="pause-title">PAUSED</h2>
+      <div class="pause-score-wrap"><span id="pause-score-val">0m</span></div>
+      <div class="pause-buttons">
+        <button id="pause-resume"  class="btn btn--primary btn--wide">▶  Resume</button>
+        <button id="pause-restart" class="btn btn--ghost   btn--wide">↺  Restart</button>
+        <button id="pause-menu"    class="btn btn--ghost   btn--wide">🏠  Main Menu</button>
+      </div>
+      <div class="pause-sound-row">
+        <span>Sound</span>
+        <div class="toggle toggle--sm" id="pause-toggle-sound"><div class="toggle-knob"></div></div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════
+         SCREEN: UPGRADE
+         ══════════════════════════════════════ -->
+    <div id="screen-upgrade" class="screen upgrade-screen">
+      <div class="upgrade-level-chip" id="upgrade-level-chip">LEVEL 2</div>
+      <p class="upgrade-subtitle">Choose your upgrade</p>
+      <div id="upgrade-cards" class="upgrade-cards"></div>
+    </div>
+
+    <!-- ══════════════════════════════════════
+         SCREEN: GAME OVER
+         ══════════════════════════════════════ -->
+    <div id="screen-gameover" class="screen">
+      <div class="go-skull">💥</div>
+      <h2 class="go-title">GAME OVER</h2>
+      <div class="go-scores">
+        <div class="go-score-row">
+          <span class="go-score-label">Distance</span>
+          <span class="go-score-val" id="go-dist">0m</span>
+        </div>
+        <div class="go-score-row go-score-row--best">
+          <span class="go-score-label" id="go-best-label">Best</span>
+          <span class="go-score-val" id="go-best">0m</span>
+        </div>
+        <div class="go-score-row">
+          <span class="go-score-label">Coins earned</span>
+          <span class="go-score-val" id="go-coins">+0 💰</span>
+        </div>
+        <div class="go-score-row">
+          <span class="go-score-label">Survival time</span>
+          <span class="go-score-val" id="go-time">0s</span>
+        </div>
+      </div>
+      <!-- Mission progress mini-display -->
+      <div id="go-missions" class="go-missions"></div>
+      <div class="go-buttons">
+        <button id="go-continue"  class="btn btn--gold    btn--wide">▶  Watch Ad · Continue</button>
+        <button id="go-watchad"   class="btn btn--purple  btn--wide">📺  Watch Ad · +50 💰</button>
+        <button id="go-retry"     class="btn btn--primary btn--wide">↺  Retry</button>
+        <button id="go-menu"      class="btn btn--ghost   btn--wide">🏠  Menu</button>
+      </div>
+    </div>
+
+    <!-- ══ OVERLAYS ══ -->
+    <div id="flash-overlay" aria-hidden="true"></div>
+    <div id="fx-layer"      aria-hidden="true"></div>
+
+    <!-- Achievement toast -->
+    <div id="ach-toast" class="ach-toast hidden" aria-live="polite"></div>
+
+  </div><!-- /game-container -->
+
+  <script src="js/audio.js?v=4"></script>
+  <script src="js/ball.js?v=4"></script>
+  <script src="js/obstacles.js?v=4"></script>
+  <script src="js/upgrades.js?v=4"></script>
+  <script src="js/skins.js?v=4"></script>
+  <script src="js/ui.js?v=4"></script>
+  <script src="js/game.js?v=4"></script>
+</body>
+</html>

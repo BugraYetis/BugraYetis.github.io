@@ -1,0 +1,35 @@
+{
+    "videos":  [
+                   {
+                       "file":  "media/timeline-4k.mp4",
+                       "width":  3840,
+                       "height":  2160,
+                       "duration_seconds":  12,
+                       "fps":  30,
+                       "sha256":  "c4f426d0d6e561d2d8069c0db33326bf405d966d8bf3cb60d78de69dbb3eacb5",
+                       "bytes":  3649261,
+                       "decode":  "passed",
+                       "note":  "demo placeholder"
+                   },
+                   {
+                       "file":  "media/sessions-4k.mp4",
+                       "width":  3840,
+                       "height":  2160,
+                       "duration_seconds":  12,
+                       "fps":  30,
+                       "sha256":  "5d1c39edacfb83844cdc7fcf3e554754b7d743ba896edb2690046535769f82c3",
+                       "bytes":  2978987,
+                       "decode":  "passed",
+                       "note":  "demo placeholder"
+                   }
+               ],
+    "browser_checks":  [
+                           "Both intrinsic video dimensions 3840x2160",
+                           "Autoplay muted",
+                           "Automatic timeline-to-sessions switch",
+                           "Automatic sessions-to-timeline repeat",
+                           "Fullscreen entry",
+                           "Controls hide during playback"
+                       ],
+    "playlist":  "two placeholder videos (demo)"
+}

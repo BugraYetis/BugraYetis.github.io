@@ -1,0 +1,1208 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>INCRESIS</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css?v=61">
+</head>
+<body>
+
+    <!-- Intro Splash Screen -->
+    <div id="intro-screen">
+        <!-- Phase 1: Start button -->
+        <div class="intro-start-phase" id="intro-start-phase">
+            <div class="intro-bg">
+                <div class="intro-glow intro-glow-1"></div>
+                <div class="intro-glow intro-glow-2"></div>
+            </div>
+            <img src="img/logo_beyaz.png" alt="INCRESIS" class="intro-logo">
+            <button class="intro-start-btn" id="intro-start-btn">
+                <span class="intro-start-text" id="intro-btn-text">BAŞLA</span>
+                <span class="intro-pulse-ring"></span>
+            </button>
+            <p class="intro-tagline" id="intro-tagline-text">SS 2026 — YENİ SEZON</p>
+        </div>
+        <!-- Phase 2: Video -->
+        <video id="intro-video" class="intro-video" muted playsinline preload="auto">
+            <source src="giris.mp4" type="video/mp4">
+        </video>
+    </div>
+
+    <!-- Search Overlay -->
+    <div id="search-overlay" class="search-overlay">
+        <div class="search-overlay-inner">
+            <button class="search-close-btn" id="search-close-btn">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+            <div class="search-field-wrap">
+                <svg class="search-field-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                <input type="text" id="search-input" class="search-input" data-i18n-placeholder="search.placeholder" placeholder="Ürün ara..." autocomplete="off">
+            </div>
+            <div class="search-results" id="search-results"></div>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div id="toast" class="toast">
+        <span id="toast-msg">Sepete eklendi</span>
+    </div>
+
+    <!-- Navigation -->
+    <nav id="navbar">
+        <div class="nav-left">
+            <button class="nav-logo" id="logo-btn"><img src="img/logo_siyah.png" alt="INCRESIS" class="nav-logo-img logo-dark"><img src="img/logo_beyaz.png" alt="INCRESIS" class="nav-logo-img logo-light"></button>
+        </div>
+        <div class="nav-center">
+            <button class="nav-link" id="home-btn">SHOP</button>
+            <button class="nav-link" id="collections-nav-btn" data-i18n="nav.collections">KOLEKSİYONLAR</button>
+            <button class="nav-link" id="about-nav-btn" data-i18n="nav.about">HAKKIMIZDA</button>
+            <button class="nav-link" id="contact-nav-btn" data-i18n="nav.contact">İLETİŞİM</button>
+        </div>
+        <div class="nav-right">
+            <button class="nav-icon" id="search-btn" aria-label="Ara">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            </button>
+            <button class="nav-icon" id="account-btn" aria-label="Hesap">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            </button>
+            <button class="nav-icon cart-icon" id="cart-btn" aria-label="Sepet">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+                <span id="cart-count" class="cart-badge">0</span>
+            </button>
+            <div class="lang-switch" id="lang-toggle">
+                <span class="lang-option" data-lang="tr">TR</span>
+                <span class="lang-option" data-lang="en">EN</span>
+                <span class="lang-slider" id="lang-slider"></span>
+            </div>
+        </div>
+        <!-- Mobile menu button -->
+        <button class="nav-hamburger" id="hamburger-btn">
+            <span></span><span></span><span></span>
+        </button>
+    </nav>
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!-- HOME PAGE                                    -->
+    <!-- ═══════════════════════════════════════════ -->
+    <div id="page-home" class="page active">
+
+        <!-- Hero -->
+        <section class="hero">
+            <div class="hero-bg"></div>
+            <div class="hero-overlay"></div>
+            <div class="hero-content">
+                <p class="hero-tag" data-i18n="hero.tag">SS 2026 — YENİ SEZON</p>
+                <h1 class="hero-title" data-i18n="hero.title">VAROLUŞUNU<br><span class="hero-title-accent">YENİDEN TANIMLA</span></h1>
+                <p class="hero-sub" data-i18n="hero.sub">Giydiğin şey kim olduğunu anlatır.</p>
+                <div class="hero-btns">
+                    <button class="btn-primary" id="hero-cta" data-i18n="hero.cta">KOLEKSİYONLARI KEŞFET</button>
+                    <button class="btn-outline-light">SHOP</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Category Row -->
+        <section class="categories-section anim-section">
+            <div class="container">
+                <div class="categories-row">
+                    <div class="cat-item" data-type="tee">
+                        <div class="cat-thumb"><img src="img/categories/tee.png" alt="Tişört"></div>
+                        <span data-i18n="cat.tee">TİŞÖRT</span>
+                    </div>
+                    <div class="cat-item" data-type="hoodie">
+                        <div class="cat-thumb"><img src="img/categories/hoodie.png" alt="Kapüşonlu"></div>
+                        <span data-i18n="cat.hoodie">KAPÜŞONLU</span>
+                    </div>
+                    <div class="cat-item" data-type="jacket">
+                        <div class="cat-thumb"><img src="img/categories/jacket.png" alt="Ceket"></div>
+                        <span data-i18n="cat.jacket">CEKET</span>
+                    </div>
+                    <div class="cat-item" data-type="sweatpants">
+                        <div class="cat-thumb"><img src="img/categories/sweatpants.png" alt="Eşofman Altı"></div>
+                        <span data-i18n="cat.sweatpants">EŞOFMAN ALTI</span>
+                    </div>
+                    <div class="cat-item" data-type="shorts">
+                        <div class="cat-thumb"><img src="img/categories/shorts.png" alt="Şort"></div>
+                        <span data-i18n="cat.shorts">ŞORT</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Collection Banners Row 1 (placeholder for new collections) -->
+        <section class="collection-banners anim-section" id="collections-section">
+            <div class="container">
+                <div class="banners-grid" id="home-banners-row1">
+                    <div class="banner-card" data-col="tanrilar">
+                        <div class="banner-bg tanrilar-banner-bg"></div>
+                        <div class="banner-overlay"></div>
+                        <div class="banner-content">
+                            <span class="banner-tag" data-i18n="col.tanrilar.tag">KOLEKSİYON 06 — SS 2026</span>
+                            <h2 class="banner-title" data-i18n="col.tanrilar.name">TANRILAR</h2>
+                            <p class="banner-desc" data-i18n="col.tanrilar.desc">Antik tanrıların gücü modern kumaşlarla buluşuyor.</p>
+                            <button class="btn-outline-banner" data-i18n="banner.view">KOLEKSİYONU GÖR →</button>
+                        </div>
+                    </div>
+                    <div class="banner-card" data-col="animal">
+                        <div class="banner-bg animal-banner-bg"></div>
+                        <div class="banner-overlay"></div>
+                        <div class="banner-content">
+                            <span class="banner-tag" data-i18n="col.animal.tag">KOLEKSİYON 08 — SS 2026</span>
+                            <h2 class="banner-title" data-i18n="col.animal.name">ANIMAL MINIMALIST</h2>
+                            <p class="banner-desc" data-i18n="col.animal.desc">Doğanın gücü minimalist çizgilerle buluşuyor. Hayvan silüetlerinin zarif estetiği.</p>
+                            <button class="btn-outline-banner" data-i18n="banner.view">KOLEKSİYONU GÖR →</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Best Sellers -->
+        <section class="bestsellers-section anim-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title" data-i18n="home.bestsellers">ÇOK SATANLAR</h2>
+                    <button class="btn-text-link" id="see-all-btn" data-i18n="home.seeAll">Tümünü Gör →</button>
+                </div>
+                <div class="bestsellers-wrapper">
+                    <button class="bestsellers-arrow bestsellers-arrow--left hidden" id="bs-arrow-left">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg>
+                    </button>
+                    <div class="bestsellers-scroll" id="bestsellers-grid">
+                        <!-- JS populates -->
+                    </div>
+                    <button class="bestsellers-arrow bestsellers-arrow--right" id="bs-arrow-right">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Collection Banners Row 2 (placeholder for new collections) -->
+        <section class="collection-banners anim-section">
+            <div class="container">
+                <div class="banners-grid" id="home-banners-row2">
+                    <div class="banner-card" data-col="f1">
+                        <div class="banner-bg f1-banner-bg"></div>
+                        <div class="banner-overlay"></div>
+                        <div class="banner-content">
+                            <span class="banner-tag" data-i18n="col.f1.tag">KOLEKSİYON 05 — SS 2026</span>
+                            <h2 class="banner-title" data-i18n="col.f1.name">POLE POZİSYONU</h2>
+                            <p class="banner-desc" data-i18n="col.f1.desc">Hız tutkusu kumaşla buluşuyor. Formula 1 ruhu sokağa taşınıyor.</p>
+                            <button class="btn-outline-banner" data-i18n="banner.view">KOLEKSİYONU GÖR →</button>
+                        </div>
+                    </div>
+                    <div class="banner-card" data-col="animalheadphone">
+                        <div class="banner-bg animalheadphone-banner-bg"></div>
+                        <div class="banner-overlay"></div>
+                        <div class="banner-content">
+                            <span class="banner-tag" data-i18n="col.animalheadphone.tag">KOLEKSİYON 09 — SS 2026</span>
+                            <h2 class="banner-title" data-i18n="col.animalheadphone.name">ANIMAL HEADPHONE</h2>
+                            <p class="banner-desc" data-i18n="col.animalheadphone.desc">Müziğin ritmi hayvan dünyasıyla buluşuyor. Kulaklıklı hayvan silüetlerinin eşsiz estetiği.</p>
+                            <button class="btn-outline-banner" data-i18n="banner.view">KOLEKSİYONU GÖR →</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!-- KOLEKSİYONLAR PAGE                            -->
+    <!-- ═══════════════════════════════════════════ -->
+    <div id="page-collections" class="page">
+
+        <!-- Page Header -->
+        <div class="page-header">
+            <div class="page-header-bg collections-header-bg"></div>
+            <div class="page-header-overlay"></div>
+            <div class="page-header-content">
+                <p class="page-header-tag" data-i18n="collections.tag">SS 2026</p>
+                <h1 class="page-header-title" data-i18n="nav.collections">KOLEKSİYONLAR</h1>
+                <p class="page-header-desc" data-i18n="collections.desc">Her koleksiyon bir hikaye anlatır.</p>
+            </div>
+        </div>
+
+        <!-- Collections Grid -->
+        <section class="collections-list-section">
+            <div class="container">
+                <div class="collections-page-grid">
+
+                    <div class="collection-list-card" data-col="f1">
+                        <div class="collection-list-bg f1-banner-bg"></div>
+                        <div class="collection-list-overlay"></div>
+                        <div class="collection-list-content">
+                            <span class="collection-list-tag" data-i18n="col.f1.tag">COLLECTION 05 — SS 2026</span>
+                            <h2 class="collection-list-title" data-i18n="col.f1.name">POLE POZİSYONU</h2>
+                            <p class="collection-list-desc" data-i18n="col.f1.desc">Hız tutkusu kumaşla buluşuyor. Formula 1 ruhu sokağa taşınıyor.</p>
+                            <span class="collection-list-count" data-i18n="products.5">5 ÜRÜN</span>
+                            <button class="btn-outline-banner" data-i18n="banner.view">KOLEKSİYONU GÖR →</button>
+                        </div>
+                    </div>
+
+                    <div class="collection-list-card" data-col="tanrilar">
+                        <div class="collection-list-bg tanrilar-banner-bg"></div>
+                        <div class="collection-list-overlay"></div>
+                        <div class="collection-list-content">
+                            <span class="collection-list-tag" data-i18n="col.tanrilar.tag">KOLEKSİYON 06 — SS 2026</span>
+                            <h2 class="collection-list-title" data-i18n="col.tanrilar.name">TANRILAR</h2>
+                            <p class="collection-list-desc" data-i18n="col.tanrilar.desc">Antik tanrıların gücü modern kumaşlarla buluşuyor.</p>
+                            <span class="collection-list-count" data-i18n="products.6">6 ÜRÜN</span>
+                            <button class="btn-outline-banner" data-i18n="banner.view">KOLEKSİYONU GÖR →</button>
+                        </div>
+                    </div>
+
+                    <div class="collection-list-card" data-col="haliaraba">
+                        <div class="collection-list-bg haliaraba-banner-bg"></div>
+                        <div class="collection-list-overlay"></div>
+                        <div class="collection-list-content">
+                            <span class="collection-list-tag" data-i18n="col.haliaraba.tag">KOLEKSİYON 07 — SS 2026</span>
+                            <h2 class="collection-list-title" data-i18n="col.haliaraba.name">KRALİYET SÜRÜŞÜ</h2>
+                            <p class="collection-list-desc" data-i18n="col.haliaraba.desc">Doğu'nun dokuması, batının hızı. Halı motiflerinin zarafeti yarış ruhuyla buluşuyor.</p>
+                            <span class="collection-list-count" data-i18n="products.4">4 ÜRÜN</span>
+                            <button class="btn-outline-banner" data-i18n="banner.view">KOLEKSİYONU GÖR →</button>
+                        </div>
+                    </div>
+
+                    <div class="collection-list-card" data-col="animal">
+                        <div class="collection-list-bg animal-banner-bg"></div>
+                        <div class="collection-list-overlay"></div>
+                        <div class="collection-list-content">
+                            <span class="collection-list-tag" data-i18n="col.animal.tag">KOLEKSİYON 08 — SS 2026</span>
+                            <h2 class="collection-list-title" data-i18n="col.animal.name">ANIMAL MINIMALIST</h2>
+                            <p class="collection-list-desc" data-i18n="col.animal.desc">Doğanın gücü minimalist çizgilerle buluşuyor. Hayvan silüetlerinin zarif estetiği.</p>
+                            <span class="collection-list-count" data-i18n="products.6">6 ÜRÜN</span>
+                            <button class="btn-outline-banner" data-i18n="banner.view">KOLEKSİYONU GÖR →</button>
+                        </div>
+                    </div>
+
+                    <div class="collection-list-card" data-col="animalheadphone">
+                        <div class="collection-list-bg animalheadphone-banner-bg"></div>
+                        <div class="collection-list-overlay"></div>
+                        <div class="collection-list-content">
+                            <span class="collection-list-tag" data-i18n="col.animalheadphone.tag">KOLEKSİYON 09 — SS 2026</span>
+                            <h2 class="collection-list-title" data-i18n="col.animalheadphone.name">ANIMAL HEADPHONE</h2>
+                            <p class="collection-list-desc" data-i18n="col.animalheadphone.desc">Müziğin ritmi hayvan dünyasıyla buluşuyor. Kulaklıklı hayvan silüetlerinin eşsiz estetiği.</p>
+                            <span class="collection-list-count" data-i18n="products.7">7 ÜRÜN</span>
+                            <button class="btn-outline-banner" data-i18n="banner.view">KOLEKSİYONU GÖR →</button>
+                        </div>
+                    </div>
+
+                    <div class="collection-list-card" data-col="skateboard">
+                        <div class="collection-list-bg skateboard-banner-bg"></div>
+                        <div class="collection-list-overlay"></div>
+                        <div class="collection-list-content">
+                            <span class="collection-list-tag" data-i18n="col.skateboard.tag">KOLEKSİYON 10 — SS 2026</span>
+                            <h2 class="collection-list-title" data-i18n="col.skateboard.name">SKATE BOARD</h2>
+                            <p class="collection-list-desc" data-i18n="col.skateboard.desc">Sokak kültürünün özgür ruhu kaykay estetiğiyle buluşuyor. Asfaltta özgürlük.</p>
+                            <span class="collection-list-count" data-i18n="products.4">4 ÜRÜN</span>
+                            <button class="btn-outline-banner" data-i18n="banner.view">KOLEKSİYONU GÖR →</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!-- HAKKIMIZDA PAGE                               -->
+    <!-- ═══════════════════════════════════════════ -->
+    <div id="page-about" class="page">
+
+        <!-- Page Header -->
+        <div class="page-header">
+            <div class="page-header-bg about-header-bg"></div>
+            <div class="page-header-overlay"></div>
+            <div class="page-header-content">
+                <p class="page-header-tag">INCRESIS</p>
+                <h1 class="page-header-title" data-i18n="nav.about">HAKKIMIZDA</h1>
+                <p class="page-header-desc" data-i18n="about.headerDesc">Markanın arkasındaki hikaye.</p>
+            </div>
+        </div>
+
+        <!-- Story Section -->
+        <section class="about-story">
+            <div class="container">
+                <div class="about-story-grid">
+                    <div class="about-story-left">
+                        <span class="about-label" data-i18n="about.storyLabel">HİKAYEMİZ</span>
+                        <h2 class="about-heading" data-i18n="about.storyHeading">Varoluşu Yeniden<br>Tanımlamak</h2>
+                    </div>
+                    <div class="about-story-right">
+                        <p data-i18n="about.story1">INCRESIS, 2024 yılında İstanbul'da doğdu. Sokak modasının enerjisini, minimalist tasarımın zarafetiyle birleştiren bir streetwear markası olarak yola çıktık.</p>
+                        <p data-i18n="about.story2">Her koleksiyonumuz bir hikaye anlatır. Void'un sessizliğinden Origin'in ham gücüne, Noir'ın karanlık lüksünden Ritual'ın seremonisine — her parça bir manifestodur.</p>
+                        <p data-i18n="about.story3">Amacımız sadece giysi üretmek değil, kimlik inşa etmek. Giydiğin şey kim olduğunu anlatır — biz buna inanıyoruz.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Values Section -->
+        <section class="about-values">
+            <div class="container">
+                <h2 class="section-title about-values-title" data-i18n="about.valuesTitle">DEĞERLERİMİZ</h2>
+                <div class="values-grid">
+                    <div class="value-card">
+                        <div class="value-icon">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+                        </div>
+                        <h3 data-i18n="about.quality">KALİTE</h3>
+                        <p data-i18n="about.qualityDesc">Premium kumaşlar, titiz işçilik. Her dikişte mükemmellik arayışı.</p>
+                    </div>
+                    <div class="value-card">
+                        <div class="value-icon">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                        </div>
+                        <h3 data-i18n="about.design">TASARIM</h3>
+                        <p data-i18n="about.designDesc">Minimalizm ve cesaret arasındaki denge. Trendleri takip etmek yerine yaratırız.</p>
+                    </div>
+                    <div class="value-card">
+                        <div class="value-icon">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                        </div>
+                        <h3 data-i18n="about.sustainability">SÜRDÜRÜLEBİLİRLİK</h3>
+                        <p data-i18n="about.sustainabilityDesc">Bilinçli üretim, sorumlu tedarik. Gelecek nesiller için moda.</p>
+                    </div>
+                    <div class="value-card">
+                        <div class="value-icon">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                        </div>
+                        <h3 data-i18n="about.community">TOPLULUK</h3>
+                        <p data-i18n="about.communityDesc">INCRESIS sadece bir marka değil, bir harekettir. Birlikte yaratırız.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Atelier Section -->
+        <section class="about-atelier">
+            <div class="container">
+                <div class="atelier-box">
+                    <div class="atelier-bg"></div>
+                    <div class="atelier-overlay"></div>
+                    <div class="atelier-content">
+                        <span class="atelier-tag" data-i18n="about.atelierTag">ATÖLYE</span>
+                        <h2 class="atelier-title" data-i18n="about.atelierTitle">İSTANBUL'DAN<br>DÜNYAYA</h2>
+                        <p class="atelier-desc" data-i18n="about.atelierDesc">Tasarımlarımız İstanbul'daki atölyemizde hayat buluyor. Her parça, yerel zanaatkarlarımızın ellerinden geçerek dünyanın dört bir yanına ulaşıyor.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!-- İLETİŞİM PAGE                                -->
+    <!-- ═══════════════════════════════════════════ -->
+    <div id="page-contact" class="page">
+
+        <!-- Page Header -->
+        <div class="page-header">
+            <div class="page-header-bg contact-header-bg"></div>
+            <div class="page-header-overlay"></div>
+            <div class="page-header-content">
+                <p class="page-header-tag">INCRESIS</p>
+                <h1 class="page-header-title" data-i18n="nav.contact">İLETİŞİM</h1>
+                <p class="page-header-desc" data-i18n="contact.headerDesc">Bizimle bağlantıya geçin.</p>
+            </div>
+        </div>
+
+        <!-- Contact Content -->
+        <section class="contact-section">
+            <div class="container">
+                <div class="contact-grid">
+
+                    <!-- Contact Form -->
+                    <div class="contact-form-wrap">
+                        <h2 class="contact-form-title" data-i18n="contact.formTitle">BİZE YAZIN</h2>
+                        <form class="contact-form" id="contact-form">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="contact-name" data-i18n="contact.name">Ad Soyad</label>
+                                    <input type="text" id="contact-name" data-i18n-placeholder="contact.namePh" placeholder="Adınız Soyadınız">
+                                </div>
+                                <div class="form-group">
+                                    <label for="contact-email" data-i18n="contact.email">E-posta</label>
+                                    <input type="email" id="contact-email" placeholder="ornek@email.com">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="contact-subject" data-i18n="contact.subject">Konu</label>
+                                <select id="contact-subject">
+                                    <option value="" data-i18n="contact.subjectPh">Konu seçin</option>
+                                    <option value="siparis" data-i18n="contact.subjectOrder">Sipariş Bilgisi</option>
+                                    <option value="iade" data-i18n="contact.subjectReturn">İade & Değişim</option>
+                                    <option value="isbirligi" data-i18n="contact.subjectCollab">İş Birliği</option>
+                                    <option value="diger" data-i18n="contact.subjectOther">Diğer</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="contact-message" data-i18n="contact.message">Mesajınız</label>
+                                <textarea id="contact-message" rows="5" data-i18n-placeholder="contact.messagePh" placeholder="Mesajınızı yazın..."></textarea>
+                            </div>
+                            <button type="submit" class="btn-primary" data-i18n="contact.send">GÖNDER</button>
+                        </form>
+                    </div>
+
+                    <!-- Contact Info -->
+                    <div class="contact-info-wrap">
+                        <div class="contact-info-card">
+                            <div class="contact-info-icon">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                            </div>
+                            <div>
+                                <h4 data-i18n="contact.address">ADRES</h4>
+                                <p>Nişantaşı, Abdi İpekçi Cad.<br>No: 42, Şişli / İstanbul</p>
+                            </div>
+                        </div>
+
+                        <div class="contact-info-card">
+                            <div class="contact-info-icon">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                            </div>
+                            <div>
+                                <h4 data-i18n="contact.emailTitle">E-POSTA</h4>
+                                <p>info@incresis.com<br>press@incresis.com</p>
+                            </div>
+                        </div>
+
+                        <div class="contact-info-card">
+                            <div class="contact-info-icon">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                            </div>
+                            <div>
+                                <h4 data-i18n="contact.phone">TELEFON</h4>
+                                <p data-i18n="contact.phoneInfo">+90 (212) 555 01 42<br>Pzt — Cuma, 09:00 — 18:00</p>
+                            </div>
+                        </div>
+
+                        <div class="contact-info-card">
+                            <div class="contact-info-icon">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+                            </div>
+                            <div>
+                                <h4 data-i18n="contact.social">SOSYAL MEDYA</h4>
+                                <div class="contact-social-links">
+                                    <a href="#">Instagram</a>
+                                    <a href="#">X (Twitter)</a>
+                                    <a href="#">TikTok</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!-- KARGO & İADE PAGE                             -->
+    <!-- ═══════════════════════════════════════════ -->
+    <div id="page-shipping" class="page">
+
+        <!-- Page Header -->
+        <div class="page-header">
+            <div class="page-header-bg shipping-header-bg"></div>
+            <div class="page-header-overlay"></div>
+            <div class="page-header-content">
+                <p class="page-header-tag">INCRESIS</p>
+                <h1 class="page-header-title" data-i18n="footer.shipping">KARGO &amp; İADE</h1>
+                <p class="page-header-desc" data-i18n="shipping.headerDesc">Teslimat ve iade süreçleri hakkında bilgiler.</p>
+            </div>
+        </div>
+
+        <!-- Shipping Info -->
+        <section class="policy-section">
+            <div class="container">
+                <div class="policy-grid">
+
+                    <!-- Shipping Cards -->
+                    <div class="policy-block">
+                        <div class="policy-icon">
+                            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+                        </div>
+                        <h3 data-i18n="shipping.domesticTitle">YURTİÇİ KARGO</h3>
+                        <p data-i18n="shipping.domesticDesc">Türkiye genelinde 2-4 iş günü içinde teslimat. 500 ₺ ve üzeri siparişlerde ücretsiz kargo. Standart kargo ücreti 49,90 ₺'dir.</p>
+                    </div>
+
+                    <div class="policy-block">
+                        <div class="policy-icon">
+                            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                        </div>
+                        <h3 data-i18n="shipping.internationalTitle">ULUSLARARASI KARGO</h3>
+                        <p data-i18n="shipping.internationalDesc">Dünya genelinde 5-10 iş günü teslimat. Kargo ücreti ülkeye göre ödeme aşamasında hesaplanır. 150$ üzeri siparişlerde ücretsiz.</p>
+                    </div>
+
+                    <div class="policy-block">
+                        <div class="policy-icon">
+                            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+                        </div>
+                        <h3 data-i18n="shipping.trackingTitle">KARGO TAKİBİ</h3>
+                        <p data-i18n="shipping.trackingDesc">Siparişiniz kargoya verildikten sonra takip numarası e-posta ile gönderilir. Sipariş durumunuzu hesabınızdan da takip edebilirsiniz.</p>
+                    </div>
+
+                    <div class="policy-block">
+                        <div class="policy-icon">
+                            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
+                        </div>
+                        <h3 data-i18n="shipping.returnTitle">İADE POLİTİKASI</h3>
+                        <p data-i18n="shipping.returnDesc">Ürünleri teslim aldıktan sonra 14 gün içinde, etiketleri sökülmemiş ve kullanılmamış olmaları koşuluyla iade edebilirsiniz. Yurt dışından iade kabul edilmemektedir.</p>
+                    </div>
+
+                    <div class="policy-block">
+                        <div class="policy-icon">
+                            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 4H8l-7 8 7 8h13a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2z"/><line x1="18" y1="9" x2="12" y2="15"/><line x1="12" y1="9" x2="18" y2="15"/></svg>
+                        </div>
+                        <h3 data-i18n="shipping.exchangeTitle">DEĞİŞİM</h3>
+                        <p data-i18n="shipping.exchangeDesc">Beden değişimi için ürünü iade edip yeni sipariş oluşturmanızı öneriyoruz. Değişim kargo ücreti tarafımızca karşılanır. Yurt dışından değişim kabul edilmemektedir.</p>
+                    </div>
+
+                    <div class="policy-block">
+                        <div class="policy-icon">
+                            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+                        </div>
+                        <h3 data-i18n="shipping.refundTitle">GERİ ÖDEME</h3>
+                        <p data-i18n="shipping.refundDesc">İade onaylandıktan sonra 3-5 iş günü içinde ödeme, orijinal ödeme yönteminize iade edilir. Kredi kartı iadelerinde banka süreci 7-14 gün sürebilir.</p>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!-- GİZLİLİK PAGE                                -->
+    <!-- ═══════════════════════════════════════════ -->
+    <div id="page-privacy" class="page">
+
+        <!-- Page Header -->
+        <div class="page-header">
+            <div class="page-header-bg privacy-header-bg"></div>
+            <div class="page-header-overlay"></div>
+            <div class="page-header-content">
+                <p class="page-header-tag">INCRESIS</p>
+                <h1 class="page-header-title" data-i18n="footer.privacy">GİZLİLİK</h1>
+                <p class="page-header-desc" data-i18n="privacy.headerDesc">Kişisel verilerinizin korunması bizim için önceliklidir.</p>
+            </div>
+        </div>
+
+        <!-- Privacy Content -->
+        <section class="policy-section">
+            <div class="container">
+                <div class="privacy-content">
+
+                    <div class="privacy-block">
+                        <div class="privacy-number">01</div>
+                        <div class="privacy-text">
+                            <h3 data-i18n="privacy.collectTitle">VERİ TOPLAMA</h3>
+                            <p data-i18n="privacy.collectDesc">Sipariş oluşturma, hesap açma ve iletişim formları aracılığıyla adınız, e-posta adresiniz, telefon numaranız ve teslimat adresiniz gibi kişisel bilgilerinizi toplarız. Bu bilgiler yalnızca hizmet sunumu için kullanılır.</p>
+                        </div>
+                    </div>
+
+                    <div class="privacy-block">
+                        <div class="privacy-number">02</div>
+                        <div class="privacy-text">
+                            <h3 data-i18n="privacy.useTitle">VERİ KULLANIMI</h3>
+                            <p data-i18n="privacy.useDesc">Topladığımız veriler sipariş işleme, teslimat, müşteri desteği ve — izniniz dahilinde — kampanya bildirimleri için kullanılır. Verileriniz hiçbir koşulda üçüncü taraflarla ticari amaçlı paylaşılmaz.</p>
+                        </div>
+                    </div>
+
+                    <div class="privacy-block">
+                        <div class="privacy-number">03</div>
+                        <div class="privacy-text">
+                            <h3 data-i18n="privacy.cookieTitle">ÇEREZLER</h3>
+                            <p data-i18n="privacy.cookieDesc">Sitemiz, kullanıcı deneyimini iyileştirmek için çerez kullanır. Oturum çerezleri, dil tercihi ve tema seçimi gibi bilgileri saklar. Tarayıcı ayarlarınızdan çerezleri yönetebilirsiniz.</p>
+                        </div>
+                    </div>
+
+                    <div class="privacy-block">
+                        <div class="privacy-number">04</div>
+                        <div class="privacy-text">
+                            <h3 data-i18n="privacy.securityTitle">GÜVENLİK</h3>
+                            <p data-i18n="privacy.securityDesc">Tüm ödeme işlemleri SSL şifreleme ile korunur. Kredi kartı bilgileriniz sunucularımızda saklanmaz; PCI-DSS uyumlu ödeme altyapısı kullanılır.</p>
+                        </div>
+                    </div>
+
+                    <div class="privacy-block">
+                        <div class="privacy-number">05</div>
+                        <div class="privacy-text">
+                            <h3 data-i18n="privacy.rightsTitle">HAKLARINIZ</h3>
+                            <p data-i18n="privacy.rightsDesc">KVKK kapsamında kişisel verilerinize erişim, düzeltme ve silme haklarına sahipsiniz. Bu haklarınızı kullanmak için info@incresis.com adresine başvurabilirsiniz.</p>
+                        </div>
+                    </div>
+
+                    <div class="privacy-block">
+                        <div class="privacy-number">06</div>
+                        <div class="privacy-text">
+                            <h3 data-i18n="privacy.updateTitle">POLİTİKA GÜNCELLEMELERİ</h3>
+                            <p data-i18n="privacy.updateDesc">Bu gizlilik politikası zaman zaman güncellenebilir. Önemli değişikliklerde kayıtlı e-posta adresinize bildirim gönderilir. Son güncelleme: Mart 2026.</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!-- KULLANIM KOŞULLARI PAGE                       -->
+    <!-- ═══════════════════════════════════════════ -->
+    <div id="page-terms" class="page">
+        <div class="page-header">
+            <div class="page-header-bg terms-header-bg"></div>
+            <div class="page-header-overlay"></div>
+            <div class="page-header-content">
+                <p class="page-header-tag">INCRESIS</p>
+                <h1 class="page-header-title" data-i18n="terms.title">KULLANIM KOŞULLARI</h1>
+                <p class="page-header-desc" data-i18n="terms.headerDesc">Web sitemizin kullanım şartları ve koşulları.</p>
+            </div>
+        </div>
+        <section class="policy-section">
+            <div class="container">
+                <div class="privacy-content">
+                    <div class="privacy-block">
+                        <div class="privacy-number">01</div>
+                        <div class="privacy-text">
+                            <h3 data-i18n="terms.generalTitle">GENEL HÜKÜMLER</h3>
+                            <p data-i18n="terms.generalDesc">Bu web sitesini (incresis.com) kullanarak aşağıdaki kullanım koşullarını kabul etmiş sayılırsınız. Siteye erişiminiz tamamen bu sözleşmeyi kabulünüze ve belirlenen şartlara uymanıza bağlıdır.</p>
+                        </div>
+                    </div>
+                    <div class="privacy-block">
+                        <div class="privacy-number">02</div>
+                        <div class="privacy-text">
+                            <h3 data-i18n="terms.ipTitle">FİKRİ MÜLKİYET</h3>
+                            <p data-i18n="terms.ipDesc">Site üzerindeki tüm içerik, tasarım, logo, metin, grafik ve görseller INCRESIS'in mülkiyetindedir. İzinsiz kopyalama, dağıtım veya ticari amaçlı kullanım yasaktır.</p>
+                        </div>
+                    </div>
+                    <div class="privacy-block">
+                        <div class="privacy-number">03</div>
+                        <div class="privacy-text">
+                            <h3 data-i18n="terms.accountTitle">HESAP SORUMLULUĞU</h3>
+                            <p data-i18n="terms.accountDesc">Hesap oluşturduğunuzda bilgilerinizin doğruluğundan ve hesap güvenliğinden siz sorumlusunuz. Hesabınızda gerçekleştirilen tüm işlemlerden siz sorumlu tutulursunuz.</p>
+                        </div>
+                    </div>
+                    <div class="privacy-block">
+                        <div class="privacy-number">04</div>
+                        <div class="privacy-text">
+                            <h3 data-i18n="terms.productTitle">ÜRÜN BİLGİLERİ</h3>
+                            <p data-i18n="terms.productDesc">Ürün fotoğrafları ve açıklamaları mümkün olduğunca doğru şekilde sunulmaktadır. Ancak renk tonlarında ekran ayarlarına bağlı farklılıklar oluşabilir. INCRESIS, ürün bilgilerini önceden bildirmeksizin güncelleme hakkını saklı tutar.</p>
+                        </div>
+                    </div>
+                    <div class="privacy-block">
+                        <div class="privacy-number">05</div>
+                        <div class="privacy-text">
+                            <h3 data-i18n="terms.liabilityTitle">SORUMLULUK SINIRLAMASI</h3>
+                            <p data-i18n="terms.liabilityDesc">INCRESIS, site kullanımından kaynaklanan dolaylı zararlardan sorumlu tutulamaz. Bakım, güncelleme veya mücbir sebepler nedeniyle hizmet kesintileri oluşabilir.</p>
+                        </div>
+                    </div>
+                    <div class="privacy-block">
+                        <div class="privacy-number">06</div>
+                        <div class="privacy-text">
+                            <h3 data-i18n="terms.lawTitle">UYGULANACAK HUKUK</h3>
+                            <p data-i18n="terms.lawDesc">Bu kullanım koşulları Türkiye Cumhuriyeti kanunlarına tabidir. Uyuşmazlıklarda İstanbul Mahkemeleri ve İcra Daireleri yetkilidir.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!-- MESAFELİ SATIŞ SÖZLEŞMESİ PAGE              -->
+    <!-- ═══════════════════════════════════════════ -->
+    <div id="page-distance-sales" class="page">
+        <div class="page-header">
+            <div class="page-header-bg distance-header-bg"></div>
+            <div class="page-header-overlay"></div>
+            <div class="page-header-content">
+                <p class="page-header-tag">INCRESIS</p>
+                <h1 class="page-header-title" data-i18n="distance.title">MESAFELİ SATIŞ SÖZLEŞMESİ</h1>
+                <p class="page-header-desc" data-i18n="distance.headerDesc">Mesafeli satış sözleşmesi ön bilgilendirme formu.</p>
+            </div>
+        </div>
+        <section class="policy-section">
+            <div class="container">
+                <div class="privacy-content">
+                    <div class="privacy-block">
+                        <div class="privacy-number">01</div>
+                        <div class="privacy-text">
+                            <h3 data-i18n="distance.sellerTitle">SATICI BİLGİLERİ</h3>
+                            <p data-i18n="distance.sellerDesc">Ünvan: INCRESIS Giyim San. ve Tic. Ltd. Şti. — Adres: Nişantaşı, Abdi İpekçi Cad. No: 42, Şişli / İstanbul — E-posta: info@incresis.com — Telefon: +90 212 XXX XX XX</p>
+                        </div>
+                    </div>
+                    <div class="privacy-block">
+                        <div class="privacy-number">02</div>
+                        <div class="privacy-text">
+                            <h3 data-i18n="distance.contractTitle">SÖZLEŞME KONUSU</h3>
+                            <p data-i18n="distance.contractDesc">İşbu sözleşmenin konusu, ALICI'nın SATICI'ya ait web sitesinden elektronik ortamda siparişini verdiği ürünlerin satışı ve teslimi ile ilgili 6502 sayılı Tüketicinin Korunması Hakkında Kanun ve Mesafeli Sözleşmeler Yönetmeliği hükümleri gereğince tarafların hak ve yükümlülüklerinin belirlenmesidir.</p>
+                        </div>
+                    </div>
+                    <div class="privacy-block">
+                        <div class="privacy-number">03</div>
+                        <div class="privacy-text">
+                            <h3 data-i18n="distance.priceTitle">FİYAT VE ÖDEME</h3>
+                            <p data-i18n="distance.priceDesc">Ürün fiyatları KDV dahildir. Ödeme; kredi kartı, banka kartı veya havale/EFT ile yapılabilir. Kredi kartı ile yapılan ödemelerde taksit seçenekleri banka anlaşmalarına göre sunulur.</p>
+                        </div>
+                    </div>
+                    <div class="privacy-block">
+                        <div class="privacy-number">04</div>
+                        <div class="privacy-text">
+                            <h3 data-i18n="distance.deliveryTitle">TESLİMAT</h3>
+                            <p data-i18n="distance.deliveryDesc">Sipariş onayından itibaren yurtiçi teslimatlar 2-4 iş günü, yurtdışı teslimatlar 5-10 iş günü içinde gerçekleştirilir. Mücbir sebep halleri saklıdır. Teslimat masrafları sipariş tutarına ve teslimat adresine göre değişkenlik gösterir.</p>
+                        </div>
+                    </div>
+                    <div class="privacy-block">
+                        <div class="privacy-number">05</div>
+                        <div class="privacy-text">
+                            <h3 data-i18n="distance.withdrawTitle">CAYMA HAKKI</h3>
+                            <p data-i18n="distance.withdrawDesc">ALICI, ürünü teslim aldığı tarihten itibaren 14 gün içinde herhangi bir gerekçe göstermeksizin cayma hakkını kullanabilir. Cayma hakkının kullanılması için ürünlerin kullanılmamış, etiketleri sökülmemiş ve orijinal ambalajında olması gerekmektedir.</p>
+                        </div>
+                    </div>
+                    <div class="privacy-block">
+                        <div class="privacy-number">06</div>
+                        <div class="privacy-text">
+                            <h3 data-i18n="distance.disputeTitle">UYUŞMAZLIK</h3>
+                            <p data-i18n="distance.disputeDesc">İşbu sözleşmeden doğan uyuşmazlıklarda Gümrük ve Ticaret Bakanlığı tarafından her yıl belirlenen parasal sınırlar dahilinde Tüketici Hakem Heyetleri, bu sınırları aşan durumlarda Tüketici Mahkemeleri yetkilidir.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!-- ÇEREZ POLİTİKASI PAGE                        -->
+    <!-- ═══════════════════════════════════════════ -->
+    <div id="page-cookies" class="page">
+        <div class="page-header">
+            <div class="page-header-bg cookies-header-bg"></div>
+            <div class="page-header-overlay"></div>
+            <div class="page-header-content">
+                <p class="page-header-tag">INCRESIS</p>
+                <h1 class="page-header-title" data-i18n="cookies.title">ÇEREZ POLİTİKASI</h1>
+                <p class="page-header-desc" data-i18n="cookies.headerDesc">Çerezlerin kullanımı hakkında bilgilendirme.</p>
+            </div>
+        </div>
+        <section class="policy-section">
+            <div class="container">
+                <div class="privacy-content">
+                    <div class="privacy-block">
+                        <div class="privacy-number">01</div>
+                        <div class="privacy-text">
+                            <h3 data-i18n="cookies.whatTitle">ÇEREZ NEDİR?</h3>
+                            <p data-i18n="cookies.whatDesc">Çerezler, web sitelerinin tarayıcınıza kaydettiği küçük metin dosyalarıdır. Siteyi tekrar ziyaret ettiğinizde tercihlerinizi hatırlamak ve deneyiminizi kişiselleştirmek için kullanılır.</p>
+                        </div>
+                    </div>
+                    <div class="privacy-block">
+                        <div class="privacy-number">02</div>
+                        <div class="privacy-text">
+                            <h3 data-i18n="cookies.typesTitle">KULLANILAN ÇEREZ TÜRLERİ</h3>
+                            <p data-i18n="cookies.typesDesc">Zorunlu Çerezler: Sitenin çalışması için gereklidir (oturum, sepet). Tercih Çerezleri: Dil ve tema seçiminizi hatırlar. Analitik Çerezler: Site kullanım istatistiklerini toplar. Pazarlama Çerezleri: İlgi alanlarınıza uygun reklamlar sunar.</p>
+                        </div>
+                    </div>
+                    <div class="privacy-block">
+                        <div class="privacy-number">03</div>
+                        <div class="privacy-text">
+                            <h3 data-i18n="cookies.whyTitle">ÇEREZ KULLANIM AMAÇLARI</h3>
+                            <p data-i18n="cookies.whyDesc">Çerezleri; sitenin düzgün çalışmasını sağlamak, kullanıcı deneyimini iyileştirmek, güvenliği artırmak, tercihlerinizi hatırlamak ve anonim istatistikler toplamak amacıyla kullanıyoruz.</p>
+                        </div>
+                    </div>
+                    <div class="privacy-block">
+                        <div class="privacy-number">04</div>
+                        <div class="privacy-text">
+                            <h3 data-i18n="cookies.manageTitle">ÇEREZ YÖNETİMİ</h3>
+                            <p data-i18n="cookies.manageDesc">Tarayıcı ayarlarınızdan çerezleri silebilir veya engelleyebilirsiniz. Ancak zorunlu çerezleri devre dışı bırakmak sitenin bazı özelliklerinin çalışmamasına neden olabilir.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!-- GİRİŞ YAP PAGE                               -->
+    <!-- ═══════════════════════════════════════════ -->
+    <div id="page-login" class="page">
+        <div class="page-header">
+            <div class="page-header-bg login-header-bg"></div>
+            <div class="page-header-overlay"></div>
+            <div class="page-header-content">
+                <p class="page-header-tag">INCRESIS</p>
+                <h1 class="page-header-title" data-i18n="login.title">GİRİŞ YAP</h1>
+                <p class="page-header-desc" data-i18n="login.headerDesc">Hesabınıza giriş yapın.</p>
+            </div>
+        </div>
+        <section class="auth-section">
+            <div class="container">
+                <div class="auth-box">
+                    <form class="auth-form" id="login-form">
+                        <div class="form-group">
+                            <label for="login-email" data-i18n="login.email">E-posta</label>
+                            <input type="email" id="login-email" data-i18n-placeholder="login.emailPh" placeholder="ornek@email.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="login-password" data-i18n="login.password">Şifre</label>
+                            <input type="password" id="login-password" data-i18n-placeholder="login.passwordPh" placeholder="••••••••" required>
+                        </div>
+                        <button type="submit" class="btn-primary auth-btn" data-i18n="login.submit">GİRİŞ YAP</button>
+                        <p class="auth-switch"><span data-i18n="login.noAccount">Hesabınız yok mu?</span> <button type="button" class="auth-switch-link footer-nav-link" data-page="register" data-i18n="login.registerLink">Kayıt Ol</button></p>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!-- KAYIT OL PAGE                                 -->
+    <!-- ═══════════════════════════════════════════ -->
+    <div id="page-register" class="page">
+        <div class="page-header">
+            <div class="page-header-bg register-header-bg"></div>
+            <div class="page-header-overlay"></div>
+            <div class="page-header-content">
+                <p class="page-header-tag">INCRESIS</p>
+                <h1 class="page-header-title" data-i18n="register.title">KAYIT OL</h1>
+                <p class="page-header-desc" data-i18n="register.headerDesc">Yeni hesap oluşturun.</p>
+            </div>
+        </div>
+        <section class="auth-section">
+            <div class="container">
+                <div class="auth-box">
+                    <form class="auth-form" id="register-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="reg-name" data-i18n="register.name">Ad Soyad</label>
+                                <input type="text" id="reg-name" data-i18n-placeholder="register.namePh" placeholder="Ad Soyad" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="reg-phone" data-i18n="register.phone">Telefon</label>
+                                <input type="tel" id="reg-phone" placeholder="+90 5XX XXX XX XX">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="reg-email" data-i18n="register.email">E-posta</label>
+                            <input type="email" id="reg-email" data-i18n-placeholder="register.emailPh" placeholder="ornek@email.com" required>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="reg-password" data-i18n="register.password">Şifre</label>
+                                <input type="password" id="reg-password" data-i18n-placeholder="register.passwordPh" placeholder="••••••••" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="reg-password2" data-i18n="register.password2">Şifre Tekrar</label>
+                                <input type="password" id="reg-password2" data-i18n-placeholder="register.password2Ph" placeholder="••••••••" required>
+                            </div>
+                        </div>
+                        <label class="auth-checkbox">
+                            <input type="checkbox" required>
+                            <span data-i18n="register.terms">Kullanım koşullarını ve gizlilik politikasını okudum, kabul ediyorum.</span>
+                        </label>
+                        <button type="submit" class="btn-primary auth-btn" data-i18n="register.submit">KAYIT OL</button>
+                        <p class="auth-switch"><span data-i18n="register.hasAccount">Zaten hesabınız var mı?</span> <button type="button" class="auth-switch-link footer-nav-link" data-page="login" data-i18n="register.loginLink">Giriş Yap</button></p>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!-- SİPARİŞLER PAGE                              -->
+    <!-- ═══════════════════════════════════════════ -->
+    <div id="page-orders" class="page">
+        <div class="page-header">
+            <div class="page-header-bg orders-header-bg"></div>
+            <div class="page-header-overlay"></div>
+            <div class="page-header-content">
+                <p class="page-header-tag">INCRESIS</p>
+                <h1 class="page-header-title" data-i18n="orders.title">SİPARİŞLERİM</h1>
+                <p class="page-header-desc" data-i18n="orders.headerDesc">Sipariş geçmişinizi görüntüleyin.</p>
+            </div>
+        </div>
+        <section class="auth-section">
+            <div class="container">
+                <div class="auth-box orders-empty">
+                    <div class="orders-empty-icon">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="18" rx="2"/><path d="M2 8h20"/><path d="M10 12h4"/></svg>
+                    </div>
+                    <h3 data-i18n="orders.emptyTitle">Henüz siparişiniz yok</h3>
+                    <p data-i18n="orders.emptyDesc">Sipariş verdikten sonra burada takip edebilirsiniz.</p>
+                    <button class="btn-primary auth-btn" onclick="showHome()" data-i18n="orders.shopNow">ALIŞVERİŞE BAŞLA</button>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!-- BESTSELLERS PAGE                              -->
+    <!-- ═══════════════════════════════════════════ -->
+    <div id="page-bestsellers" class="page">
+        <section style="padding: 120px 0 80px;">
+            <div class="container">
+                <p class="col-page-sub" style="color:var(--gold);font-size:12px;letter-spacing:3px;margin-bottom:8px;" data-i18n="home.bestsellersTag">EN ÇOK SATANLAR</p>
+                <h1 style="font-family:var(--ff-display);font-size:56px;color:#fff;letter-spacing:2px;margin-bottom:40px;" data-i18n="home.bestsellers">ÇOK SATANLAR</h1>
+                <div class="products-grid four-col" id="bestsellers-all-grid">
+                    <!-- JS renders -->
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!-- CATEGORY PAGE                                 -->
+    <!-- ═══════════════════════════════════════════ -->
+    <div id="page-category" class="page">
+        <section style="padding: 120px 0 80px;">
+            <div class="container">
+                <div class="category-header">
+                    <h1 class="category-page-title" id="category-title"></h1>
+                    <button class="category-back-btn" id="category-back-btn">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></svg>
+                        <span id="category-back-text"></span>
+                    </button>
+                </div>
+                <div class="products-grid four-col" id="category-grid">
+                    <!-- JS renders -->
+                </div>
+                <div class="category-empty" id="category-empty" style="display:none;">
+                    <p id="category-empty-msg" style="font-family:var(--ff-display);font-size:20px;color:var(--text-secondary);text-align:center;padding:80px 0;letter-spacing:1px;"></p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!-- COLLECTION PAGE                              -->
+    <!-- ═══════════════════════════════════════════ -->
+    <div id="page-collection" class="page">
+
+        <!-- Collection Banner -->
+        <div class="col-page-banner" id="col-banner">
+            <div class="col-page-banner-bg" id="col-banner-bg"></div>
+            <div class="col-page-banner-overlay"></div>
+            <div class="col-page-banner-content">
+                <p class="col-page-sub" id="col-banner-sub"></p>
+                <h1 class="col-page-title" id="col-banner-title"></h1>
+                <p class="col-page-desc" id="col-banner-desc"></p>
+            </div>
+        </div>
+        <!-- hidden deco for JS compat -->
+        <span id="col-banner-deco" style="display:none"></span>
+
+        <!-- Products with Sidebar -->
+        <section class="col-products-section">
+            <div class="container">
+                <div class="col-products-layout">
+
+                    <!-- Sidebar -->
+                    <aside class="filters-sidebar" id="filters-sidebar">
+                        <button class="back-to-home" id="back-btn" data-i18n="col.backCollections">← Koleksiyonlar</button>
+
+                        <div class="filter-group">
+                            <button class="filter-toggle active" data-i18n="filter.size">Beden <span class="filter-arrow">▾</span></button>
+                            <div class="filter-options open">
+                                <label><input type="checkbox" value="XS"> XS</label>
+                                <label><input type="checkbox" value="S"> S</label>
+                                <label><input type="checkbox" value="M"> M</label>
+                                <label><input type="checkbox" value="L"> L</label>
+                                <label><input type="checkbox" value="XL"> XL</label>
+                                <label><input type="checkbox" value="XXL"> XXL</label>
+                            </div>
+                        </div>
+
+                        <div class="filter-group">
+                            <button class="filter-toggle" data-i18n="filter.color">Renk <span class="filter-arrow">▾</span></button>
+                            <div class="filter-options">
+                                <label><input type="checkbox" value="black"> <span data-i18n="filter.black">Siyah</span></label>
+                                <label><input type="checkbox" value="white"> <span data-i18n="filter.white">Beyaz</span></label>
+                                <label><input type="checkbox" value="gray"> <span data-i18n="filter.gray">Gri</span></label>
+                            </div>
+                        </div>
+
+                        <div class="filter-group">
+                            <button class="filter-toggle" data-i18n="filter.cut">Kesim <span class="filter-arrow">▾</span></button>
+                            <div class="filter-options">
+                                <label><input type="checkbox" value="regular"> Regular</label>
+                                <label><input type="checkbox" value="oversized"> Oversized</label>
+                                <label><input type="checkbox" value="slim"> Slim</label>
+                            </div>
+                        </div>
+
+                        <div class="filter-group">
+                            <button class="filter-toggle" data-i18n="filter.hooded">Kapüşonlu <span class="filter-arrow">▾</span></button>
+                            <div class="filter-options">
+                                <label><input type="checkbox" value="yes"> <span data-i18n="filter.yes">Evet</span></label>
+                                <label><input type="checkbox" value="no"> <span data-i18n="filter.no">Hayır</span></label>
+                            </div>
+                        </div>
+                    </aside>
+
+                    <!-- Products Grid -->
+                    <div class="col-products-main">
+                        <div class="col-products-toolbar">
+                            <span class="products-count" id="products-count"></span>
+                            <span class="products-sort">SS 2026</span>
+                        </div>
+                        <div class="products-grid three-col" id="products-grid"></div>
+                        <div class="products-back-cta">
+                            <button class="btn-secondary" id="back-btn-2" data-i18n="col.backAll">← TÜM KOLEKSİYONLAR</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!-- SHARED FOOTER                                 -->
+    <!-- ═══════════════════════════════════════════ -->
+    <footer class="footer" id="shared-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col footer-col-brand">
+                    <h3 class="footer-brand">INCRESIS</h3>
+                    <p class="footer-tagline" data-i18n="footer.tagline">Varoluşunu Yeniden Tanımla</p>
+                    <div class="footer-social">
+                        <a href="#">IG</a>
+                        <a href="#">X</a>
+                        <a href="#">TT</a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h4 data-i18n="footer.account">HESABIM</h4>
+                    <ul>
+                        <li><button class="footer-link footer-nav-link" data-page="login" data-i18n="footer.login">Giriş Yap</button></li>
+                        <li><button class="footer-link footer-nav-link" data-page="orders" data-i18n="footer.orders">Siparişler</button></li>
+                        <li><button class="footer-link footer-nav-link" data-page="register" data-i18n="footer.register">Kayıt Ol</button></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4 data-i18n="footer.policies">POLİTİKALARIMIZ</h4>
+                    <ul>
+                        <li><button class="footer-link footer-nav-link" data-page="terms" data-i18n="footer.terms">Kullanım Koşulları</button></li>
+                        <li><button class="footer-link footer-nav-link" data-page="distance-sales" data-i18n="footer.distanceSales">Mesafeli Satış Sözleşmesi</button></li>
+                        <li><button class="footer-link footer-nav-link" data-page="shipping" data-i18n="footer.deliveryReturn">Teslimat ve İade Koşulları</button></li>
+                        <li><button class="footer-link footer-nav-link" data-page="cookies" data-i18n="footer.cookies">Çerez Politikası</button></li>
+                        <li><button class="footer-link footer-nav-link" data-page="privacy" data-i18n="footer.privacyPolicy">Gizlilik Politikası</button></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4 data-i18n="nav.contact">İLETİŞİM</h4>
+                    <p class="footer-email">info@incresis.com</p>
+                    <p class="footer-phone">+90 212 XXX XX XX</p>
+                    <p class="footer-address" data-i18n="footer.addressText">Nişantaşı, Abdi İpekçi Cad.<br>No: 42, Şişli / İstanbul</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <span data-i18n="footer.copyright">© 2026 INCRESIS — Tüm hakları saklıdır.</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!-- CART SIDEBAR                                 -->
+    <!-- ═══════════════════════════════════════════ -->
+    <div id="cart-overlay" class="cart-overlay"></div>
+    <aside id="cart-sidebar" class="cart-sidebar">
+        <div class="cart-head">
+            <h2 data-i18n="cart.title">SEPETİM</h2>
+            <button class="cart-close-btn" id="cart-close">✕</button>
+        </div>
+        <div class="cart-body" id="cart-body">
+            <div class="cart-empty-state">
+                <p data-i18n="cart.empty">Sepetiniz boş</p>
+                <span data-i18n="cart.emptyHint">Ürün ekleyerek başlayın</span>
+            </div>
+        </div>
+        <div class="cart-foot" id="cart-foot">
+            <div class="cart-total-row">
+                <span data-i18n="cart.total">TOPLAM</span>
+                <span id="cart-total">$0</span>
+            </div>
+            <p class="cart-shipping-note" data-i18n="cart.freeShipping">Ücretsiz kargo</p>
+            <button class="btn-primary full" id="checkout-btn" data-i18n="cart.checkout">SİPARİŞ VER</button>
+        </div>
+    </aside>
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!-- CHECKOUT AUTH MODAL                           -->
+    <!-- ═══════════════════════════════════════════ -->
+    <div id="checkout-modal" class="modal-bg">
+        <div class="modal-box checkout-modal-box">
+            <button class="modal-close" id="checkout-modal-close">✕</button>
+            <div class="checkout-modal-icon">
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            </div>
+            <h3 class="checkout-modal-title" data-i18n="checkout.title">SİPARİŞİ ONAYLA</h3>
+            <p class="checkout-modal-desc" data-i18n="checkout.desc">Devam etmek için giriş yapın veya kayıt olun.</p>
+
+            <button class="btn-primary full checkout-option-btn" id="checkout-login-btn" data-i18n="checkout.login">GİRİŞ YAP</button>
+            <button class="btn-outline full checkout-option-btn" id="checkout-register-btn" data-i18n="checkout.register">KAYIT OL</button>
+
+            <div class="checkout-divider">
+                <span data-i18n="checkout.or">veya</span>
+            </div>
+
+            <button class="btn-ghost full checkout-guest-btn" id="checkout-guest-btn" data-i18n="checkout.guest">KAYIT OLMADAN DEVAM ET →</button>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!-- PRODUCT DETAIL MODAL                          -->
+    <!-- ═══════════════════════════════════════════ -->
+    <div id="product-detail-modal" class="modal-bg product-detail-overlay">
+        <div class="product-detail-container">
+            <button class="product-detail-close" id="product-detail-close">✕</button>
+            <div class="product-detail-inner">
+                <div class="product-detail-gallery" id="product-detail-gallery">
+                    <!-- JS: product image -->
+                </div>
+                <div class="product-detail-info" id="product-detail-info">
+                    <!-- JS: product info -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!-- SIZE MODAL                                   -->
+    <!-- ═══════════════════════════════════════════ -->
+    <div id="size-modal" class="modal-bg">
+        <div class="modal-box">
+            <button class="modal-close" id="modal-close">✕</button>
+            <p class="modal-col-label" id="modal-col-label"></p>
+            <h3 class="modal-product-name" id="modal-product-name"></h3>
+            <p class="modal-product-sub" id="modal-product-sub"></p>
+            <p class="modal-product-price" id="modal-product-price"></p>
+            <div id="modal-color-section" class="modal-color-section" style="display:none">
+                <p class="modal-color-label" data-i18n="modal.color">RENK</p>
+                <div id="modal-color-dots"></div>
+            </div>
+            <div class="modal-divider"></div>
+            <p class="modal-size-label" data-i18n="modal.selectSize">BEDEN SEÇİN</p>
+            <div class="modal-sizes" id="modal-sizes">
+                <button class="size-btn" data-size="XS">XS</button>
+                <button class="size-btn" data-size="S">S</button>
+                <button class="size-btn" data-size="M">M</button>
+                <button class="size-btn" data-size="L">L</button>
+                <button class="size-btn" data-size="XL">XL</button>
+                <button class="size-btn" data-size="XXL">XXL</button>
+            </div>
+            <p class="size-error" id="size-error" data-i18n="modal.sizeError">Lütfen beden seçin</p>
+            <button class="btn-primary full" id="modal-add-btn" data-i18n="modal.addToCart">SEPETE EKLE</button>
+        </div>
+    </div>
+
+    <script src="js/main.js?v=61"></script>
+</body>
+</html>

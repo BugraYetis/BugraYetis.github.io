@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>3B Scroll · Demo</title>
+
+  <meta name="description" content="3D scroll product visualization demo (placeholder model)">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="3D scroll product visualization demo (placeholder model)">
+  <meta property="og:description" content="3D scroll product visualization demo (placeholder model)">
+  <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+  <meta name="keywords" content="HTML, CSS, JavaScript">
+
+ 
+   <meta name="msapplication-TileColor" content="#F9F9F9">
+  <meta name="theme-color" content="#F9F9F9">
+  <link rel="stylesheet" href="src/styles.css">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Orbitron:wght@600;700;800;900&display=swap"
+    rel="stylesheet" />
+<style>
+  :root {
+ --red: #1010EB;
+  --grey: #f0efef;
+  --grey2: #6e6e6e;
+  --lightBlack: #464955;
+  --black: #13222a;
+}
+</style>
+
+ <script src="https://dist.pixotronics.com/webgi/runtime/viewer-0.9.6.js"> </script>
+ <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/tweakpane@4.0.3/dist/tweakpane.min.js"></script>
+</head>
+
+<body>
+  <canvas id="webgi-canvas"></canvas>
+  <div class="rotation">
+    <p>Please Rotate your device to see the Product</p>
+  </div>
+  <div class="loader">
+    <p>Loading... Please wait</p>
+    <div class="progress"></div>
+  </div>
+  <main class="mainContainer">
+    <section class="section first">
+      <div class="section--one--container1">
+        <nav class="nav--bar">
+          Lorem ipsum dolor sit amet 
+        </nav>
+
+        <h1>Lorem: <span>Lorem</span></h1>
+      </div>
+      <div class="section--one--container2">
+        <div class="spec--wrapper">
+          <div class="name">Lorem</div>
+          <div class="value--wrapper">
+            <div class="value">---</div>
+            <div class="unit">---</div>
+          </div>
+        </div>
+        <div class="spec--wrapper">
+          <div class="name">Lorem</div>
+          <div class="value--wrapper">
+            <div class="value">---</div>
+          </div>
+        </div>
+        <div class="spec--wrapper">
+          <div class="name">Lorem</div>
+          <div class="value--wrapper">
+            <div class="value">---</div>
+          </div>
+        </div>
+
+        <div class="spec--wrapper">
+          <div class="name">Lorem</div>
+          <div class="value--wrapper">
+            <div class="value">---</div>
+          </div>
+        </div>
+        <div class="spec--wrapper">
+          <div class="name">Lorem</div>
+          <div class="value--wrapper">
+            <div class="value">--</div>
+            <div class="unit">--</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section second">
+      <div class="section--two--container1">
+        <h1>Lorem</h1>
+        <h1>Lorem</h1>
+        <h1>Lorem</h1>
+      </div>
+      <div class="section--two--container2">
+        <span>Lorem</span>
+        <p>Lorem</p>
+      </div>
+    </section>
+
+    <section class="section third leftSide  ">
+      <div class="section--three--container">
+        <h1 class="title"> Lorem ipsum dolor</h1>
+        <p class="detail">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Veniam earum minima itaque necessitatibus fuga nesciunt blanditiis repellat iure a esse. Animi dignissimos inventore assumenda tenetur ut, repellat quam in officiis.
+          Beatae labore sed alias explicabo illum molestiae, mollitia dolorum cum obcaecati laudantium voluptates quaerat itaque, temporibus corporis rem id odit fugit? Quidem nostrum itaque doloremque accusantium, rem nemo omnis labore.
+        </p>
+      </div>
+    </section>
+    <section class="section four rightSide  ">
+      <div class="section--four--container">
+        <h1 class="title">Lorem ipsum dolor</h1>
+        <p class="detail">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Veniam earum minima itaque necessitatibus fuga nesciunt blanditiis repellat iure a esse. Animi dignissimos inventore assumenda tenetur ut, repellat quam in officiis.
+          Beatae labore sed alias explicabo illum molestiae, mollitia dolorum cum obcaecati laudantium voluptates quaerat itaque, temporibus corporis rem id odit fugit? Quidem nostrum itaque doloremque accusantium, rem nemo omnis labore.
+        </p>
+      </div>
+      </div>
+    </section>
+   
+    <section class="section six leftSide  ">
+      <div class="section--six--container">
+        <h1 class="title">Lorem ipsum dolor</h1>
+        <p class="detail">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Veniam earum minima itaque necessitatibus 
+        </p>
+      </div>
+    </section>
+
+    <section class="section seven rightSide ">
+      <div class="section--seven--container">
+        <h1 class="title">Lorem ipsum dolor</h1>
+        <p class="detail">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Veniam earum minima itaque necessitatibus 
+        </p>
+      </div>
+    </section>
+
+    </section>
+    <footer>
+      <button class="button--footer">BACK TO TOP</button>
+   </footer>
+  </main>
+
+
+  <script src="src/index.js"></script>
+
+</body>
+
+</html>

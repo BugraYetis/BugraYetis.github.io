@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Eğitim İşbirliği Galerisi (Demo) | MAE</title>
+<meta name="description" content="Eğitim İşbirliği — etkinlik fotoğraf galerisi demosu. Hazırlayan: MAE.">
+<meta name="robots" content="noindex, nofollow">
+<meta property="og:title" content="Eğitim İşbirliği Galerisi">
+<meta property="og:description" content="Eğitim İşbirliği — etkinlik fotoğraf galerisi demosu.">
+<link rel="icon" href="assets/MAE_logo.svg" type="image/svg+xml">
+<style>
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+:root {
+    --bg: #0a0e1a; --accent: #C07D3E; --accent-lt: #d99a55;
+    --accent-dim: rgba(192,125,62,0.15); --accent-glow: rgba(192,125,62,0.35);
+    --text: #e8e8f0; --text-dim: rgba(232,232,240,0.55); --text-mid: rgba(232,232,240,0.75);
+    --border: rgba(192,125,62,0.12); --card-bg: rgba(255,255,255,0.03);
+    --nav-h: 66px;
+}
+html { scroll-behavior:smooth; -webkit-text-size-adjust:100%; }
+body { background:var(--bg); color:var(--text); font-family:'SF Pro Display','Segoe UI','Helvetica Neue',Arial,sans-serif; line-height:1.6; overflow-x:hidden; -webkit-font-smoothing:antialiased; }
+a { color:var(--accent); text-decoration:none; transition:opacity .3s; }
+img { max-width:100%; display:block; }
+button { font-family:inherit; }
+::selection { background:var(--accent); color:var(--bg); }
+
+/* ---------- Nav ---------- */
+.nav { position:fixed; top:0; left:0; right:0; z-index:200; display:flex; align-items:center; justify-content:space-between; padding:16px 24px; backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px); background:rgba(10,14,26,0); border-bottom:1px solid transparent; transition:background .4s, border-color .4s; }
+.nav.solid { background:rgba(10,14,26,0.88); border-bottom-color:var(--border); }
+.nav-logo { font-size:17px; font-weight:800; color:var(--accent); letter-spacing:3px; line-height:1.1; display:block; }
+.nav-logo:hover { opacity:1; }
+.nav-logo:hover span { color:var(--text-mid); }
+.nav-logo span { font-weight:300; color:var(--text-dim); font-size:9px; letter-spacing:1.5px; display:block; margin-top:3px; transition:color .3s; }
+.nav-site { display:inline-flex; align-items:center; gap:7px; padding:8px 17px; border:1px solid var(--border); border-radius:20px; font-size:10.5px; font-weight:700; letter-spacing:1.6px; text-transform:uppercase; color:var(--accent); background:rgba(10,14,26,0.6); transition:all .3s; }
+.nav-site:hover { background:var(--accent); color:var(--bg); border-color:var(--accent); opacity:1; }
+.nav-site svg { width:12px; height:12px; stroke:currentColor; fill:none; stroke-width:2.2; }
+
+/* ---------- Hero ---------- */
+.hero { position:relative; min-height:74vh; display:flex; align-items:center; justify-content:center; overflow:hidden; padding:120px 24px 64px; }
+.hero-bg { position:absolute; inset:0; z-index:0; }
+.hero-bg .hero-art { width:100%; height:100%; opacity:.5; background:radial-gradient(circle at 30% 40%, rgba(192,125,62,.55), transparent 40%), radial-gradient(circle at 72% 62%, rgba(80,110,200,.45), transparent 45%), repeating-radial-gradient(circle at 50% 50%, rgba(255,255,255,.05) 0 2px, transparent 2px 38px); transform:scale(1.05); animation:slowDrift 40s ease-in-out infinite alternate; }
+.ph-box { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; background:repeating-linear-gradient(135deg, #0d1018 0 16px, #111522 16px 32px); color:var(--text-dim); font-size:11px; font-weight:700; letter-spacing:2.4px; text-transform:uppercase; text-align:center; }
+.ph-box svg { width:34px; height:34px; stroke:var(--accent); fill:none; stroke-width:1.5; opacity:.8; }
+.ph-logo { position:absolute; right:12px; bottom:12px; padding:4px 9px; border:1.5px dashed var(--accent-glow); border-radius:5px; font-size:9.5px; letter-spacing:2px; color:var(--accent); }
+body:not(.branded) .ph-logo { display:none; }
+.lb-ph { position:relative; width:min(100%, 1100px); aspect-ratio:3/2; max-height:100%; border-radius:5px; overflow:hidden; box-shadow:0 24px 70px rgba(0,0,0,.7); }
+.lb-ph .ph-box { font-size:14px; }
+.hero-bg::after { content:''; position:absolute; inset:0; background:radial-gradient(ellipse at center, rgba(10,14,26,.35) 0%, rgba(10,14,26,.85) 60%, var(--bg) 100%); }
+@keyframes slowDrift { from { transform:scale(1.05) translate(0,0); } to { transform:scale(1.14) translate(-1.5%,-1.5%); } }
+.hero-content { position:relative; z-index:1; text-align:center; max-width:780px; }
+.hero h1 { font-size:clamp(38px,7vw,76px); font-weight:800; line-height:1.02; margin-bottom:22px; letter-spacing:-1px; opacity:0; animation:fadeUp 1s .2s forwards; }
+.hero h1 .x { font-weight:300; color:var(--text-dim); margin:0 .12em; }
+.hero h1 em { font-style:normal; background:linear-gradient(135deg, var(--accent-lt), var(--accent) 60%, #8a5527); -webkit-background-clip:text; background-clip:text; color:transparent; }
+.hero-with { font-size:clamp(15px,2vw,19px); color:var(--text-mid); font-weight:600; margin-bottom:34px; opacity:0; animation:fadeUp 1s .4s forwards; }
+.hero-meta { display:flex; gap:12px 30px; justify-content:center; flex-wrap:wrap; margin-bottom:36px; opacity:0; animation:fadeUp 1s .7s forwards; }
+.hero-meta-item { display:flex; align-items:center; gap:8px; font-size:11px; letter-spacing:2px; text-transform:uppercase; color:var(--text-dim); font-weight:600; }
+.hero-meta-item svg { width:14px; height:14px; stroke:var(--accent); fill:none; stroke-width:1.8; flex-shrink:0; }
+.hero-cta { display:inline-flex; align-items:center; gap:10px; padding:15px 38px; background:var(--accent); color:var(--bg); font-size:12px; font-weight:800; letter-spacing:1.5px; text-transform:uppercase; border-radius:6px; transition:all .3s; border:none; cursor:pointer; opacity:0; animation:fadeUp 1s .85s forwards; }
+.hero-cta:hover { background:var(--accent-lt); transform:translateY(-2px); box-shadow:0 10px 30px rgba(192,125,62,.32); }
+.hero-cta svg { width:15px; height:15px; stroke:currentColor; fill:none; stroke-width:2.2; }
+
+/* ---------- Logo toggle bar ---------- */
+.optbar { position:sticky; top:var(--nav-h); z-index:150; background:rgba(10,14,26,.92); backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px); border-top:1px solid var(--border); border-bottom:1px solid var(--border); padding:14px 24px; }
+.optbar-inner { max-width:1320px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; gap:14px 26px; flex-wrap:wrap; }
+.opt-label { font-size:11px; letter-spacing:2px; text-transform:uppercase; color:var(--text-dim); font-weight:700; }
+.opt-label b { color:var(--accent); }
+.seg { display:inline-flex; border:1px solid var(--border); border-radius:22px; overflow:hidden; background:rgba(255,255,255,.04); }
+.seg button { padding:9px 18px; font-size:10.5px; font-weight:700; letter-spacing:1.3px; text-transform:uppercase; color:var(--text-dim); background:none; border:none; cursor:pointer; transition:all .28s; display:inline-flex; align-items:center; gap:7px; white-space:nowrap; }
+.seg button.on { background:var(--accent); color:var(--bg); }
+.seg button svg { width:13px; height:13px; stroke:currentColor; fill:none; stroke-width:2.2; }
+
+/* ---------- Sections + grid ---------- */
+.wrap { max-width:1320px; margin:0 auto; padding:0 24px 90px; }
+.section { padding-top:56px; scroll-margin-top:calc(var(--nav-h) + 58px); }
+.section-head { display:flex; align-items:baseline; justify-content:space-between; gap:12px 24px; flex-wrap:wrap; margin-bottom:26px; padding-bottom:18px; border-bottom:1px solid var(--border); }
+.section-title { font-size:clamp(21px,2.8vw,30px); font-weight:800; letter-spacing:-.3px; }
+.section-count { font-size:11px; letter-spacing:2.4px; text-transform:uppercase; color:var(--text-dim); font-weight:700; }
+.section-count b { color:var(--accent); font-size:17px; letter-spacing:0; margin-right:3px; }
+
+.grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(300px, 1fr)); gap:20px; }
+.card { position:relative; border-radius:10px; overflow:hidden; cursor:pointer; background:#0d1018; aspect-ratio:3/2; box-shadow:0 6px 20px rgba(0,0,0,.4); transition:transform .45s cubic-bezier(.16,1,.3,1), box-shadow .45s; opacity:0; transform:translateY(20px); }
+.card.in { opacity:1; transform:translateY(0); }
+.card:hover { transform:translateY(-5px); box-shadow:0 16px 40px rgba(0,0,0,.55), 0 0 0 1px var(--accent-glow); }
+/* contain, not cover: the one portrait crop stays whole instead of being cut */
+.card img { width:100%; height:100%; object-fit:contain; background:#0d1018; transition:transform .6s cubic-bezier(.16,1,.3,1); }
+.card:hover img { transform:scale(1.02); }
+.card-overlay { position:absolute; inset:0; display:flex; flex-direction:column; justify-content:flex-end; padding:13px; gap:9px; background:linear-gradient(0deg, rgba(6,8,14,.92) 0%, rgba(6,8,14,.4) 34%, transparent 60%); opacity:0; transition:opacity .35s; }
+.card:hover .card-overlay, .card:focus-visible .card-overlay { opacity:1; }
+.card-id { font-size:10.5px; letter-spacing:2px; font-weight:700; color:var(--accent); text-transform:uppercase; }
+.card-actions { display:flex; gap:8px; }
+.card-btn { flex:1; display:inline-flex; align-items:center; justify-content:center; gap:6px; padding:9px 10px; border-radius:6px; font-size:10.5px; font-weight:700; letter-spacing:1px; text-transform:uppercase; transition:all .25s; border:1px solid var(--accent-glow); color:var(--accent); background:rgba(10,14,26,.7); cursor:pointer; }
+.card-btn.primary { background:var(--accent); color:var(--bg); border-color:var(--accent); }
+.card-btn:hover { background:var(--accent-lt); color:var(--bg); border-color:var(--accent-lt); }
+.card-btn svg { width:13px; height:13px; stroke:currentColor; fill:none; stroke-width:2.2; }
+
+/* ---------- Help ---------- */
+.help { border-top:1px solid var(--border); background:rgba(255,255,255,.015); padding:58px 24px; }
+.help-inner { max-width:1000px; margin:0 auto; display:grid; grid-template-columns:repeat(3,1fr); gap:32px; }
+.help-item { text-align:center; }
+.help-num { width:34px; height:34px; margin:0 auto 13px; border-radius:50%; border:1px solid var(--accent-glow); display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:800; color:var(--accent); }
+.help-title { font-size:13.5px; font-weight:700; margin-bottom:7px; }
+.help-text { font-size:12.5px; color:var(--text-dim); line-height:1.7; }
+
+/* ---------- Footer ---------- */
+.footer { padding:56px 24px; text-align:center; border-top:1px solid var(--border); }
+.footer-logo { font-size:22px; font-weight:800; color:var(--accent); letter-spacing:4px; margin-bottom:7px; display:block; }
+.footer-logo:hover { opacity:1; color:var(--accent-lt); }
+.footer-sub { font-size:10px; color:var(--text-dim); letter-spacing:2.5px; text-transform:uppercase; margin-bottom:26px; }
+.footer-site { display:inline-flex; align-items:center; gap:9px; padding:13px 30px; border:1px solid var(--accent-glow); border-radius:6px; font-size:12px; font-weight:700; letter-spacing:1.4px; text-transform:uppercase; color:var(--accent); transition:all .3s; margin-bottom:26px; }
+.footer-site:hover { background:var(--accent); color:var(--bg); border-color:var(--accent); opacity:1; transform:translateY(-2px); box-shadow:0 8px 24px rgba(192,125,62,.28); }
+.footer-site svg { width:15px; height:15px; stroke:currentColor; fill:none; stroke-width:2.2; }
+.footer-contact { font-size:12.5px; color:var(--text-dim); line-height:1.9; }
+
+/* ---------- Lightbox ---------- */
+.lb { position:fixed; inset:0; z-index:1000; background:rgba(4,6,12,.96); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px); display:none; opacity:0; transition:opacity .3s; }
+.lb.show { display:block; opacity:1; }
+.lb-stage { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; padding:74px 20px 120px; }
+.lb-img { max-width:100%; max-height:100%; width:auto; height:auto; object-fit:contain; border-radius:5px; box-shadow:0 24px 70px rgba(0,0,0,.7); transition:opacity .25s; user-select:none; -webkit-user-drag:none; }
+.lb-img.loading { opacity:.45; filter:blur(1px); }
+.lb-spinner { position:absolute; top:50%; left:50%; margin:-17px 0 0 -17px; width:34px; height:34px; border:2.5px solid var(--accent-dim); border-top-color:var(--accent); border-radius:50%; animation:spin .8s linear infinite; display:none; pointer-events:none; }
+.lb-spinner.show { display:block; }
+@keyframes spin { to { transform:rotate(360deg); } }
+.lb-top { position:absolute; top:0; left:0; right:0; display:flex; align-items:center; justify-content:space-between; gap:12px; padding:17px 22px; z-index:2; background:linear-gradient(180deg, rgba(4,6,12,.85), transparent); }
+.lb-counter { font-size:11px; letter-spacing:2.4px; text-transform:uppercase; color:var(--text-dim); font-weight:700; min-width:0; }
+.lb-counter b { color:var(--accent); }
+.lb-sect { color:var(--text-dim); font-weight:600; letter-spacing:1.4px; }
+.lb-close { width:40px; height:40px; flex-shrink:0; border-radius:50%; border:1px solid var(--border); background:rgba(10,14,26,.75); color:var(--text-mid); cursor:pointer; display:flex; align-items:center; justify-content:center; transition:all .25s; }
+.lb-close:hover { background:var(--accent); color:var(--bg); border-color:var(--accent); transform:rotate(90deg); }
+.lb-close svg { width:17px; height:17px; stroke:currentColor; fill:none; stroke-width:2.2; }
+.lb-nav { position:absolute; top:50%; transform:translateY(-50%); width:50px; height:50px; border-radius:50%; border:1px solid var(--border); background:rgba(10,14,26,.7); backdrop-filter:blur(10px); color:var(--text-mid); cursor:pointer; display:flex; align-items:center; justify-content:center; transition:all .25s; z-index:2; }
+.lb-nav:hover { background:var(--accent); color:var(--bg); border-color:var(--accent); }
+.lb-nav:disabled { opacity:.22; cursor:default; }
+.lb-nav:disabled:hover { background:rgba(10,14,26,.7); color:var(--text-mid); border-color:var(--border); }
+.lb-prev { left:18px; } .lb-next { right:18px; }
+.lb-nav svg { width:20px; height:20px; stroke:currentColor; fill:none; stroke-width:2.2; }
+.lb-bottom { position:absolute; bottom:0; left:0; right:0; padding:18px 22px calc(22px + env(safe-area-inset-bottom)); display:flex; flex-direction:column; align-items:center; gap:11px; z-index:2; background:linear-gradient(0deg, rgba(4,6,12,.94), transparent); }
+.lb-controls { display:flex; align-items:center; gap:12px; flex-wrap:wrap; justify-content:center; }
+.lb-download { display:inline-flex; align-items:center; gap:10px; padding:14px 32px; background:var(--accent); color:var(--bg); font-size:12px; font-weight:800; letter-spacing:1.4px; text-transform:uppercase; border-radius:6px; transition:all .3s; border:none; cursor:pointer; }
+.lb-download:hover { background:var(--accent-lt); transform:translateY(-2px); box-shadow:0 10px 28px rgba(192,125,62,.35); opacity:1; }
+.lb-download svg { width:16px; height:16px; stroke:currentColor; fill:none; stroke-width:2.2; }
+.lb-hint { font-size:10.5px; color:var(--text-dim); text-align:center; max-width:380px; line-height:1.6; }
+
+/* ---------- Toast ---------- */
+.toast { position:fixed; left:50%; bottom:28px; transform:translate(-50%,90px); z-index:2000; background:rgba(14,18,30,.97); border:1px solid var(--accent-glow); color:var(--text); padding:13px 24px; border-radius:8px; font-size:13px; font-weight:600; box-shadow:0 14px 40px rgba(0,0,0,.55); transition:transform .4s cubic-bezier(.16,1,.3,1); display:flex; align-items:center; gap:10px; max-width:88vw; }
+.toast.show { transform:translate(-50%,0); }
+.toast svg { width:16px; height:16px; stroke:var(--accent); fill:none; stroke-width:2.3; flex-shrink:0; }
+
+@keyframes fadeUp { from { opacity:0; transform:translateY(24px); } to { opacity:1; transform:translateY(0); } }
+
+/* ---------- Responsive ---------- */
+@media (max-width:900px) { .help-inner { grid-template-columns:1fr; gap:24px; } }
+@media (max-width:768px) {
+    :root { --nav-h: 59px; }
+    .nav { padding:13px 16px; }
+    .nav-site { padding:7px 13px; font-size:9.5px; letter-spacing:1.2px; }
+    .hero { min-height:auto; padding:104px 20px 50px; }
+    .optbar { padding:12px 16px; }
+    .optbar-inner { gap:10px; justify-content:center; }
+    .opt-label { width:100%; text-align:center; }
+    .seg { width:100%; }
+    .seg button { flex:1; justify-content:center; padding:10px 8px; }
+    .wrap { padding:0 16px 70px; }
+    .section { padding-top:38px; }
+    .grid { grid-template-columns:1fr; gap:14px; }
+    .card-overlay { opacity:1; background:linear-gradient(0deg, rgba(6,8,14,.9) 0%, rgba(6,8,14,.28) 30%, transparent 52%); }
+    .card:hover { transform:none; }
+    .lb-stage { padding:62px 10px 132px; }
+    .lb-nav { width:42px; height:42px; }
+    .lb-prev { left:8px; } .lb-next { right:8px; }
+}
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration:.01ms !important; animation-iteration-count:1 !important; transition-duration:.01ms !important; }
+    .card { opacity:1; transform:none; }
+}
+</style>
+</head>
+<body>
+
+<header class="nav" id="nav">
+    <a class="nav-logo" href="https://mae.com.tr" target="_blank" rel="noopener">MAE<span lang="en">Mind &middot; Art &middot; Emotion</span></a>
+    <a class="nav-site" href="https://mae.com.tr" target="_blank" rel="noopener">
+        <span>mae.com.tr</span>
+        <svg viewBox="0 0 24 24"><path d="M7 17L17 7M9 7h8v8"/></svg>
+    </a>
+</header>
+
+<section class="hero">
+    <div class="hero-bg"><div class="hero-art" aria-hidden="true"></div></div>
+    <div class="hero-content">
+        <h1>LOGO<span class="x">&times;</span><em>LOGO</em></h1>
+        <div class="hero-with">Eğitim İşbirliği Etkinliği</div>
+
+        <div class="hero-meta">
+            <div class="hero-meta-item">
+                <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 15l5-5 4 4 3-3 6 6"/><circle cx="9" cy="8.5" r="1.3"/></svg>
+                <span id="metaCount">Fotoğraflar</span>
+            </div>
+            <div class="hero-meta-item">
+                <svg viewBox="0 0 24 24"><path d="M12 3v12M7 11l5 5 5-5M4 20h16"/></svg>
+                <span>Yüksek çözünürlüklü indirme</span>
+            </div>
+            <div class="hero-meta-item">
+                <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8.5 12.5l2.5 2.5 4.5-5"/></svg>
+                <span>Logolu veya logosuz</span>
+            </div>
+        </div>
+
+        <button class="hero-cta" onclick="document.getElementById('galleryTop').scrollIntoView({behavior:'smooth'})">
+            <svg viewBox="0 0 24 24"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>
+            <span>Fotoğrafları görüntüle</span>
+        </button>
+    </div>
+</section>
+
+<!-- Logo variant switch — drives the grid, the viewer and every download -->
+<div class="optbar" id="galleryTop">
+    <div class="optbar-inner">
+        <div class="opt-label">İndirme biçimi &mdash; <b id="optState">Logolu</b></div>
+        <div class="seg" role="group" aria-label="Fotoğrafların logolu olup olmayacağını seçin">
+            <button id="segOn" onclick="setBranded(true)" aria-pressed="true">
+                <svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M6.5 9h7"/></svg>
+                <span>Logolu</span>
+            </button>
+            <button id="segOff" onclick="setBranded(false)" aria-pressed="false">
+                <svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/></svg>
+                <span>Logosuz</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+<main class="wrap" id="sections"></main>
+
+<section class="help">
+    <div class="help-inner">
+        <div class="help-item">
+            <div class="help-num">1</div>
+            <div class="help-title">Biçimi seçin</div>
+            <div class="help-text">Yukarıdaki seçenekten fotoğrafları logolu ya da logosuz olarak seçin. Seçiminiz sayfadaki tüm indirmelere uygulanır.</div>
+        </div>
+        <div class="help-item">
+            <div class="help-num">2</div>
+            <div class="help-title">Bir fotoğraf açın</div>
+            <div class="help-text">Büyük görmek için bir fotoğrafa dokunun. Fotoğraflar arasında oklarla, klavyeyle veya kaydırarak gezinin.</div>
+        </div>
+        <div class="help-item">
+            <div class="help-num">3</div>
+            <div class="help-title">İndirin ve paylaşın</div>
+            <div class="help-text">Gerçek sürümde İndir butonu tam çözünürlüklü JPG kaydeder. Bu demoda görseller henüz eklenmedi.</div>
+        </div>
+    </div>
+</section>
+
+<footer class="footer">
+    <a class="footer-logo" href="https://mae.com.tr" target="_blank" rel="noopener">MAE</a>
+    <div class="footer-sub" lang="en">Mind &middot; Art &middot; Emotion</div>
+    <a class="footer-site" href="https://mae.com.tr" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.7 2.5 15.3 0 18M12 3c-2.5 2.7-2.5 15.3 0 18"/></svg>
+        <span>mae.com.tr&rsquo;yi ziyaret edin</span>
+    </a>
+    <div class="footer-contact">
+        Fotoğraf ve prodüksiyon: <a href="https://mae.com.tr" target="_blank" rel="noopener">MAE</a> &mdash; demo sürüm.<br>
+        Başka bir şeye mi ihtiyacınız var? <a href="mailto:info@mae.com.tr?subject=Etkinlik%20foto%C4%9Fraflar%C4%B1">info@mae.com.tr</a>
+    </div>
+</footer>
+
+<div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Fotoğraf görüntüleyici">
+    <div class="lb-top">
+        <div class="lb-counter"><b id="lbId">&mdash;</b> &nbsp;<span id="lbPos"></span> &nbsp;<span class="lb-sect" id="lbSect"></span></div>
+        <button class="lb-close" id="lbClose" aria-label="Kapat"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    </div>
+    <div class="lb-stage" id="lbStage">
+        <div class="lb-ph" id="lbImg"><div class="ph-box"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 15l5-5 4 4 3-3 6 6"/><circle cx="9" cy="8.5" r="1.3"/></svg><span id="lbPhLabel">Görsel gelecek</span></div><span class="ph-logo">LOGO</span></div>
+        <div class="lb-spinner" id="lbSpinner"></div>
+    </div>
+    <button class="lb-nav lb-prev" id="lbPrev" aria-label="Önceki fotoğraf"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button>
+    <button class="lb-nav lb-next" id="lbNext" aria-label="Sonraki fotoğraf"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></button>
+    <div class="lb-bottom">
+        <div class="lb-controls">
+            <a class="lb-download" id="lbDownload" download>
+                <svg viewBox="0 0 24 24"><path d="M12 3v12M7 11l5 5 5-5M4 20h16"/></svg>
+                <span id="lbDlLabel">Yüksek çözünürlükte indir</span>
+            </a>
+        </div>
+        <div class="lb-hint" id="lbHint"></div>
+    </div>
+</div>
+
+<div class="toast" id="toast">
+    <svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
+    <span id="toastMsg"></span>
+</div>
+
+<script src="gallery.js"></script>
+<script>
+/* Photo data comes from gallery.js, which build.py regenerates.
+   Nothing in this file needs editing when photos are added. */
+const DATA = (window.GALLERY && window.GALLERY.sections) ? window.GALLERY.sections : [];
+
+/* FLAT is every photo in page order, so the viewer's arrows walk the
+   whole gallery across section boundaries. */
+const FLAT = [];
+DATA.forEach(sec => sec.photos.forEach(p =>
+    FLAT.push({ id: p.id, section: sec.key, sectionTitle: sec.title })));
+
+let branded = true;   // logo on by default
+let current = -1;
+
+/* Demo: no photo files ship with the page; every slot is a "Görsel gelecek" placeholder. */
+const PH_ICON = '<svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 15l5-5 4 4 3-3 6 6"/><circle cx="9" cy="8.5" r="1.3"/></svg>';
+const DEMO_MSG = 'Demo sürüm: görseller henüz eklenmedi, indirme kapalı.';
+
+/* ---------- Build the sections ---------- */
+const io = new IntersectionObserver(es => {
+    es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+}, { rootMargin: '140px' });
+
+function render() {
+    const host = document.getElementById('sections');
+    host.innerHTML = '';
+
+    DATA.forEach(sec => {
+        const wrap = document.createElement('section');
+        wrap.className = 'section';
+        wrap.id = 'sec-' + sec.key;
+
+        const head = document.createElement('div');
+        head.className = 'section-head';
+        head.innerHTML =
+            `<h2 class="section-title">${sec.title}</h2>` +
+            `<div class="section-count"><b>${sec.photos.length}</b> fotoğraf</div>`;
+        wrap.appendChild(head);
+
+        const grid = document.createElement('div');
+        grid.className = 'grid';
+
+        sec.photos.forEach(ph => {
+            const p = { id: ph.id, section: sec.key, sectionTitle: sec.title };
+            const idx = FLAT.findIndex(f => f.id === ph.id && f.section === sec.key);
+
+            const card = document.createElement('div');
+            card.className = 'card';
+            card.tabIndex = 0;
+            card.setAttribute('role', 'button');
+            card.setAttribute('aria-label', `${sec.title} — fotoğraf ${ph.id}`);
+            card.innerHTML =
+                `<div class="ph-box">${PH_ICON}<span>Görsel gelecek</span></div><span class="ph-logo">LOGO</span>` +
+                `<div class="card-overlay">` +
+                    `<div class="card-id">${ph.id}</div>` +
+                    `<div class="card-actions">` +
+                        `<button class="card-btn primary" data-act="view">` +
+                            `<svg viewBox="0 0 24 24"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>` +
+                            `<span>Görüntüle</span></button>` +
+                        `<a class="card-btn" data-act="dl" href="#" role="button">` +
+                            `<svg viewBox="0 0 24 24"><path d="M12 3v12M7 11l5 5 5-5M4 20h16"/></svg>` +
+                            `<span>İndir</span></a>` +
+                    `</div></div>`;
+
+            card.addEventListener('click', ev => {
+                if (ev.target.closest('[data-act="dl"]')) { ev.preventDefault(); toast(DEMO_MSG); return; }
+                openLb(idx);
+            });
+            card.addEventListener('keydown', ev => {
+                if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); openLb(idx); }
+            });
+
+            grid.appendChild(card);
+            io.observe(card);
+        });
+
+        wrap.appendChild(grid);
+        host.appendChild(wrap);
+    });
+
+    document.getElementById('metaCount').textContent =
+        FLAT.length + ' fotoğraf';
+}
+
+/* ---------- Logo variant ---------- */
+function setBranded(on) {
+    branded = on;
+    document.getElementById('segOn').classList.toggle('on', on);
+    document.getElementById('segOff').classList.toggle('on', !on);
+    document.getElementById('segOn').setAttribute('aria-pressed', String(on));
+    document.getElementById('segOff').setAttribute('aria-pressed', String(!on));
+    document.getElementById('optState').textContent =
+        on ? 'Logolu' : 'logosuz';
+
+    // The LOGO stamp on every placeholder follows the switch
+    document.body.classList.toggle('branded', on);
+
+    if (current > -1) showPhoto(current);   // keep the open viewer in sync
+    try { localStorage.setItem('galeri-branded', on ? '1' : '0'); } catch (e) {}
+}
+
+/* ---------- Lightbox ---------- */
+const lb = document.getElementById('lb'), lbPrev = document.getElementById('lbPrev'),
+      lbNext = document.getElementById('lbNext'), lbDownload = document.getElementById('lbDownload');
+
+function showPhoto(i) {
+    const p = FLAT[i];
+
+    document.getElementById('lbPhLabel').textContent = 'Görsel gelecek · ' + p.id;
+    document.getElementById('lbId').textContent = p.id;
+    document.getElementById('lbPos').textContent = (i + 1) + ' / ' + FLAT.length;
+    document.getElementById('lbSect').textContent = p.sectionTitle;
+    document.getElementById('lbDlLabel').textContent =
+        branded ? 'Logolu indir' : 'Logosuz indir';
+    document.getElementById('lbHint').textContent =
+        (branded ? 'Bu dosyada logo alanı var. ' : 'Bu dosyada logo yok. ')
+        + 'Demo sürüm: görseller eklendiğinde buradan indirilebilir.';
+
+    lbPrev.disabled = (i === 0);
+    lbNext.disabled = (i === FLAT.length - 1);
+}
+
+function openLb(i) {
+    if (i < 0 || i >= FLAT.length) return;
+    current = i;
+    showPhoto(i);
+    lb.classList.add('show');
+    document.body.style.overflow = 'hidden';
+}
+function closeLb() { lb.classList.remove('show'); document.body.style.overflow = ''; current = -1; }
+function step(d) { if (current > -1 && FLAT[current + d]) openLb(current + d); }
+
+document.getElementById('lbClose').addEventListener('click', closeLb);
+lbPrev.addEventListener('click', () => step(-1));
+lbNext.addEventListener('click', () => step(1));
+lbDownload.addEventListener('click', e => { e.preventDefault(); toast(DEMO_MSG); });
+document.getElementById('lbStage').addEventListener('click', e => { if (e.target.id === 'lbStage') closeLb(); });
+document.addEventListener('keydown', e => {
+    if (!lb.classList.contains('show')) return;
+    if (e.key === 'Escape') closeLb();
+    else if (e.key === 'ArrowLeft') step(-1);
+    else if (e.key === 'ArrowRight') step(1);
+});
+let tx = 0, ty = 0;
+lb.addEventListener('touchstart', e => { tx = e.changedTouches[0].clientX; ty = e.changedTouches[0].clientY; }, { passive:true });
+lb.addEventListener('touchend', e => {
+    const dx = e.changedTouches[0].clientX - tx, dy = e.changedTouches[0].clientY - ty;
+    if (Math.abs(dx) > 55 && Math.abs(dx) > Math.abs(dy) * 1.5) step(dx < 0 ? 1 : -1);
+}, { passive:true });
+
+/* ---------- Toast ---------- */
+let toastTimer;
+function toast(msg) {
+    const t = document.getElementById('toast');
+    document.getElementById('toastMsg').textContent = msg;
+    t.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => t.classList.remove('show'), 2600);
+}
+
+const nav = document.getElementById('nav');
+addEventListener('scroll', () => { nav.classList.toggle('solid', scrollY > 40); }, { passive:true });
+
+/* ---------- Init ---------- */
+if (!DATA.length) {
+    document.getElementById('sections').innerHTML =
+        '<section class="section"><div class="section-head"><h2 class="section-title">Henüz fotoğraf yok</h2></div>' +
+        '<p style="color:var(--text-dim);font-size:14px">Fotoğrafları <code>edit-son/</code> klasörüne ekledikten sonra <code>build.py</code> çalıştırın.</p></section>';
+} else {
+    render();
+    let saved = null;
+    try { saved = localStorage.getItem('galeri-branded'); } catch (e) {}
+    setBranded(saved === null ? true : saved === '1');
+}
+</script>
+</body>
+</html>

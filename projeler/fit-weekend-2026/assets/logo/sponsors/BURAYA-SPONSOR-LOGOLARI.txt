@@ -1,0 +1,15 @@
+SPONSOR LOGOLARI
+================
+
+Logoları bu klasöre koyun, sonra assets/js/data.js içindeki
+SPONSORS listesine "logo" satırını ekleyin:
+
+  { n:"Marka Adı", t:"Ana Sponsor", logo:"assets/logo/sponsors/marka.svg" }
+
+Öneriler
+--------
+• Tercihen .svg (her ekranda net) — olmazsa şeffaf arka planlı .png
+• Yatay logo, yaklaşık 3:1 en-boy oranı en iyi duruyor
+• Koyu renkli versiyonu kullanın (kartlar açık renkli cam efektinde)
+
+"logo" satırını eklemezseniz kartta sadece marka adı yazar.

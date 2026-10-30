@@ -1,0 +1,283 @@
+@import url('../fonts/Gotham-Medium/styles.css');
+@import url('../fonts/Gotham-Light/fonts.css');
+@import url('../fonts/Gotham-Bold/styles.css');
+@import url('../fonts/Gotham-Book/styles.css');
+@import url('../fonts/Gotham-ExtraLight/styles.css');
+* {
+  box-sizing: border-box;
+}
+:root {
+  --page-count: 20!important;;
+  --page-scroll: 25!important;;
+  --underline: rgba(64,64,64,0.4)!important;;
+  --spine: #000!important;;
+  --cover: #1a1a1a!important;;
+  --bg: #4d4d4d!important;;
+  --insert: #ffffff!important;;
+  --page: #e6e6e6!important;;
+}
+h1 {
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+  margin: 0;
+  font-size: 2rem;
+  color: #ffffff !important;
+}
+body {
+  width: 100vw;
+  height: calc(((var(--page-count) + 2) * var(--page-scroll)) * 1vh);
+  background: var(--bg);
+  overflow-x: hidden;
+}
+.page {
+  height: 100%;
+  width: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+}
+.page .page__number {
+  position: absolute;
+  color: #808080;
+  bottom: 1rem;
+  font-size: 1vmin;
+}
+.page__half--front .page__number {
+  right: 1rem;
+}
+.page__half--back .page__number {
+  left: 1rem;
+}
+.page__half {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: -3px;
+  width: 100%;
+  transform: rotateY(calc(var(--rotation) * 1deg)) translate3d(0, 0, calc((0.5 * var(--coefficient)) * 1px));
+  -webkit-clip-path: inset(0 0.5% 0 0.5%);
+  clip-path: inset(0 0.5% 0 0.5%);
+}
+.page__half--front {
+  --rotation: 0;
+  --coefficient: 0;
+  -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+  border-radius: 0 5% 5% 0;
+} 
+.page__half--back {
+  --rotation: 180;
+  --coefficient: 2;
+  border-radius: 5% 0 0 5%;
+  background-color: #1a1a1a;
+}
+.book {
+  height: 30vmin;
+  position: fixed;
+  width: 30vmin;
+  min-width: 650px;
+  min-height: 800px;
+  top: 50%; 
+  left: 50%; 
+  transform: translate(-50%, -50%) scale(0.5); 
+  transform-style: preserve-3d; 
+  perspective:5000px; 
+} 
+.book__insert {
+  content: '';
+  position: absolute;
+  height: 94%;
+  width: 94%;
+  background: var(--insert);
+  top: 50%;
+  right: -0.5rem;
+  transform: translate(0, -50%);
+  border-radius: 5% 0 0 5%;
+}
+.book__spine {
+  height: 100%;
+    left: 0px;
+    top: 0;
+    position: absolute;
+    background: var(--spine);
+    transform-origin: 0 50%;
+    width: 22px;
+    transform: translate3d(0, 0, 20px) scaleX(1) rotateY(90deg);
+}
+.book__page {
+  position: absolute;
+  left: 2%;
+  top: 50%;
+  border-radius: 0 5% 5% 0;
+  transform: translate(0, -50%);
+  height: 100%;
+  width: 100%;
+  z-index: calc(((var(--page-count) + 2) - var(--page-index)) * 2);
+  transform-origin: 0% 50%;
+}
+.book__cover {
+  border-radius: 0 5% 5% 0;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 50%;
+  left: 0;
+  background: var(--cover);
+}
+.book__cover--front {
+  transform-origin: 0 50%;
+}
+.book__cover--front .page__half--back {
+  border-right: 1rem solid var(--spine);
+}
+/* .book__cover--back {
+  transform-origin: 0% 50%;
+} */
+.book__cover--back .page__half--front {
+  border-left: 1rem solid var(--spine);
+}
+.book__cover--back .book__insert {
+  left: 0;
+  border-radius: 0 5% 5% 0;
+}
+.book__page:not(.book__cover) .page__half {
+  background: repeating-linear-gradient(0deg, transparent 0 1rem, var(--underline) 1rem calc(1rem + 1px), transparent calc(1rem + 1px)) 0 1rem/100% 100% no-repeat, var(--page);
+}
+.sticker {
+  height: 15%;
+  position: absolute;
+  bottom: 5%;
+  right: 5%;
+  transform: rotate(0deg);
+}
+.code {
+  line-height: 1.2;
+  font-family: monospace;
+  white-space: pre-line;
+  max-width: 100%;
+  max-height: 100%;
+  font-weight: bold;
+  color: #ffffff;
+  text-shadow: 2px 2px 0 #1c1c1c;
+  border-radius: 5%;
+  display: block;
+  overflow: hidden;
+  font-size: 38px;
+  position: absolute;
+  top: 7%;
+  left: 8%;
+    /* margin-right: 55%;
+    margin-bottom: 90%; */
+}
+.logo {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  height: 25%;
+}
+img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: center;
+     object-fit: center;
+  z-index: 2;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+a {
+  height: 100%;
+  width: 100%;
+  position: relative;
+  text-decoration: none;
+}
+.book_text{
+ padding: 0px 25px 0px 50px;
+  font-size: 35px;
+  font-family: 'Gotham-Book',sans-serif;
+
+}
+
+#container {
+  overflow-y: hidden;
+  height: 100vh;
+}
+body{
+  background-color: #4d4d4d !important;
+}
+  a , .boa{
+   --fSize: 35px;
+   text-decoration: none;
+   position: relative;
+   font-size: var(--fSize);
+   text-transform: uppercase;
+   overflow: hidden;
+   color: black;
+ }
+ .boa::after {
+   content: "";
+   background: #fff;
+   position: absolute;
+   width: 100%;
+   right: 0;
+   height: calc(var(--fSize) / 6);
+   top: calc(50% - var(--fSize) / 18);
+   transform: translateX(-101%);
+   transition: transform 0.4s cubic-bezier(0.7, 0, 0.3, 1);
+   z-index: -1;
+ }
+ .boa::before {
+   content: attr(data-letters);
+   position: absolute;
+   z-index: 2;
+   overflow: hidden;
+   color: #3c3c3c;
+   width: 0;
+   transition: width 0.4s 0.3s;
+ }
+  .boa:hover::before {
+   width: 100%;
+ }
+  .boa:hover::after {
+   transform: translateX(101%);
+ }
+ .carousel {
+  width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 20vh;
+    transform: rotateX(-20deg) translateY(-70px);
+    transform-style: preserve-3d;
+    perspective: 800px;
+    user-select: none;
+    cursor: grab;
+    margin-top: 100px;
+}
+
+.carousel-image {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: -100px 0 0 -35px;
+  width: 80px;
+  height: 80px;
+  transform: translate3d(0, 0, -10px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  transform-origin: 50% 50%;
+}
+
+@media (max-width: 600px) {
+  .carousel {
+    transform: rotateX(-10deg) scale(.6) translateY(-60px);
+  }
+}

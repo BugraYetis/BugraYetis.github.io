@@ -1,0 +1,16 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#030a1b"><meta name="description" content="Entrance screen demo · 4K timeline and session departures"><title>Entrance Screen · 4K (Demo)</title><link rel="stylesheet" href="screen.css"></head>
+<body>
+<main id="screen" aria-label="Entrance screen">
+ <video id="timeline" muted playsinline preload="auto" poster="media/poster.jpg" aria-label="Timeline, 4K"><source src="media/timeline-4k.mp4" type="video/mp4"></video>
+ <video id="sessions" muted playsinline preload="auto" aria-label="Session departures, 4K"><source src="media/sessions-4k.mp4" type="video/mp4"></video>
+</main>
+<section id="welcome" class="overlay" aria-live="polite"><span class="logo-txt" role="img" aria-label="Logo area">LOGO</span><div><p class="eyebrow">EVENT NAME</p><h1>Destination:<br>Sample slogan</h1><p id="welcomeMessage">Preparing your 4K entrance screen…</p><button id="start" hidden>Start playback</button></div></section>
+<nav id="controls" aria-label="Screen controls">
+ <div class="now"><span class="dot"></span><div><strong id="nowTitle">Timeline</strong><small id="nowDetail">4K · continuous playback</small></div></div>
+ <div class="buttons"><button id="pause" aria-label="Pause playback">Pause</button><button id="next">Next film →</button><button id="full">Enter full screen</button><button id="settings" aria-label="Playback information">Info</button><button id="hide">Hide controls</button></div>
+</nav>
+<button id="show" aria-label="Show screen controls">•••</button>
+<dialog id="info"><div class="dialogtop"><h2>Entrance screen</h2><button id="close">Close</button></div><p>The two films play continuously in this order.</p><ol><li><button id="chooseTimeline">Timeline</button><span id="metaTimeline">Checking 4K video…</span></li><li><button id="chooseSessions">Session departures</button><span id="metaSessions">Checking 4K video…</span></li></ol><p>Both files are 3840 × 2160. For native 4K on the venue screen, set the connected display to 3840 × 2160 and use full screen.</p><p>This sessions film is a recorded programme loop; its content does not change with the clock.</p><p id="displayInfo"></p><p class="keys">F Full screen · Space Pause / Play · N Next film · 1 Timeline · 2 Sessions · O Controls</p></dialog>
+<section id="error" class="overlay" hidden role="alert"><h2>Playback needs attention</h2><p id="errorMessage"></p><button id="retry">Try again</button></section>
+<script src="player.js"></script></body></html>

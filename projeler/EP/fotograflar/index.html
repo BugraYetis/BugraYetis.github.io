@@ -1,0 +1,403 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#020611">
+<title>Fotoğraflar · Etkinlik Galerisi (Demo)</title>
+<style>
+:root{--bg:#020611;--panel:#060d18;--row:#0d1827;--row-line:#26384d;--line:#344455;--num:#14243a;--text:#f0f6ff;--muted:#94abc2;--dim:#879baf;--accent:#58e5ef;--green:#73e3be;--gold:#e5bc58;--mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font-family:"Avenir Next World","Avenir Next",Avenir,"Segoe UI",Roboto,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+body:before{content:"";position:fixed;inset:0;background:radial-gradient(ellipse at 12% 65%,#06172e,transparent 60%);pointer-events:none;z-index:-1}
+a{color:inherit}
+button,input{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+.wrap{max-width:1500px;margin:0 auto;padding:0 max(4vw,16px)}
+header.top{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:28px 0 0}
+.logo-txt{display:inline-grid;place-items:center;border:2px dashed #3a5774;border-radius:10px;color:#a8bcd2;font-family:var(--mono);font-weight:700;letter-spacing:.24em;font-size:14px;text-transform:uppercase}
+header.top .soc{width:260px;max-width:52%;height:56px}
+header.top .mdt{width:140px;max-width:30%;height:44px}
+.ph-box{position:absolute;inset:0;display:grid;place-items:center;align-content:center;gap:8px;text-align:center;background:repeating-linear-gradient(135deg,#0b1626 0 14px,#0e1b2e 14px 28px);color:#7f96ad;font-family:var(--mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase}
+.ph-box svg{width:34px;height:34px;opacity:.7}
+.ph button:hover .ph-box{color:var(--accent)}
+.v-ph{position:relative;width:min(100%,1100px);aspect-ratio:4/3;max-height:calc(100dvh - 140px);border-radius:14px;overflow:hidden;border:1px solid #1d2f45}
+.v-ph .ph-box{font-size:16px}
+.heart .ph-box{font-size:13px}
+
+/* Hero: identity left, departures board right */
+.hero{display:grid;grid-template-columns:minmax(260px,360px) minmax(0,1fr);gap:56px;padding:44px 0 34px}
+.hero>*{min-width:0}
+.identity h1{font-size:clamp(34px,4vw,54px);line-height:1.12;margin:0;font-weight:700;letter-spacing:-.01em}
+.identity .dest{color:var(--accent);font-size:20px;margin:22px 0 2px}
+.identity .dest strong{display:block;color:var(--text);font-size:23px}
+.identity .tag{font-family:var(--mono);font-size:11px;letter-spacing:.18em;color:#a8bcd2;margin:34px 0 0}
+.heart{position:relative;margin-top:18px;height:300px;border-radius:14px;overflow:hidden;-webkit-mask-image:linear-gradient(transparent,#000 14%,#000 86%,transparent);mask-image:linear-gradient(transparent,#000 14%,#000 86%,transparent)}
+.heart img,.heart video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:68% 50%;filter:brightness(1.25)}
+.event{border-top:1px solid #31455c;margin-top:18px;padding-top:16px;font-size:15px;line-height:1.5}
+.event span{display:block;color:#a8bcd2;font-size:13px}
+
+.board-head .headline{display:flex;align-items:center;gap:16px;font-size:clamp(36px,5vw,64px);font-weight:700;letter-spacing:.04em;margin:0}
+.board-head .headline .arrow{color:var(--accent)}
+.board-head p{font-family:var(--mono);font-size:12px;letter-spacing:.14em;color:var(--accent);margin:10px 0 0}
+input[type=search]::-webkit-search-cancel-button,input[type=search]::-webkit-search-decoration{-webkit-appearance:none;appearance:none}
+.board-head p.sub{color:var(--green);font-weight:700;margin-top:8px}
+
+.board{margin-top:24px;border:1px solid var(--line);border-radius:18px;background:var(--panel);padding:20px 22px 22px;position:relative;overflow:hidden}
+.board:after{content:"";position:absolute;left:22px;right:22px;bottom:8px;height:2px;background:linear-gradient(90deg,transparent,var(--accent));transform-origin:left;animation:sweep 12s linear infinite;opacity:.45}
+@keyframes sweep{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+.search label{display:block;font-family:var(--mono);font-size:11px;letter-spacing:.18em;color:var(--dim);margin:0 0 10px;text-transform:uppercase}
+.field{display:flex;align-items:center;background:var(--row);border:1px solid var(--row-line);border-radius:10px;overflow:hidden}
+.field .gate{align-self:stretch;display:grid;place-items:center;min-width:64px;background:var(--num);color:var(--accent);font-family:var(--mono);font-size:13px;letter-spacing:.1em}
+.field input{flex:1;min-width:0;background:transparent;border:0;padding:18px 16px;font-size:20px;font-weight:700;letter-spacing:.02em;text-transform:uppercase}
+.field input::placeholder{color:#5f748a;text-transform:none;font-weight:400;letter-spacing:0}
+.field input:focus{outline:none}
+.field:focus-within{border-color:var(--accent);box-shadow:0 0 0 3px #58e5ef22}
+.field .clear{border:0;background:none;color:var(--muted);font-size:26px;padding:0 16px;visibility:hidden}
+.field.has .clear{visibility:visible}
+.hint{color:var(--muted);font-size:13px;margin:10px 2px 0;line-height:1.5}
+
+.cols{display:grid;grid-template-columns:64px 1fr 150px;gap:16px;font-family:var(--mono);font-size:11px;letter-spacing:.16em;color:var(--dim);padding:20px 0 10px;border-bottom:1px solid #344b62;text-transform:uppercase}
+.cols span:last-child{text-align:center}
+#rows{list-style:none;margin:12px 0 0;padding:0;display:grid;gap:10px}
+.row{display:grid;grid-template-columns:64px 1fr 150px;gap:16px;align-items:center;background:var(--row);border:1px solid var(--row-line);border-radius:9px;overflow:hidden;min-height:64px;padding-right:12px;width:100%;text-align:left;transform-origin:center}
+.row.flip{animation:flap .62s ease-in-out both}
+@keyframes flap{0%{transform:perspective(900px) rotateX(0)}45%{transform:perspective(900px) rotateX(-75deg);filter:brightness(.55)}55%{transform:perspective(900px) rotateX(65deg);filter:brightness(.7)}100%{transform:perspective(900px) rotateX(0)}}
+.row .no{align-self:stretch;display:grid;place-items:center;background:var(--num);color:var(--accent);font-family:var(--mono);font-size:18px}
+.row .nm{font-size:19px;font-weight:700;line-height:1.25;padding:10px 0}
+.row .nm small{display:block;font-weight:400;font-size:13px;color:var(--muted);margin-top:3px}
+.status{border:1px solid #294159;border-radius:8px;background:#142539;padding:9px 6px;text-align:center;font-size:14px;font-weight:700;white-space:nowrap;color:var(--dim)}
+.status.ready{color:var(--green);border-color:#438b77;animation:breathe 3s infinite}
+.status.on{color:var(--bg);background:var(--accent);border-color:var(--accent);animation:none}
+@keyframes breathe{50%{background:#1b3c40}}
+button.row{cursor:pointer;color:inherit;font:inherit}
+button.row:hover{border-color:#3d5d7a}
+button.row[aria-pressed=true]{border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent)}
+.empty{color:var(--muted);font-size:15px;line-height:1.6;padding:6px 2px}
+
+/* Boarding pass for the selected passenger */
+.pass{display:none;margin:26px 0 0;border-radius:16px;overflow:hidden;background:linear-gradient(100deg,#0d1b30,#10233c);border:1px solid #2c4a66;grid-template-columns:1fr auto}
+.pass.show{display:grid}
+.pass .main{padding:22px 26px;display:grid;grid-template-columns:repeat(4,auto);gap:18px 36px;align-items:end;justify-content:start}
+.pass dt{font-family:var(--mono);font-size:10px;letter-spacing:.18em;color:var(--dim);text-transform:uppercase;margin-bottom:6px}
+.pass dd{margin:0;font-size:17px;font-weight:700}
+.pass .who{grid-column:1/-1}
+.pass .who dd{font-size:clamp(24px,3vw,34px)}
+.pass .stub{border-left:2px dashed #2c4a66;padding:22px 26px;display:flex;flex-direction:column;justify-content:center;gap:10px;min-width:230px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;border:1px solid var(--accent);background:var(--accent);color:#03101d;border-radius:8px;padding:13px 18px;font-weight:700;font-size:15px;text-decoration:none;min-height:46px}
+.btn.ghost{background:transparent;color:var(--text);border-color:#3a5774}
+.btn svg{width:17px;height:17px}
+.btn[disabled]{opacity:.6;cursor:progress}
+
+/* Gallery */
+main{padding:10px 0 70px}
+.gal-top{display:flex;flex-wrap:wrap;align-items:end;justify-content:space-between;gap:16px;margin:30px 0 18px}
+.gal-top h2{font-size:26px;margin:0;font-weight:700}
+.gal-top p{margin:6px 0 0;color:var(--muted);font-size:14px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:1px solid #2b4560;background:#0b1626;color:var(--muted);border-radius:999px;padding:9px 15px;font-size:13px;font-weight:700}
+.chip[aria-pressed=true]{color:#03101d;background:var(--accent);border-color:var(--accent)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px}
+.ph{position:relative;margin:0;border-radius:10px;overflow:hidden;background:#0b1626;border:1px solid #1d2f45;aspect-ratio:4/3}
+.ph button{display:block;width:100%;height:100%;padding:0;border:0;background:none}
+.ph img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .3s,opacity .4s;opacity:0}
+.ph img.in{opacity:1}
+.ph button:hover img{transform:scale(1.04)}
+.ph .badge{position:absolute;left:8px;top:8px;font-family:var(--mono);font-size:10px;letter-spacing:.12em;background:#020611cc;color:var(--accent);padding:4px 7px;border-radius:5px;pointer-events:none}
+.more{display:flex;justify-content:center;margin-top:26px}
+.note{color:var(--muted);font-size:13px;line-height:1.6;margin-top:28px;max-width:760px}
+footer{border-top:1px solid #1d2f45;padding:24px 0 40px;color:var(--muted);font-size:13px}
+footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+
+/* Viewer */
+dialog{border:0;padding:0;margin:0;width:100vw;height:100dvh;max-width:none;max-height:none;background:#01040b;color:var(--text)}
+dialog::backdrop{background:#01040b}
+dialog[open]{display:flex;flex-direction:column}
+.v-top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 18px;min-height:66px}
+.v-top .meta{font-family:var(--mono);font-size:12px;letter-spacing:.1em;color:var(--muted)}
+.v-top .meta b{display:block;color:var(--text);font-family:"Avenir Next World","Avenir Next",Avenir,Arial,sans-serif;font-size:15px;letter-spacing:0;margin-bottom:3px}
+.v-act{display:flex;align-items:center;gap:10px}
+.icon{width:44px;height:44px;border-radius:50%;border:1px solid #ffffff40;background:#ffffff12;color:#fff;font-size:22px;display:grid;place-items:center;flex-shrink:0}
+.v-img{flex:1;min-height:0;display:grid;place-items:center;padding:0 64px;position:relative}
+.v-img img{max-width:100%;max-height:calc(100dvh - 140px);object-fit:contain}
+.v-img .prev,.v-img .next{position:absolute;top:50%;transform:translateY(-50%)}
+.v-img .prev{left:12px}.v-img .next{right:12px}
+.v-bot{height:62px;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:12px;letter-spacing:.14em;color:var(--muted)}
+body.modal{overflow:hidden}
+.toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);background:#10233c;border:1px solid var(--accent);color:var(--text);padding:12px 18px;border-radius:10px;font-size:14px;z-index:20;display:none;max-width:calc(100vw - 32px)}
+.toast.show{display:block}
+
+@media(max-width:900px){
+  .hero{grid-template-columns:minmax(0,1fr);gap:26px;padding-top:30px}
+  .heart{display:none}
+  .identity .tag{margin-top:18px}
+  .event{display:none}
+}
+@media(max-width:600px){
+  header.top{padding-top:20px}
+  .identity h1{font-size:28px}
+  .identity h1 br{display:none}
+  .identity .dest{font-size:16px;margin-top:10px}
+  .identity .dest strong{display:inline;font-size:16px;margin-left:6px}
+  .identity .tag{display:none}
+  .hero{gap:18px;padding-top:22px}
+  .board{padding:16px 14px 18px;border-radius:14px}
+  .field .gate{min-width:48px;font-size:11px}
+  .field input{font-size:17px;padding:16px 12px}
+  .cols{grid-template-columns:44px 1fr 92px;gap:10px}
+  .row{grid-template-columns:44px 1fr 92px;gap:10px;padding-right:8px}
+  .row .nm{font-size:16px}
+  .status{font-size:12px;padding:8px 4px}
+  .pass{grid-template-columns:1fr}
+  .pass .main{grid-template-columns:repeat(2,auto);padding:18px}
+  .pass .stub{border-left:0;border-top:2px dashed #2c4a66;padding:18px;min-width:0}
+  .grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+  .v-img{padding:0 4px}
+  .v-img .prev,.v-img .next{display:none}
+}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <span class="soc logo-txt" role="img" aria-label="Logo alanı">LOGO</span>
+    <span class="mdt logo-txt" role="img" aria-label="Logo alanı">LOGO</span>
+  </header>
+
+  <section class="hero">
+    <div class="identity">
+      <h1>Etkinlik <br>galerisi</h1>
+      <p class="dest">Varış:<strong>Anılarınız.</strong></p>
+      <p class="tag">FOTOĞRAF YOLCULUĞUNUZ</p>
+      <div class="heart" aria-hidden="true"><div class="ph-box">Görsel gelecek</div></div>
+      <div class="event">16–17 Ekim 2026<span>İstanbul</span></div>
+    </div>
+
+    <div>
+      <div class="board-head">
+        <h2 class="headline"><span class="arrow" aria-hidden="true">↗</span>DEPARTURES</h2>
+        <p>16–17 EKİM 2026 / FOTOĞRAF GALERİSİ</p>
+        <p class="sub" id="banner">YOLCU ADINIZI YAZIN · FOTOĞRAFLARINIZ SİZİ BEKLİYOR</p>
+      </div>
+
+      <div class="board" role="search">
+        <div class="search">
+          <label for="q">Yolcu adı soyadı</label>
+          <div class="field" id="field">
+            <span class="gate" aria-hidden="true">G1</span>
+            <input id="q" type="search" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="Adınızı ve soyadınızı yazın" aria-describedby="hint" aria-controls="rows">
+            <button class="clear" id="clear" type="button" aria-label="Aramayı temizle">×</button>
+          </div>
+          <p class="hint" id="hint">Türkçe karakter kullanmanız gerekmez; küçük yazım hataları da tanınır.</p>
+        </div>
+        <div class="cols" aria-hidden="true"><span>Kapı</span><span>Yolcu</span><span>Durum</span></div>
+        <ul id="rows" aria-live="polite"></ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="pass" id="pass" aria-live="polite">
+    <dl class="main">
+      <div class="who"><dt>Yolcu</dt><dd id="p-name"></dd></div>
+      <div><dt>Uçuş</dt><dd>GL2026</dd></div>
+      <div><dt>Tarih</dt><dd>16–17 Ekim</dd></div>
+      <div><dt>Varış</dt><dd>Anılarınız.</dd></div>
+      <div><dt>Fotoğraf</dt><dd id="p-count"></dd></div>
+    </dl>
+    <div class="stub">
+      <button class="btn" id="zip" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 3v12m-5-5 5 5 5-5M4 16v5h16v-5"/></svg><span>Tümünü indir</span></button>
+      <button class="btn ghost" id="all" type="button">Tüm fotoğraflara dön</button>
+    </div>
+  </section>
+
+  <main id="galeri">
+    <div class="gal-top">
+      <div>
+        <h2 id="g-title">Tüm fotoğraflar</h2>
+        <p id="g-sub"></p>
+      </div>
+      <div class="chips" role="group" aria-label="Filtre">
+        <button class="chip" data-f="all" aria-pressed="true">Tümü</button>
+        <button class="chip" data-f="foto" aria-pressed="false">Fotoğraf</button>
+        <button class="chip" data-f="video" aria-pressed="false">Video karesi</button>
+      </div>
+    </div>
+    <div class="grid" id="grid"></div>
+    <div class="more"><button class="btn ghost" id="more" type="button" hidden>Daha fazla göster</button></div>
+    <p class="note" id="note">Bu bir demo sürümüdür: kişisel veriler (KVKK) ve fotoğraflar kaldırılmıştır, isimler örnek verilerdir ve görsellerin yerinde “Görsel gelecek” alanları bulunur. Arama, filtre ve görüntüleyici gerçek sürümdeki gibi çalışır.</p>
+  </main>
+</div>
+<footer><div class="wrap"><span>Etkinlik Galerisi · 2026 · Keşfet. Bağlan. İlerle.</span><span>Katılımınız için teşekkür ederiz.</span></div></footer>
+
+<dialog id="viewer" aria-label="Fotoğraf görüntüleyici">
+  <div class="v-top">
+    <div class="meta" id="v-meta"></div>
+    <div class="v-act">
+      <a class="btn" id="v-dl" href="#" role="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 3v12m-5-5 5 5 5-5M4 16v5h16v-5"/></svg>İndir</a>
+      <button class="icon" id="v-close" type="button" aria-label="Kapat">×</button>
+    </div>
+  </div>
+  <div class="v-img">
+    <button class="icon prev" id="v-prev" type="button" aria-label="Önceki fotoğraf">‹</button>
+    <div class="v-ph" id="v-img"><div class="ph-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="10" r="2"/><path d="m21 16-5-5-9 8"/></svg><span id="v-ph-label">Görsel gelecek</span></div></div>
+    <button class="icon next" id="v-next" type="button" aria-label="Sonraki fotoğraf">›</button>
+  </div>
+  <div class="v-bot" id="v-count"></div>
+</dialog>
+<div class="toast" id="toast" role="status"></div>
+
+<script src="data.js"></script>
+<script>
+(()=>{
+const $=s=>document.querySelector(s);
+let PEOPLE=[],PHOTOS=[],COUNT=[],sel=null,filter='all',view=[],shown=0,cur=0,opener=null;
+const PAGE=60;
+
+// ---- name normalisation: Turkish letters, case, spaces, punctuation ----
+const MAP={'ı':'i','i̇':'i','ş':'s','ğ':'g','ü':'u','ö':'o','ç':'c','â':'a','î':'i','û':'u'};
+function norm(s){
+  s=(s||'').replace(/İ/g,'i').replace(/I/g,'ı').toLocaleLowerCase('tr');
+  s=s.normalize('NFC').replace(/[ışğüöçâîû]/g,c=>MAP[c]||c);
+  s=s.normalize('NFD').replace(/[̀-ͯ]/g,'');
+  return s.replace(/[^a-z\s]/g,' ').replace(/\s+/g,' ').trim();
+}
+// Damerau-Levenshtein (optimal string alignment)
+function dist(a,b){
+  const m=a.length,n=b.length;if(!m)return n;if(!n)return m;
+  let d=[];for(let i=0;i<=m;i++){d[i]=[i];}for(let j=0;j<=n;j++)d[0][j]=j;
+  for(let i=1;i<=m;i++)for(let j=1;j<=n;j++){
+    const c=a[i-1]===b[j-1]?0:1;
+    d[i][j]=Math.min(d[i-1][j]+1,d[i][j-1]+1,d[i-1][j-1]+c);
+    if(i>1&&j>1&&a[i-1]===b[j-2]&&a[i-2]===b[j-1])d[i][j]=Math.min(d[i][j],d[i-2][j-2]+1);
+  }
+  return d[m][n];
+}
+const sim=(a,b)=>1-dist(a,b)/Math.max(a.length,b.length);
+function tokenSim(q,t){
+  let s=sim(q,t);
+  if(q.length>=2&&t.startsWith(q))s=Math.max(s,.86+.14*q.length/t.length);   // typed so far
+  else if(q.length>=4&&t.length>q.length){s=Math.max(s,sim(q,t.slice(0,q.length))*.92)}
+  return s;
+}
+function score(qn,p){
+  const qt=qn.split(' '),nt=p.k.split(' ');
+  // each typed word against its best name word; unmatched name words cost a little
+  let tot=0;const used=new Set();
+  for(const q of qt){let best=0,bi=-1;nt.forEach((t,i)=>{if(used.has(i))return;const s=tokenSim(q,t);if(s>best){best=s;bi=i}});if(bi>=0)used.add(bi);tot+=best}
+  let s=tot/qt.length;
+  if(qt.length>1)s=s*.94+.06*(used.size/nt.length);
+  // missing or extra spaces: compare without spaces
+  const qc=qn.replace(/ /g,''),nc=p.c;
+  let c=sim(qc,nc);if(qc.length>=3&&nc.startsWith(qc))c=Math.max(c,.8+.2*qc.length/nc.length);
+  return Math.max(s,c*.98);
+}
+function search(raw){
+  const qn=norm(raw);if(qn.replace(/ /g,'').length<2)return[];
+  return PEOPLE.map((p,i)=>({i,s:score(qn,p)})).filter(r=>r.s>=.7).sort((a,b)=>b.s-a.s||COUNT[b.i]-COUNT[a.i]).slice(0,6);
+}
+
+// ---- board rows ----
+function rowsRender(list,raw){
+  const ul=$('#rows');ul.innerHTML='';
+  if(!raw.trim()){ul.innerHTML='<li class="empty">Adınızı yazmaya başlayın; uçuşunuz burada görünecek.</li>';return}
+  if(!list.length){ul.innerHTML='<li class="empty">Bu isimle bir yolcu bulamadık. Yazımı kontrol edin ya da aşağıdaki tüm fotoğraflara göz atın.</li>';return}
+  list.forEach((r,k)=>{
+    const p=PEOPLE[r.i],n=COUNT[r.i];
+    const li=document.createElement('li');
+    const b=document.createElement('button');b.type='button';b.className='row flip';b.style.animationDelay=(k*70)+'ms';
+    b.setAttribute('aria-pressed',sel===r.i);
+    b.innerHTML=`<span class="no">${String(k+1).padStart(2,'0')}</span><span class="nm">${p.n}<small>${n?n+' fotoğraf':'Henüz eşleşen fotoğraf yok'}</small></span><span class="status ${sel===r.i?'on':n?'ready':''}">${sel===r.i?'Seçildi':n?'Boarding':'Beklemede'}</span>`;
+    b.onclick=()=>choose(r.i,true);
+    li.append(b);ul.append(li);
+  });
+}
+let tmr;
+function onInput(){
+  const raw=$('#q').value;$('#field').classList.toggle('has',!!raw);
+  clearTimeout(tmr);tmr=setTimeout(()=>{
+    const res=search(raw);rowsRender(res,raw);
+    // a clear single winner selects itself once the name is complete enough
+    if(res.length&&res[0].s>=.9&&(res.length===1||res[0].s-res[1].s>=.08)&&norm(raw).length>=6&&sel!==res[0].i)choose(res[0].i,false,true);
+  },140);
+}
+
+// ---- selection & gallery ----
+function choose(i,scroll,soft){
+  sel=i;const p=PEOPLE[i];
+  $('#pass').classList.add('show');$('#p-name').textContent=p.n;$('#p-count').textContent=COUNT[i]||'—';
+  $('#zip').hidden=!COUNT[i];
+  history.replaceState(null,'','?yolcu='+p.s);
+  $('#banner').textContent='BOARDING NOW · '+p.n.toLocaleUpperCase('tr');
+  rowsRender(search($('#q').value||p.n),$('#q').value||p.n);
+  apply();
+  if(scroll)$('#pass').scrollIntoView({behavior:'smooth',block:'start'});
+}
+function reset(){
+  sel=null;$('#pass').classList.remove('show');history.replaceState(null,'',location.pathname);
+  $('#banner').textContent='YOLCU ADINIZI YAZIN · FOTOĞRAFLARINIZ SİZİ BEKLİYOR';
+  rowsRender(search($('#q').value),$('#q').value);apply();
+}
+function apply(){
+  view=PHOTOS.filter(ph=>(sel===null||ph.p.includes(sel))&&(filter==='all'||ph.k===filter));
+  if(sel===null)view=view.filter(ph=>ph.p.length).concat(view.filter(ph=>!ph.p.length));  // people first in the open view
+  const p=sel!==null?PEOPLE[sel]:null;
+  $('#g-title').textContent=p?p.n+' · fotoğraflarınız':'Tüm fotoğraflar';
+  $('#g-sub').textContent=view.length+' fotoğraf'+(p&&!COUNT[sel]?' · Bu yolcu için henüz eşleşen fotoğraf yok':'');
+  $('#grid').innerHTML='';shown=0;more();
+}
+function more(){
+  const g=$('#grid'),end=Math.min(view.length,shown+PAGE);
+  for(let i=shown;i<end;i++){
+    const ph=view[i],f=document.createElement('figure');f.className='ph';
+    f.innerHTML=`<button type="button" aria-label="Fotoğraf ${i+1} / ${view.length} – büyüt"><span class="ph-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="10" r="2"/><path d="m21 16-5-5-9 8"/></svg>Görsel gelecek</span></button>${ph.k==='video'?'<span class="badge">VIDEO</span>':''}`;
+    f.querySelector('button').onclick=e=>openV(i,e.currentTarget);g.append(f);
+  }
+  shown=end;$('#more').hidden=shown>=view.length;
+}
+
+// ---- viewer ----
+const DEMO_MSG='Demo sürüm: görseller henüz eklenmedi, indirme kapalı.';
+function show(i){
+  cur=(i+view.length)%view.length;const ph=view[cur];
+  $('#v-ph-label').textContent='Görsel gelecek · '+ph.id.toUpperCase();
+  const names=ph.p.map(j=>PEOPLE[j].n);
+  $('#v-meta').innerHTML=(sel!==null?'<b>'+PEOPLE[sel].n+'</b>':'<b>Etkinlik Galerisi</b>')+(ph.d==='2026-10-17'?'17 EKİM 2026':ph.d==='2026-10-16'?'16 EKİM 2026':'EKİM 2026')+(ph.k==='video'?' · VIDEO KARESİ':'');
+  $('#v-count').textContent=(cur+1)+' / '+view.length;
+}
+function openV(i,btn){opener=btn;show(i);$('#viewer').showModal();document.body.classList.add('modal')}
+$('#viewer').addEventListener('close',()=>{document.body.classList.remove('modal');opener&&opener.focus()});
+$('#v-close').onclick=()=>$('#viewer').close();
+$('#v-prev').onclick=()=>show(cur-1);$('#v-next').onclick=()=>show(cur+1);
+document.addEventListener('keydown',e=>{if(!$('#viewer').open)return;if(e.key==='ArrowLeft')show(cur-1);if(e.key==='ArrowRight')show(cur+1)});
+let tx=null;$('#v-img').addEventListener('touchstart',e=>tx=e.changedTouches[0].clientX,{passive:true});
+$('#v-img').addEventListener('touchend',e=>{if(tx===null)return;const d=e.changedTouches[0].clientX-tx;if(Math.abs(d)>50)show(cur+(d<0?1:-1));tx=null},{passive:true});
+
+// ---- downloads: disabled in the demo (no photos on disk) ----
+function toast(t,ms){const el=$('#toast');el.textContent=t;el.classList.add('show');clearTimeout(el._t);if(ms)el._t=setTimeout(()=>el.classList.remove('show'),ms)}
+$('#zip').onclick=()=>toast(DEMO_MSG,4000);
+$('#v-dl').onclick=e=>{e.preventDefault();toast(DEMO_MSG,4000)};
+
+// ---- wiring ----
+$('#q').addEventListener('input',onInput);
+$('#q').addEventListener('keydown',e=>{if(e.key==='Enter'){const r=search($('#q').value);if(r.length)choose(r[0].i,true)}});
+$('#clear').onclick=()=>{$('#q').value='';onInput();$('#q').focus();reset()};
+$('#all').onclick=()=>{$('#q').value='';$('#field').classList.remove('has');reset();$('#galeri').scrollIntoView({behavior:'smooth'})};
+$('#more').onclick=more;
+document.querySelectorAll('.chip').forEach(c=>c.onclick=()=>{filter=c.dataset.f;document.querySelectorAll('.chip').forEach(x=>x.setAttribute('aria-pressed',x===c));apply()});
+
+(window.EP_DATA?Promise.resolve(window.EP_DATA):Promise.reject()).then(d=>{
+  PEOPLE=d.people.map(p=>({...p,k:norm(p.n),c:norm(p.n).replace(/ /g,'')}));
+  PHOTOS=d.photos;COUNT=PEOPLE.map(()=>0);PHOTOS.forEach(ph=>ph.p.forEach(i=>COUNT[i]++));
+  rowsRender([],'');
+  const want=new URLSearchParams(location.search).get('yolcu');
+  const i=want?PEOPLE.findIndex(p=>p.s===want):-1;
+  if(i>=0){$('#q').value=PEOPLE[i].n;$('#field').classList.add('has');choose(i,false)}else apply();
+}).catch(()=>{$('#rows').innerHTML='<li class="empty">Fotoğraflar yüklenemedi. Lütfen sayfayı yenileyin.</li>'});
+})();
+</script>
+</body>
+</html>
