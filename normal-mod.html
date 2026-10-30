@@ -215,6 +215,58 @@
 
     .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; opacity: 0; }
 
+    /* Sağdaki fotoğraf */
+    #hero { gap: 4rem; }
+    .hero-photo {
+      position: relative; z-index: 1;
+      flex: 0 0 auto; margin-left: auto;
+      width: clamp(260px, 27vw, 400px); aspect-ratio: 4 / 5;
+      opacity: 0;
+    }
+    .hero-photo-frame {
+      position: absolute; inset: 0;
+      border-radius: 28px; overflow: hidden;
+      transform: rotate(2.5deg);
+      box-shadow: 0 40px 100px rgba(108,99,255,.28), 0 0 0 1px var(--border);
+      animation: heroFloat 6s ease-in-out infinite;
+    }
+    .hero-photo-frame img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .hero-photo-frame::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(180deg, transparent 55%, rgba(5,5,8,.55));
+    }
+    /* arkadaki degrade çerçeve */
+    .hero-photo::before {
+      content: ''; position: absolute; inset: -14px;
+      border-radius: 36px; background: var(--grad);
+      opacity: .35; filter: blur(30px);
+    }
+    .hero-photo::after {
+      content: ''; position: absolute; inset: 0;
+      border: 1px solid var(--accent); border-radius: 28px;
+      transform: rotate(-4deg) translate(-18px, 14px);
+      opacity: .5;
+    }
+    .hero-chip {
+      position: absolute; z-index: 2;
+      display: inline-flex; align-items: center; gap: .5rem;
+      padding: .6rem 1rem; border-radius: 14px;
+      background: rgba(11,11,20,.82); backdrop-filter: blur(10px);
+      border: 1px solid var(--border);
+      font-family: var(--mono); font-size: .75rem; letter-spacing: 1px;
+      white-space: nowrap;
+    }
+    .hero-chip b { color: var(--accent3); font-weight: 700; }
+    .hero-chip--top { top: 8%; left: -18%; animation: heroFloat 5s ease-in-out infinite reverse; }
+    .hero-chip--bottom { bottom: 9%; right: -10%; animation: heroFloat 7s ease-in-out infinite; }
+    @keyframes heroFloat { 0%,100% { translate: 0 0; } 50% { translate: 0 -10px; } }
+    @media (max-width: 900px) {
+      #hero { flex-direction: column-reverse; justify-content: center; gap: 2.5rem; padding-top: 6rem; padding-bottom: 5rem; }
+      .hero-photo { margin: 0 auto 0 0; width: 170px; }
+      .hero-photo::after, .hero-chip--top { display: none; }
+      .hero-chip--bottom { right: -55%; bottom: 12%; }
+    }
+
     .btn {
       display: inline-flex; align-items: center; gap: .5rem;
       padding: .85rem 2rem;
@@ -1033,6 +1085,10 @@
       position: relative;
     }
     .project-card:hover .project-preview-bg { transform: scale(1.04); }
+    /* ön izleme görseli olan kartlarda nokta deseni ekran görüntüsünü kirletmesin */
+    .project-preview-bg.has-cover { background-color: var(--bg2); }
+    .project-preview-bg.has-cover::before { display: none; }
+    .project-preview-bg.has-cover::after { color: rgba(255,255,255,.75); z-index: 1; text-shadow: 0 1px 6px rgba(0,0,0,.6); }
     .project-preview-overlay {
       position: absolute; inset: 0;
       background: linear-gradient(to bottom, transparent 40%, rgba(17,17,31,.85) 100%);
@@ -1225,6 +1281,14 @@
           <span>İletişime Geç</span>
         </a>
       </div>
+    </div>
+
+    <div class="hero-photo">
+      <div class="hero-photo-frame">
+        <img src="adventure-mod/assets/profil/bugra.jpg" alt="Buğra Yetiş" width="880" height="1100" fetchpriority="high" />
+      </div>
+      <span class="hero-chip hero-chip--top">📍 İstanbul</span>
+      <span class="hero-chip hero-chip--bottom"><b>40+</b> proje · MAE Reklam</span>
     </div>
 
     <div class="scroll-ind">
@@ -1705,7 +1769,7 @@
       <!-- OurDay -->
       <div id="proje-ourday" class="project-card mobile-app-card" data-app="ourday">
         <div class="project-preview">
-          <div class="project-preview-bg" data-title="OurDay" style="background:linear-gradient(135deg,#3a2a0a 0%,#5a3a10 50%,#8b6914 100%);"></div>
+          <div class="project-preview-bg has-cover" data-title="OurDay" style="background:url('adventure-mod/assets/covers/app-ourday.jpg') center/cover;"></div>
           <div class="project-preview-overlay"></div>
           <span class="project-category-badge badge-web">Mobil Uygulama</span>
         </div>
@@ -1726,7 +1790,7 @@
       <!-- Protocol -->
       <div id="proje-protocol" class="project-card mobile-app-card" data-app="protocol">
         <div class="project-preview">
-          <div class="project-preview-bg" data-title="Protocol" style="background:linear-gradient(135deg,#060d1a 0%,#0d1b30 50%,#142240 100%);"></div>
+          <div class="project-preview-bg has-cover" data-title="Protocol" style="background:url('adventure-mod/assets/covers/app-protocol.jpg') center/cover;"></div>
           <div class="project-preview-overlay"></div>
           <span class="project-category-badge badge-3d">Mobil Uygulama</span>
         </div>
@@ -1747,7 +1811,7 @@
       <!-- Cem Ecevit TV -->
       <div id="proje-cemtv" class="project-card mobile-app-card" data-app="cemtv">
         <div class="project-preview">
-          <div class="project-preview-bg" data-title="Cem Ecevit TV" style="background:linear-gradient(135deg,#1a0000 0%,#2a0505 50%,#3a0a0a 100%);"></div>
+          <div class="project-preview-bg has-cover" data-title="Cem Ecevit TV" style="background:url('adventure-mod/assets/covers/app-cemtv.jpg') center/cover;"></div>
           <div class="project-preview-overlay"></div>
           <span class="project-category-badge badge-web">Mobil Uygulama</span>
         </div>
@@ -1768,7 +1832,7 @@
       <!-- HobbyShare -->
       <div id="proje-hobbyshare" class="project-card mobile-app-card" data-app="hobbyshare">
         <div class="project-preview">
-          <div class="project-preview-bg" data-title="HobbyShare" style="background:url('adventure-mod/assets/hobbyshare/1.jpg') center 20%/cover;"></div>
+          <div class="project-preview-bg has-cover" data-title="HobbyShare" style="background:url('adventure-mod/assets/hobbyshare/1.jpg') center 20%/cover;"></div>
           <div class="project-preview-overlay"></div>
           <span class="project-category-badge badge-event">Mobil Uygulama</span>
         </div>
@@ -1789,7 +1853,7 @@
       <!-- Photobooth -->
       <div id="proje-photobooth" class="project-card mobile-app-card" data-app="photobooth">
         <div class="project-preview">
-          <div class="project-preview-bg" data-title="Photobooth" style="background:url('adventure-mod/assets/photobooth/1.jpg') center/cover;"></div>
+          <div class="project-preview-bg has-cover" data-title="Photobooth" style="background:url('adventure-mod/assets/photobooth/1.jpg') center/cover;"></div>
           <div class="project-preview-overlay"></div>
           <span class="project-category-badge badge-3d">iPad Uygulaması</span>
         </div>
@@ -1820,7 +1884,7 @@
       <!-- ★ MAE Advertising Agency — Öne Çıkan -->
       <div id="proje-mae-advertising-agency" class="project-card featured-card">
         <div class="project-preview">
-          <div class="project-preview-bg" style="background:linear-gradient(135deg,#0a0a14 0%,#0d0d1a 40%,#161628 100%);"></div>
+          <div class="project-preview-bg has-cover" style="background:url('adventure-mod/assets/covers/mae-advertising-agency.jpg') center top/cover;"></div>
           <div class="project-preview-overlay"></div>
           <div class="macbook-frame">
             <div>
@@ -1868,7 +1932,7 @@
       <!-- 01 PC Oyunu — Yapım aşamasında -->
       <div id="proje-pc-oyunu" class="project-card">
         <div class="project-preview">
-          <div class="project-preview-bg" data-title="PC Oyunu" style="background:url('adventure-mod/assets/pc-oyunu/oyun.jpg') center/cover;"></div>
+          <div class="project-preview-bg has-cover" data-title="PC Oyunu" style="background:url('adventure-mod/assets/pc-oyunu/oyun.jpg') center/cover;"></div>
           <div class="project-preview-overlay"></div>
           <span class="project-category-badge badge-ui">Yapım Aşamasında</span>
         </div>
@@ -1895,7 +1959,7 @@
       <!-- 02 Yapay Zeka Ofis Otomasyonu — Yapım aşamasında -->
       <div id="proje-yapay-zeka-ofis-otomasyonu" class="project-card">
         <div class="project-preview">
-          <div class="project-preview-bg" data-title="AI Otomasyon" style="background:linear-gradient(135deg,#050a1a 0%,#0b1f4a 50%,#1d4ed8 100%);"></div>
+          <div class="project-preview-bg has-cover" data-title="AI Otomasyon" style="background:url('adventure-mod/assets/covers/yapay-zeka-ofis-otomasyonu.jpg') center top/cover;"></div>
           <div class="project-preview-overlay"></div>
           <span class="project-category-badge badge-ui">Yapım Aşamasında</span>
         </div>
@@ -1919,7 +1983,7 @@
       <!-- 03 Evolving Ball — Mobil Oyun -->
       <div id="proje-evolving-ball" class="project-card">
         <div class="project-preview">
-          <div class="project-preview-bg" data-title="Evolving Ball" style="background:linear-gradient(135deg,#04140a 0%,#0b3a1c 50%,#1f7a3a 100%);"></div>
+          <div class="project-preview-bg has-cover" data-title="Evolving Ball" style="background:url('adventure-mod/assets/covers/evolving-ball.jpg') center top/cover;"></div>
           <div class="project-preview-overlay"></div>
           <span class="project-category-badge badge-anim">Mobil Oyun</span>
         </div>
@@ -1945,7 +2009,7 @@
       <!-- 04 Dijital Davetiye + LCV Paneli -->
       <div id="proje-davetiye" class="project-card">
         <div class="project-preview">
-          <div class="project-preview-bg" data-title="Dijital Davetiye" style="background:url('adventure-mod/assets/davetiye/yat.jpg') center/cover;"></div>
+          <div class="project-preview-bg has-cover" data-title="Dijital Davetiye" style="background:url('adventure-mod/assets/davetiye/yat.jpg') center/cover;"></div>
           <div class="project-preview-overlay"></div>
           <span class="project-category-badge badge-event">Web + Panel</span>
         </div>
@@ -1972,7 +2036,7 @@
       <!-- 05 BASE — Savunma Sanayii -->
       <div id="proje-base" class="project-card">
         <div class="project-preview">
-          <div class="project-preview-bg" data-title="BASE" style="background:linear-gradient(135deg,#0a0d0a 0%,#1f2a1a 50%,#3d4a2a 100%);"></div>
+          <div class="project-preview-bg has-cover" data-title="BASE" style="background:url('adventure-mod/assets/covers/base.jpg') center top/cover;"></div>
           <div class="project-preview-overlay"></div>
           <span class="project-category-badge badge-3d">Three.js / 3D</span>
         </div>
@@ -1997,7 +2061,7 @@
       <!-- 06 Alyans Logistics -->
       <div id="proje-alyans-logistics" class="project-card">
         <div class="project-preview">
-          <div class="project-preview-bg" data-title="Alyans Logistics" style="background:linear-gradient(135deg,#020b16 0%,#0a2540 50%,#12416e 100%);"></div>
+          <div class="project-preview-bg has-cover" data-title="Alyans Logistics" style="background:url('adventure-mod/assets/covers/alyans-logistics.jpg') center top/cover;"></div>
           <div class="project-preview-overlay"></div>
           <span class="project-category-badge badge-web">Kurumsal Site</span>
         </div>
@@ -2021,7 +2085,7 @@
       <!-- 07 Nomia Coffee -->
       <div id="proje-nomia" class="project-card">
         <div class="project-preview">
-          <div class="project-preview-bg" data-title="Nomia" style="background:linear-gradient(135deg,#1a0f08 0%,#3d2414 50%,#7a4a26 100%);"></div>
+          <div class="project-preview-bg has-cover" data-title="Nomia" style="background:url('adventure-mod/assets/covers/nomia.jpg') center top/cover;"></div>
           <div class="project-preview-overlay"></div>
           <span class="project-category-badge badge-web">E-Ticaret</span>
         </div>
@@ -2046,7 +2110,7 @@
       <!-- 08 Fit Weekend 2026 -->
       <div id="proje-fit-weekend-2026" class="project-card">
         <div class="project-preview">
-          <div class="project-preview-bg" data-title="Fit Weekend 2026" style="background:linear-gradient(135deg,#06140c 0%,#0f3d24 50%,#22a35a 100%);"></div>
+          <div class="project-preview-bg has-cover" data-title="Fit Weekend 2026" style="background:url('adventure-mod/assets/covers/fit-weekend-2026.jpg') center top/cover;"></div>
           <div class="project-preview-overlay"></div>
           <span class="project-category-badge badge-event">Festival / Etkinlik</span>
         </div>
@@ -2070,7 +2134,7 @@
       <!-- 09 EP Fotoğraf Galerisi -->
       <div id="proje-ep-fotograflar" class="project-card">
         <div class="project-preview">
-          <div class="project-preview-bg" data-title="Kalkış Panosu Galerisi" style="background:linear-gradient(135deg,#0a0614 0%,#24104a 50%,#5b21b6 100%);"></div>
+          <div class="project-preview-bg has-cover" data-title="Kalkış Panosu Galerisi" style="background:url('adventure-mod/assets/covers/ep-fotograflar.jpg') center top/cover;"></div>
           <div class="project-preview-overlay"></div>
           <span class="project-category-badge badge-event">Etkinlik Galerisi</span>
         </div>
@@ -2094,7 +2158,7 @@
       <!-- 10 Eğitim İşbirliği Galerisi -->
       <div id="proje-egitim-galerisi" class="project-card">
         <div class="project-preview">
-          <div class="project-preview-bg" data-title="Eğitim Galerisi" style="background:linear-gradient(135deg,#00101f 0%,#002a5c 50%,#0057a8 100%);"></div>
+          <div class="project-preview-bg has-cover" data-title="Eğitim Galerisi" style="background:url('adventure-mod/assets/covers/egitim-galerisi.jpg') center top/cover;"></div>
           <div class="project-preview-overlay"></div>
           <span class="project-category-badge badge-event">Etkinlik Galerisi</span>
         </div>
@@ -2118,7 +2182,7 @@
       <!-- 11 Giriş Ekranı 4K -->
       <div id="proje-ep-giris-ekrani" class="project-card">
         <div class="project-preview">
-          <div class="project-preview-bg" data-title="Entrance Screen 4K" style="background:linear-gradient(135deg,#000000 0%,#14082e 50%,#3b1a7a 100%);"></div>
+          <div class="project-preview-bg has-cover" data-title="Entrance Screen 4K" style="background:url('adventure-mod/assets/covers/ep-giris-ekrani.jpg') center top/cover;"></div>
           <div class="project-preview-overlay"></div>
           <span class="project-category-badge badge-anim">Etkinlik Ekranı</span>
         </div>
@@ -2142,7 +2206,7 @@
       <!-- 12 Sosyal Medya Otomasyon Sistemi -->
       <div id="proje-sosyal-medya-post-otomasyonu" class="project-card">
         <div class="project-preview">
-          <div class="project-preview-bg" data-title="Otomasyon Sistemi" style="background:linear-gradient(135deg,#0a0a2e 0%,#1a0a3e 50%,#2e1065 100%);"></div>
+          <div class="project-preview-bg has-cover" data-title="Otomasyon Sistemi" style="background:url('adventure-mod/assets/covers/sosyal-medya-post-otomasyonu.jpg') center top/cover;"></div>
           <div class="project-preview-overlay"></div>
           <span class="project-category-badge badge-web">Otomasyon</span>
         </div>
@@ -2169,7 +2233,7 @@
       <!-- 13 Active Theory -->
       <div id="proje-active-theory" class="project-card">
         <div class="project-preview">
-          <div class="project-preview-bg" data-title="activetheory.net" style="background:linear-gradient(135deg,#000000 0%,#0a0a0a 50%,#1a1a1a 100%);"></div>
+          <div class="project-preview-bg has-cover" data-title="activetheory.net" style="background:url('adventure-mod/assets/covers/active-theory.jpg') center top/cover;"></div>
           <div class="project-preview-overlay"></div>
           <span class="project-category-badge badge-3d">İnteraktif Deneyim</span>
         </div>
@@ -2196,7 +2260,7 @@
       <!-- 14 Derinmavi Yelken Okulu -->
       <div id="proje-derinmavi" class="project-card">
         <div class="project-preview">
-          <div class="project-preview-bg" data-title="derinmavi.com.tr" style="background:linear-gradient(135deg,#0a1628 0%,#0d2847 50%,#1a4a7a 100%);"></div>
+          <div class="project-preview-bg has-cover" data-title="derinmavi.com.tr" style="background:url('adventure-mod/assets/covers/derinmavi.jpg') center top/cover;"></div>
           <div class="project-preview-overlay"></div>
           <span class="project-category-badge badge-web">Kurumsal Site</span>
         </div>
@@ -2223,7 +2287,7 @@
       <!-- 15 Fymension — Dijital Ajans -->
       <div id="proje-fymension" class="project-card">
         <div class="project-preview">
-          <div class="project-preview-bg" data-title="Fymension" style="background:linear-gradient(135deg,#0a0a0a 0%,#1a1020 50%,#2a1a30 100%);"></div>
+          <div class="project-preview-bg has-cover" data-title="Fymension" style="background:url('adventure-mod/assets/covers/fymension.jpg') center top/cover;"></div>
           <div class="project-preview-overlay"></div>
           <span class="project-category-badge badge-web">Dijital Ajans</span>
         </div>
@@ -2249,7 +2313,7 @@
       <!-- 16 Keramik Makina — Kurumsal Site -->
       <div id="proje-keramik-makina" class="project-card">
         <div class="project-preview">
-          <div class="project-preview-bg" data-title="keramik.com.tr/test2" style="background:linear-gradient(135deg,#1a0a0a 0%,#2a1520 50%,#3a2030 100%);"></div>
+          <div class="project-preview-bg has-cover" data-title="keramik.com.tr/test2" style="background:url('adventure-mod/assets/covers/keramik-makina.jpg') center top/cover;"></div>
           <div class="project-preview-overlay"></div>
           <span class="project-category-badge badge-web">Kurumsal Site</span>
         </div>
@@ -2275,7 +2339,7 @@
       <!-- 17 Adria Karavan Türkiye -->
       <div id="proje-adria-karavan-turkiye" class="project-card">
         <div class="project-preview">
-          <div class="project-preview-bg" data-title="Adria Karavan" style="background:linear-gradient(135deg,#0a1e28 0%,#1a3a50 50%,#2a5a3a 100%);"></div>
+          <div class="project-preview-bg has-cover" data-title="Adria Karavan" style="background:url('adventure-mod/assets/covers/adria-karavan-turkiye.jpg') center top/cover;"></div>
           <div class="project-preview-overlay"></div>
           <span class="project-category-badge badge-web">Ürün & Satış</span>
         </div>
@@ -2302,7 +2366,7 @@
       <!-- 18 Cem Ecevit TV -->
       <div id="proje-cem-ecevit-tv" class="project-card">
         <div class="project-preview">
-          <div class="project-preview-bg" data-title="Cem Ecevit TV" style="background:linear-gradient(135deg,#0a2818 0%,#1a4a2a 50%,#2a6a3a 100%);"></div>
+          <div class="project-preview-bg has-cover" data-title="Cem Ecevit TV" style="background:url('adventure-mod/assets/covers/cem-ecevit-tv.jpg') center top/cover;"></div>
           <div class="project-preview-overlay"></div>
           <span class="project-category-badge badge-web">Seyahat & Karavan</span>
         </div>
@@ -2328,7 +2392,7 @@
       <!-- 19 3B Scroll -->
       <div id="proje-3b-scroll-website" class="project-card">
         <div class="project-preview">
-          <div class="project-preview-bg" data-title="mae.com.tr/3bscrollwebsite" style="background:linear-gradient(135deg,#001020 0%,#002060 50%,#004080 100%);"></div>
+          <div class="project-preview-bg has-cover" data-title="mae.com.tr/3bscrollwebsite" style="background:url('adventure-mod/assets/covers/3b-scroll-website.jpg') center top/cover;"></div>
           <div class="project-preview-overlay"></div>
           <span class="project-category-badge badge-3d">3D Scroll</span>
         </div>
@@ -2354,7 +2418,7 @@
       <!-- 20 Online Kayıt Sistemi -->
       <div id="proje-online-kayit-sistemi" class="project-card">
         <div class="project-preview">
-          <div class="project-preview-bg" data-title="distinct2026.mae.com.tr" style="background:linear-gradient(135deg,#1a0a2e 0%,#2d1060 50%,#1a2040 100%);"></div>
+          <div class="project-preview-bg has-cover" data-title="distinct2026.mae.com.tr" style="background:url('adventure-mod/assets/covers/online-kayit-sistemi.jpg') center top/cover;"></div>
           <div class="project-preview-overlay"></div>
           <span class="project-category-badge badge-event">Online Kayıt</span>
         </div>
@@ -2380,7 +2444,7 @@
       <!-- 21 Countdown -->
       <div id="proje-countdown" class="project-card">
         <div class="project-preview">
-          <div class="project-preview-bg" data-title="Countdown" style="background:linear-gradient(135deg,#050014 0%,#2d0060 50%,#7b0080 100%);"></div>
+          <div class="project-preview-bg has-cover" data-title="Countdown" style="background:url('adventure-mod/assets/covers/countdown.jpg') center top/cover;"></div>
           <div class="project-preview-overlay"></div>
           <span class="project-category-badge badge-anim">GSAP Animasyon</span>
         </div>
@@ -2406,7 +2470,7 @@
       <!-- 22 Iconicrete -->
       <div id="proje-iconicrete" class="project-card">
         <div class="project-preview">
-          <div class="project-preview-bg" data-title="mae.com.tr/iconicrete" style="background:linear-gradient(135deg,#0a2040 0%,#1060a0 50%,#1080c0 100%);"></div>
+          <div class="project-preview-bg has-cover" data-title="mae.com.tr/iconicrete" style="background:url('adventure-mod/assets/covers/iconicrete.jpg') center top/cover;"></div>
           <div class="project-preview-overlay"></div>
           <span class="project-category-badge badge-web">Ürün Tanıtımı</span>
         </div>
@@ -2432,7 +2496,7 @@
       <!-- 23 Derinet — Hakiki Deri E-Ticaret -->
       <div id="proje-derinet" class="project-card">
         <div class="project-preview">
-          <div class="project-preview-bg" data-title="derinet.com.tr" style="background:linear-gradient(135deg,#1a1008 0%,#3a2810 50%,#5a3818 100%);"></div>
+          <div class="project-preview-bg has-cover" data-title="derinet.com.tr" style="background:url('adventure-mod/assets/covers/derinet.jpg') center top/cover;"></div>
           <div class="project-preview-overlay"></div>
           <span class="project-category-badge badge-web">E-Ticaret</span>
         </div>
@@ -2458,7 +2522,7 @@
       <!-- 24 MAE Site Book Anim -->
       <div id="proje-mae-site" class="project-card">
         <div class="project-preview">
-          <div class="project-preview-bg" data-title="mae.com.tr/mae_site" style="background:linear-gradient(135deg,#111111 0%,#1a1a2e 50%,#2a0a3e 100%);"></div>
+          <div class="project-preview-bg has-cover" data-title="mae.com.tr/mae_site" style="background:url('adventure-mod/assets/covers/mae-site.jpg') center top/cover;"></div>
           <div class="project-preview-overlay"></div>
           <span class="project-category-badge badge-anim">Book Animasyon</span>
         </div>
@@ -2484,7 +2548,7 @@
       <!-- 25 Maritaş Denim -->
       <div id="proje-maritas-denim" class="project-card">
         <div class="project-preview">
-          <div class="project-preview-bg" data-title="maritas2023.maereklam.com" style="background:linear-gradient(135deg,#1a1208 0%,#3a2c10 50%,#5a3a08 100%);"></div>
+          <div class="project-preview-bg has-cover" data-title="maritas2023.maereklam.com" style="background:url('adventure-mod/assets/covers/maritas-denim.jpg') center top/cover;"></div>
           <div class="project-preview-overlay"></div>
           <span class="project-category-badge badge-web">Kurumsal Site</span>
         </div>
@@ -2510,7 +2574,7 @@
       <!-- 26 Kitpro Audrey -->
       <div id="proje-audrey" class="project-card">
         <div class="project-preview">
-          <div class="project-preview-bg" data-title="kitpro-audrey.webflow.io" style="background:linear-gradient(135deg,#0a0a0a 0%,#1a1a1a 40%,#2a1a3e 100%);"></div>
+          <div class="project-preview-bg has-cover" data-title="kitpro-audrey.webflow.io" style="background:url('adventure-mod/assets/covers/audrey.jpg') center top/cover;"></div>
           <div class="project-preview-overlay"></div>
           <span class="project-category-badge badge-ui">Webflow</span>
         </div>
@@ -2536,7 +2600,7 @@
       <!-- 27 Joondalup Festival -->
       <div id="proje-joondalup-festival-2026" class="project-card">
         <div class="project-preview">
-          <div class="project-preview-bg" data-title="joondalupfestival.com.au" style="background:linear-gradient(135deg,#0a0020 0%,#1a0040 40%,#3a0060 100%);"></div>
+          <div class="project-preview-bg has-cover" data-title="joondalupfestival.com.au" style="background:url('adventure-mod/assets/covers/joondalup-festival-2026.jpg') center top/cover;"></div>
           <div class="project-preview-overlay"></div>
           <span class="project-category-badge badge-event">Festival / Etkinlik</span>
         </div>
@@ -2562,7 +2626,7 @@
       <!-- 28 Touchscreen -->
       <div id="proje-touchscreen" class="project-card">
         <div class="project-preview">
-          <div class="project-preview-bg" data-title="mae.com.tr/touchscreen" style="background:linear-gradient(135deg,#001428 0%,#002a50 45%,#0044a0 100%);"></div>
+          <div class="project-preview-bg has-cover" data-title="mae.com.tr/touchscreen" style="background:url('adventure-mod/assets/covers/touchscreen.jpg') center top/cover;"></div>
           <div class="project-preview-overlay"></div>
           <span class="project-category-badge badge-3d">Three.js / 3D</span>
         </div>
@@ -2588,7 +2652,7 @@
       <!-- 29 Hero Dental Art -->
       <div id="proje-hero-dental-art" class="project-card">
         <div class="project-preview">
-          <div class="project-preview-bg" data-title="herodentalart.com" style="background:linear-gradient(135deg,#0a1e2e 0%,#0d3050 50%,#1a5080 100%);"></div>
+          <div class="project-preview-bg has-cover" data-title="herodentalart.com" style="background:url('adventure-mod/assets/covers/hero-dental-art.jpg') center top/cover;"></div>
           <div class="project-preview-overlay"></div>
           <span class="project-category-badge badge-web">Kurumsal Site</span>
         </div>
@@ -2614,7 +2678,7 @@
       <!-- 30 Shisha Detox -->
       <div id="proje-shisha-detox" class="project-card">
         <div class="project-preview">
-          <div class="project-preview-bg" data-title="shishadetox.com" style="background:linear-gradient(135deg,#1a1a2e 0%,#16213e 50%,#0f3460 100%);"></div>
+          <div class="project-preview-bg has-cover" data-title="shishadetox.com" style="background:url('adventure-mod/assets/covers/shisha-detox.jpg') center top/cover;"></div>
           <div class="project-preview-overlay"></div>
           <span class="project-category-badge badge-anim">Ürün Tanıtım</span>
         </div>
@@ -2641,7 +2705,7 @@
       <!-- 31 Kristoff Studio -->
       <div id="proje-kristoff-studio" class="project-card">
         <div class="project-preview">
-          <div class="project-preview-bg" data-title="kristoff.studio" style="background:linear-gradient(135deg,#fafafa 0%,#e8e8e8 50%,#d0d0d0 100%);"></div>
+          <div class="project-preview-bg has-cover" data-title="kristoff.studio" style="background:url('adventure-mod/assets/covers/kristoff-studio.jpg') center top/cover;"></div>
           <div class="project-preview-overlay"></div>
           <span class="project-category-badge badge-web">Kreatif Stüdyo</span>
         </div>
@@ -2665,7 +2729,7 @@
       <!-- 32 EGGSpander -->
       <div id="proje-eggspander" class="project-card">
         <div class="project-preview">
-          <div class="project-preview-bg" data-title="eggspander.com" style="background:linear-gradient(135deg,#e8f0ff 0%,#8aa9ff 50%,#5b7fdb 100%);"></div>
+          <div class="project-preview-bg has-cover" data-title="eggspander.com" style="background:url('adventure-mod/assets/covers/eggspander.jpg') center top/cover;"></div>
           <div class="project-preview-overlay"></div>
           <span class="project-category-badge badge-anim">Ürün & Animasyon</span>
         </div>
@@ -2692,7 +2756,7 @@
       <!-- 33 Keramik — Epicenter of Every Move -->
       <div id="proje-keramik" class="project-card">
         <div class="project-preview">
-          <div class="project-preview-bg" data-title="keramik.com.tr/test1" style="background:linear-gradient(135deg,#0a1020 0%,#1a2a4e 50%,#2a4060 100%);"></div>
+          <div class="project-preview-bg has-cover" data-title="keramik.com.tr/test1" style="background:url('adventure-mod/assets/covers/keramik.jpg') center top/cover;"></div>
           <div class="project-preview-overlay"></div>
           <span class="project-category-badge badge-web">Kurumsal Site</span>
         </div>
@@ -2718,7 +2782,7 @@
       <!-- 34 MAE Reklam Sunum — Animasyonlu Kitap -->
       <div id="proje-mae-reklam" class="project-card">
         <div class="project-preview">
-          <div class="project-preview-bg" data-title="MAE Sunum" style="background:linear-gradient(135deg,#0d0d1a 0%,#1a0a30 50%,#2e0a40 100%);"></div>
+          <div class="project-preview-bg has-cover" data-title="MAE Sunum" style="background:url('adventure-mod/assets/covers/mae-reklam.jpg') center top/cover;"></div>
           <div class="project-preview-overlay"></div>
           <span class="project-category-badge badge-anim">Animasyonlu Sunum</span>
         </div>
@@ -2744,7 +2808,7 @@
       <!-- 35 INCRESIS Streetwear -->
       <div id="proje-incresis" class="project-card">
         <div class="project-preview">
-          <div class="project-preview-bg" data-title="INCRESIS" style="background:linear-gradient(135deg,#0a0a0a 0%,#1a1a1a 50%,#2a2a2a 100%);"></div>
+          <div class="project-preview-bg has-cover" data-title="INCRESIS" style="background:url('adventure-mod/assets/covers/incresis.jpg') center top/cover;"></div>
           <div class="project-preview-overlay"></div>
           <span class="project-category-badge badge-web">E-Ticaret</span>
         </div>
@@ -2770,7 +2834,7 @@
       <!-- 36 Beny Burger House -->
       <div id="proje-beny" class="project-card">
         <div class="project-preview">
-          <div class="project-preview-bg" data-title="beny.com.tr" style="background:linear-gradient(135deg,#140c06 0%,#2a1a0c 50%,#4a2c12 100%);"></div>
+          <div class="project-preview-bg has-cover" data-title="beny.com.tr" style="background:url('adventure-mod/assets/covers/beny.jpg') center top/cover;"></div>
           <div class="project-preview-overlay"></div>
           <span class="project-category-badge badge-web">Restoran / Menü</span>
         </div>
@@ -3035,6 +3099,7 @@
         .to('.hero-title',  { opacity:1, y:0, duration:.7, from:{y:30} }, '-=.5')
         .to('.hero-desc',   { opacity:1, y:0, duration:.7, from:{y:30} }, '-=.5')
         .to('.hero-btns',   { opacity:1, y:0, duration:.7, from:{y:30} }, '-=.4')
+        .fromTo('.hero-photo', { opacity:0, scale:.92, y:30 }, { opacity:1, scale:1, y:0, duration:1, ease:'power3.out' }, '-=1.2')
         .to('.scroll-ind',  { opacity:1, duration:.5 }, '-=.2');
 
       /* --- Typed text --- */
