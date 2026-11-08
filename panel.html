@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Panel — Buğra Yetiş</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #050508; --bg2: #0b0b14; --surface: #11111f; --accent: #6c63ff; --accent2: #ff6584;
+      --text: #e8e8f0; --muted: #9a9ab8; --faint: #5d5d7c; --border: rgba(108,99,255,.18);
+      --grad: linear-gradient(135deg, #6c63ff, #ff6584);
+      --font: 'Space Grotesk', sans-serif; --mono: 'Space Mono', monospace;
+    }
+    html { background: var(--bg); }
+    body { background: var(--bg); color: var(--text); font-family: var(--font); min-height: 100vh; }
+    [hidden] { display: none !important; }
+    button { font: inherit; cursor: pointer; }
+    a { color: inherit; }
+
+    .logo { font-family: var(--mono); font-weight: 700; letter-spacing: 2px; background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+
+    /* Giriş */
+    #login { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 16px; }
+    .login-card { width: 100%; max-width: 380px; padding: 36px 32px; background: var(--surface); border: 1px solid var(--border); border-radius: 18px; }
+    .login-card .logo { font-size: 1.1rem; }
+    .login-card h1 { font-size: 1.5rem; margin: 14px 0 22px; }
+    .field { display: block; font-size: .8rem; color: var(--muted); margin-bottom: 14px; }
+    .field input { display: block; width: 100%; margin-top: 6px; padding: 12px 14px; font: inherit; font-size: 16px; color: var(--text); background: var(--bg2); border: 1px solid var(--border); border-radius: 10px; outline: none; }
+    .field input:focus { border-color: var(--accent); }
+    .primary { width: 100%; padding: 13px; border: 0; border-radius: 10px; font-weight: 600; color: #fff; background: var(--grad); }
+    .primary:disabled { opacity: .6; cursor: wait; }
+    .error { margin-top: 12px; font-size: .85rem; color: #ff8fa3; }
+
+    /* Üst bar */
+    .bar { position: sticky; top: 0; z-index: 10; display: flex; flex-wrap: wrap; align-items: center; gap: 12px; padding: 14px 32px; background: rgba(5,5,8,.85); backdrop-filter: blur(16px); border-bottom: 1px solid var(--border); }
+    .bar .spacer { flex: 1; }
+    .seg { display: inline-flex; padding: 3px; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; }
+    .seg button { padding: 6px 12px; border: 0; border-radius: 7px; background: transparent; color: var(--muted); font-size: .82rem; }
+    .seg button.on { background: var(--accent); color: #fff; }
+    .ghost { padding: 7px 14px; border: 1px solid var(--border); border-radius: 10px; background: transparent; color: var(--muted); font-size: .82rem; }
+    .ghost:hover { color: var(--text); border-color: var(--accent); }
+
+    main { max-width: 1240px; margin: 0 auto; padding: 28px 32px 64px; }
+    .status { padding: 12px 16px; margin-bottom: 18px; border: 1px solid rgba(255,101,132,.4); border-radius: 10px; color: #ff8fa3; font-size: .9rem; }
+
+    .kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 14px; margin-bottom: 14px; }
+    .kpi, .card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; }
+    .kpi { padding: 18px 20px; }
+    .kpi span { font-size: .8rem; color: var(--muted); }
+    .kpi b { display: block; margin-top: 6px; font-size: 2.1rem; font-weight: 600; font-variant-numeric: tabular-nums; line-height: 1.1; }
+    .kpi small { display: block; margin-top: 4px; color: var(--faint); font-size: .75rem; }
+
+    .card { padding: 20px; margin-bottom: 14px; }
+    .card h2 { font-size: 1rem; font-weight: 600; margin-bottom: 14px; display: flex; align-items: baseline; gap: 8px; }
+    .card h2 small { font-size: .78rem; font-weight: 400; color: var(--muted); }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 14px; }
+    .grid .card { margin-bottom: 0; }
+    .grid { margin-bottom: 14px; }
+
+    /* Günlük grafik */
+    .chart { position: relative; height: 190px; padding-left: 34px; }
+    .chart .y { position: absolute; left: 0; font-size: .7rem; color: var(--faint); font-variant-numeric: tabular-nums; transform: translateY(-50%); }
+    .chart .line { position: absolute; left: 34px; right: 0; height: 1px; background: rgba(255,255,255,.06); }
+    .plot { position: relative; height: 170px; display: flex; align-items: flex-end; gap: 2px; }
+    .col { flex: 1 1 0; min-width: 1px; height: 100%; display: flex; align-items: flex-end; }
+    .col i { display: block; width: 100%; max-width: 26px; margin: 0 auto; background: var(--accent); border-radius: 4px 4px 0 0; }
+    .col:hover i { background: var(--accent2); }
+    .xl { display: flex; justify-content: space-between; padding-top: 6px; font-size: .7rem; color: var(--faint); }
+    #tip { position: fixed; z-index: 30; pointer-events: none; padding: 6px 10px; font-size: .78rem; background: #000; border: 1px solid var(--border); border-radius: 8px; white-space: nowrap; }
+
+    /* Kırılımlar */
+    .rows { list-style: none; }
+    .rows li { display: grid; grid-template-columns: 1fr auto; gap: 2px 10px; padding: 6px 0; font-size: .86rem; }
+    .rows .name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .rows .val { color: var(--muted); font-variant-numeric: tabular-nums; }
+    .rows .track { grid-column: 1 / -1; height: 4px; }
+    .rows .track i { display: block; height: 100%; min-width: 2px; background: var(--accent); border-radius: 0 4px 4px 0; }
+    .empty { color: var(--faint); font-size: .86rem; padding: 10px 0; }
+
+    /* Mesajlar */
+    .msg { padding: 16px 0; border-top: 1px solid var(--border); }
+    .msg:first-of-type { border-top: 0; padding-top: 0; }
+    .msg-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; margin-bottom: 8px; }
+    .msg-head b { font-weight: 600; }
+    .msg-head a { color: #a9a4ff; font-size: .88rem; }
+    .msg-head .meta { color: var(--faint); font-size: .78rem; }
+    .pill { padding: 1px 8px; border-radius: 20px; background: var(--accent); color: #fff; font-size: .7rem; }
+    .msg p { font-size: .92rem; line-height: 1.55; color: #cfcfe0; white-space: pre-wrap; overflow-wrap: anywhere; }
+    .msg-actions { display: flex; gap: 8px; margin-top: 10px; }
+    .msg-actions button { padding: 5px 11px; font-size: .76rem; }
+
+    /* Tablo */
+    .table-wrap { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; font-size: .84rem; }
+    th { text-align: left; font-weight: 500; color: var(--muted); font-size: .76rem; padding: 0 12px 10px 0; white-space: nowrap; }
+    td { padding: 9px 12px 9px 0; border-top: 1px solid var(--border); white-space: nowrap; }
+    td a { color: #a9a4ff; }
+
+    @media (max-width: 640px) {
+      .bar { padding: 12px 16px; }
+      main { padding: 18px 16px 48px; }
+      .bar .spacer { display: none; }
+      .kpis { grid-template-columns: 1fr 1fr; }
+      .kpi b { font-size: 1.6rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <section id="login">
+    <form class="login-card" id="loginForm">
+      <div class="logo">BY.</div>
+      <h1>Panel</h1>
+      <label class="field">Şifre
+        <input id="password" type="password" required autocomplete="current-password" autofocus />
+      </label>
+      <button class="primary" id="loginBtn" type="submit">Giriş yap</button>
+      <p class="error" id="loginError" role="alert" hidden></p>
+    </form>
+  </section>
+
+  <div id="app" hidden>
+    <header class="bar">
+      <span class="logo">BY.</span>
+      <span class="spacer"></span>
+      <div class="seg" id="range" role="group" aria-label="Tarih aralığı">
+        <button type="button" data-days="7">7 gün</button>
+        <button type="button" data-days="30" class="on">30 gün</button>
+        <button type="button" data-days="90">90 gün</button>
+        <button type="button" data-days="0">Tümü</button>
+      </div>
+      <button type="button" class="ghost" id="refresh">Yenile</button>
+      <button type="button" class="ghost" id="logout">Çıkış</button>
+    </header>
+
+    <main>
+      <div class="status" id="status" role="alert" hidden></div>
+
+      <section class="kpis">
+        <div class="kpi"><span>Toplam ziyaret</span><b id="kVisits">–</b><small id="kRange"></small></div>
+        <div class="kpi"><span>Tekil ziyaretçi</span><b id="kUnique">–</b><small>Farklı tarayıcı sayısı</small></div>
+        <div class="kpi"><span>Bugün</span><b id="kToday">–</b><small id="kTodayU"></small></div>
+        <div class="kpi"><span>Mesajlar</span><b id="kMsgs">–</b><small id="kUnread"></small></div>
+      </section>
+
+      <section class="card">
+        <h2>Günlük ziyaret</h2>
+        <div id="chart"></div>
+      </section>
+
+      <section class="grid">
+        <div class="card"><h2>Girilen sayfa</h2><ul class="rows" id="bPage"></ul></div>
+        <div class="card"><h2>Konum</h2><ul class="rows" id="bPlace"></ul></div>
+        <div class="card"><h2>Nereden geldi</h2><ul class="rows" id="bRef"></ul></div>
+        <div class="card"><h2>Cihaz</h2><ul class="rows" id="bDevice"></ul></div>
+      </section>
+
+      <section class="card" id="messages">
+        <h2>İletişim formu <small id="msgCount"></small></h2>
+        <div id="msgList"></div>
+      </section>
+
+      <section class="card">
+        <h2>Son ziyaretler <small>en yeni 100 kayıt</small></h2>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Tarih</th><th>Sayfa</th><th>Konum</th><th>Cihaz</th><th>Tarayıcı</th><th>Nereden</th><th>E-posta</th></tr></thead>
+            <tbody id="visitRows"></tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div id="tip" hidden></div>
+
+  <script src="backend-config.js"></script>
+  <script>
+    const $ = id => document.getElementById(id);
+    const cfg = () => window.PORTFOY_BACKEND || {};
+    const TZ = 'Europe/Istanbul';
+    const PAGE_NAMES = { giris: 'Giriş ekranı', normal: 'Normal Mod', adventure: 'Adventure Mode' };
+    const SESSION_KEY = 'panel-oturum';
+
+    const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+    const num = n => n.toLocaleString('tr-TR');
+    const dayKey = d => new Date(d).toLocaleDateString('en-CA', { timeZone: TZ });
+    const dayLabel = key => new Date(key + 'T12:00:00Z').toLocaleDateString('tr-TR', { day: 'numeric', month: 'short', timeZone: 'UTC' });
+    const dateTime = d => new Date(d).toLocaleString('tr-TR', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit', timeZone: TZ });
+
+    let session = null;
+    try { session = JSON.parse(sessionStorage.getItem(SESSION_KEY)); } catch (e) {}
+    let days = 30, visits = [], messages = [];
+
+    function saveSession(s) {
+      session = s;
+      try {
+        if (s) sessionStorage.setItem(SESSION_KEY, JSON.stringify(s));
+        else sessionStorage.removeItem(SESSION_KEY);
+      } catch (e) {}
+    }
+
+    function authRequest(grant, body) {
+      return fetch(cfg().url + '/auth/v1/token?grant_type=' + grant, {
+        method: 'POST',
+        headers: { apikey: cfg().key, 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
+      });
+    }
+
+    async function refreshSession() {
+      if (!session) return false;
+      const r = await authRequest('refresh_token', { refresh_token: session.refresh_token });
+      if (!r.ok) return false;
+      saveSession(await r.json());
+      return true;
+    }
+
+    async function api(path, opts = {}, retried) {
+      const r = await fetch(cfg().url + '/rest/v1/' + path, Object.assign({}, opts, {
+        headers: Object.assign({ apikey: cfg().key, Authorization: 'Bearer ' + session.access_token, 'Content-Type': 'application/json' }, opts.headers)
+      }));
+      if (r.status === 401 && !retried && await refreshSession()) return api(path, opts, true);
+      if (r.status === 401) { signOut(); throw new Error('Oturum sona erdi'); }
+      if (!r.ok) throw new Error('Sunucu hatası (' + r.status + ')');
+      return r.status === 204 ? null : r.json();
+    }
+
+    function signOut() {
+      saveSession(null);
+      visits = []; messages = [];
+      $('app').hidden = true;
+      $('login').hidden = false;
+      $('password').value = '';
+      $('password').focus();
+    }
+
+    $('loginForm').addEventListener('submit', async e => {
+      e.preventDefault();
+      const err = $('loginError'), btn = $('loginBtn');
+      err.hidden = true;
+      if (!cfg().url || !cfg().key) { err.textContent = 'Backend henüz bağlanmadı.'; err.hidden = false; return; }
+      btn.disabled = true;
+      try {
+        const r = await authRequest('password', { email: cfg().adminEmail, password: $('password').value });
+        if (!r.ok) throw new Error(r.status === 400 ? 'Şifre yanlış.' : 'Giriş yapılamadı (' + r.status + ').');
+        saveSession(await r.json());
+        try { localStorage.setItem('portfoy-sahibi', '1'); } catch (e) {}
+        showApp();
+      } catch (ex) {
+        err.textContent = ex instanceof TypeError ? 'Sunucuya ulaşılamadı.' : ex.message;
+        err.hidden = false;
+      }
+      btn.disabled = false;
+    });
+
+    function showApp() {
+      $('login').hidden = true;
+      $('app').hidden = false;
+      load();
+    }
+
+    async function fetchVisits() {
+      const since = days ? '&created_at=gte.' + encodeURIComponent(new Date(Date.now() - days * 864e5).toISOString()) : '';
+      const all = [];
+      for (let offset = 0; offset < 50000; offset += 1000) {
+        const page = await api('visits?select=*&order=created_at.desc&limit=1000&offset=' + offset + since);
+        all.push(...page);
+        if (page.length < 1000) break;
+      }
+      return all;
+    }
+
+    async function load() {
+      $('status').hidden = true;
+      try {
+        [visits, messages] = await Promise.all([fetchVisits(), api('messages?select=*&order=created_at.desc&limit=1000')]);
+        render();
+      } catch (ex) {
+        if (!session) return;
+        $('status').textContent = 'Veriler alınamadı: ' + ex.message;
+        $('status').hidden = false;
+      }
+    }
+
+    function place(v) {
+      if (v.country) {
+        try { return new Intl.DisplayNames(['tr'], { type: 'region' }).of(v.country); } catch (e) { return v.country; }
+      }
+      return v.timezone ? v.timezone.split('/').pop().replace(/_/g, ' ') : 'Bilinmiyor';
+    }
+
+    function renderRows(el, groups) {
+      const entries = Object.entries(groups).sort((a, b) => b[1] - a[1]);
+      if (!entries.length) { el.innerHTML = '<li class="empty">Henüz veri yok</li>'; return; }
+      const top = entries.slice(0, 7);
+      const rest = entries.slice(7).reduce((s, e) => s + e[1], 0);
+      if (rest) top.push(['Diğer', rest]);
+      const max = Math.max(...top.map(e => e[1]));
+      el.innerHTML = top.map(([k, n]) => `<li><span class="name" title="${esc(k)}">${esc(k)}</span><span class="val">${num(n)}</span><span class="track"><i style="width:${n / max * 100}%"></i></span></li>`).join('');
+    }
+
+    function groupBy(fn) {
+      return visits.reduce((g, v) => { const k = fn(v); g[k] = (g[k] || 0) + 1; return g; }, {});
+    }
+
+    function renderChart() {
+      const counts = groupBy(v => dayKey(v.created_at));
+      const today = dayKey(Date.now());
+      let span = days;
+      if (!days) {
+        const first = visits.length ? visits[visits.length - 1].created_at : Date.now();
+        span = Math.min(365, Math.max(7, Math.round((Date.now() - new Date(first)) / 864e5) + 1));
+      }
+      const keys = [];
+      for (let i = span - 1; i >= 0; i--) keys.push(dayKey(Date.now() - i * 864e5));
+      const peak = Math.max(1, ...keys.map(k => counts[k] || 0));
+      const ceil = peak <= 4 ? peak : Math.ceil(peak / 5) * 5;
+      const H = 170;
+      const col = k => {
+        const n = counts[k] || 0;
+        return `<div class="col" data-tip="${dayLabel(k)}: ${num(n)} ziyaret">${n ? `<i style="height:${Math.max(3, n / ceil * H)}px"></i>` : ''}</div>`;
+      };
+      $('chart').innerHTML = `
+        <div class="chart">
+          <span class="y" style="top:0">${num(ceil)}</span><div class="line" style="top:0"></div>
+          <span class="y" style="top:${H / 2}px">${num(Math.round(ceil / 2))}</span><div class="line" style="top:${H / 2}px"></div>
+          <span class="y" style="top:${H}px">0</span><div class="line" style="top:${H}px"></div>
+          <div class="plot">${keys.map(col).join('')}</div>
+          <div class="xl"><span>${dayLabel(keys[0])}</span><span>${dayLabel(keys[Math.floor(keys.length / 2)])}</span><span>${keys[keys.length - 1] === today ? 'Bugün' : dayLabel(keys[keys.length - 1])}</span></div>
+        </div>`;
+    }
+
+    function renderMessages() {
+      const unread = messages.filter(m => !m.is_read).length;
+      $('kMsgs').textContent = num(messages.length);
+      $('kUnread').textContent = unread ? num(unread) + ' okunmamış' : 'Hepsi okundu';
+      $('msgCount').textContent = messages.length ? num(messages.length) + ' mesaj' : '';
+      if (!messages.length) { $('msgList').innerHTML = '<p class="empty">Henüz mesaj yok</p>'; return; }
+      $('msgList').innerHTML = messages.map(m => `
+        <article class="msg" data-id="${Number(m.id)}">
+          <div class="msg-head">
+            <b>${esc(m.name)}</b>
+            ${m.is_read ? '' : '<span class="pill">Yeni</span>'}
+            <a href="mailto:${esc(encodeURIComponent(m.email).replace(/%40/, '@'))}">${esc(m.email)}</a>
+            ${m.phone ? `<span class="meta">${esc(m.phone)}</span>` : ''}
+            <span class="meta">${esc(dateTime(m.created_at))}</span>
+          </div>
+          <p>${esc(m.message)}</p>
+          <div class="msg-actions">
+            <button type="button" class="ghost" data-act="read">${m.is_read ? 'Okunmadı yap' : 'Okundu yap'}</button>
+            <button type="button" class="ghost" data-act="del">Sil</button>
+          </div>
+        </article>`).join('');
+    }
+
+    function renderTable() {
+      const emails = {};
+      messages.slice().reverse().forEach(m => { if (m.visitor_id) emails[m.visitor_id] = m.email; });
+      const rows = visits.slice(0, 100);
+      $('visitRows').innerHTML = rows.length ? rows.map(v => `<tr>
+        <td>${esc(dateTime(v.created_at))}</td>
+        <td>${esc(PAGE_NAMES[v.page] || v.page)}</td>
+        <td>${esc(place(v))}</td>
+        <td>${esc(v.device || '–')} · ${esc(v.os || '–')}</td>
+        <td>${esc(v.browser || '–')}</td>
+        <td>${esc(v.referrer || 'Doğrudan')}</td>
+        <td>${emails[v.visitor_id] ? `<a href="mailto:${esc(encodeURIComponent(emails[v.visitor_id]).replace(/%40/, '@'))}">${esc(emails[v.visitor_id])}</a>` : '–'}</td>
+      </tr>`).join('') : '<tr><td colspan="7" class="empty">Henüz ziyaret yok</td></tr>';
+    }
+
+    function render() {
+      const today = dayKey(Date.now());
+      const todays = visits.filter(v => dayKey(v.created_at) === today);
+      $('kVisits').textContent = num(visits.length);
+      $('kRange').textContent = days ? 'Son ' + days + ' gün' : 'Tüm zamanlar';
+      $('kUnique').textContent = num(new Set(visits.map(v => v.visitor_id)).size);
+      $('kToday').textContent = num(todays.length);
+      $('kTodayU').textContent = num(new Set(todays.map(v => v.visitor_id)).size) + ' tekil ziyaretçi';
+      renderChart();
+      renderRows($('bPage'), groupBy(v => PAGE_NAMES[v.page] || v.page));
+      renderRows($('bPlace'), groupBy(place));
+      renderRows($('bRef'), groupBy(v => v.referrer || 'Doğrudan'));
+      renderRows($('bDevice'), groupBy(v => v.device || 'Bilinmiyor'));
+      renderMessages();
+      renderTable();
+    }
+
+    $('range').addEventListener('click', e => {
+      const b = e.target.closest('button');
+      if (!b) return;
+      days = Number(b.dataset.days);
+      $('range').querySelectorAll('button').forEach(x => x.classList.toggle('on', x === b));
+      load();
+    });
+    $('refresh').addEventListener('click', load);
+    $('logout').addEventListener('click', signOut);
+
+    $('msgList').addEventListener('click', async e => {
+      const b = e.target.closest('button[data-act]');
+      if (!b) return;
+      const id = Number(b.closest('.msg').dataset.id);
+      const m = messages.find(x => x.id === id);
+      try {
+        if (b.dataset.act === 'del') {
+          if (!confirm(m.name + ' adlı kişinin mesajı kalıcı olarak silinsin mi?')) return;
+          await api('messages?id=eq.' + id, { method: 'DELETE' });
+          messages = messages.filter(x => x.id !== id);
+        } else {
+          await api('messages?id=eq.' + id, { method: 'PATCH', body: JSON.stringify({ is_read: !m.is_read }) });
+          m.is_read = !m.is_read;
+        }
+        renderMessages();
+        renderTable();
+      } catch (ex) {
+        $('status').textContent = 'İşlem yapılamadı: ' + ex.message;
+        $('status').hidden = false;
+      }
+    });
+
+    // grafik balonu
+    const tip = $('tip');
+    $('chart').addEventListener('mousemove', e => {
+      const col = e.target.closest('.col');
+      if (!col) { tip.hidden = true; return; }
+      tip.textContent = col.dataset.tip;
+      tip.hidden = false;
+      tip.style.left = Math.min(e.clientX + 12, innerWidth - tip.offsetWidth - 8) + 'px';
+      tip.style.top = (e.clientY - 34) + 'px';
+    });
+    $('chart').addEventListener('mouseleave', () => { tip.hidden = true; });
+
+    if (session) showApp();
+  </script>
+</body>
+</html>

@@ -127,6 +127,14 @@
     }
     .nav-links a:hover { color: var(--text); }
     .nav-links a:hover::after { width: 100%; }
+    .nav-cta {
+      padding: .6rem 1.2rem; border: 0; border-radius: 8px;
+      font: inherit; font-size: .82rem; font-weight: 600; white-space: nowrap;
+      color: #fff; background: var(--grad); cursor: pointer;
+      transition: transform .2s, box-shadow .2s;
+    }
+    .nav-cta:hover { transform: translateY(-2px); box-shadow: 0 10px 28px rgba(108,99,255,.4); }
+    @media (max-width: 1280px) { .nav-links { gap: 1.4rem; } .nav-links a { font-size: .76rem; letter-spacing: 1px; } }
 
     /* ===== HERO ===== */
     #hero {
@@ -1245,6 +1253,7 @@
       <li><a href="#education">Eğitim</a></li>
       <li><a href="#contact">İletişim</a></li>
     </ul>
+    <button type="button" class="nav-cta" data-iletisim>Benimle İletişime Geç</button>
   </nav>
 
   <!-- HERO -->
@@ -3342,6 +3351,8 @@
       }, 600));
     }
   </script>
+  <script src="backend-config.js"></script>
+  <script src="iletisim.js" data-page="normal"></script>
 
 </body>
 </html>

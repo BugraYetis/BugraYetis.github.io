@@ -1110,7 +1110,9 @@ body.is-grabbing, body.is-grabbing * { cursor: grabbing !important; }
   .dialog { padding: 22px 16px 14px; min-height: 0; }
   .px-btn { height: 36px; font-size: 13px; padding: 0 12px; }
   .px-btn--icon { width: 36px; padding: 0; }
-  .adv-top { right: 12px; }
+  .adv-top { right: 12px; max-width: 150px; flex-wrap: wrap; justify-content: flex-end; }
+  .adv-top [data-iletisim] { order: 3; }
+  .adv-top__uzun { display: none; }
 
   .game__inner {
     grid-template-columns: 1fr;
