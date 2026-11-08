@@ -29,4 +29,4 @@ Etkinlik galerileri, giriş ekranı ve 3D vitrin gibi bazı projeler KVKK gereğ
 
 Projelerin kendi kaynak kodları paylaşılmıyor. Detaylar, ön izlemeler ve canlı bağlantılar için **[bugrayetis.github.io](https://bugrayetis.github.io)** adresine göz atın.
 
-<div align="center"><sub>Buğra Yetiş — bugrayetis305@gmail.com</sub></div>
+<div align="center"><sub>Buğra Yetiş — bugra@fymension.com</sub></div>

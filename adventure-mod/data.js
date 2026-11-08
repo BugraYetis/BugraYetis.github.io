@@ -712,7 +712,7 @@ window.PROFILE = {
   name: 'Buğra Yetiş',
   role: 'Mid Web Developer & Grafik Tasarımcı',
   location: 'İstanbul, Türkiye',
-  email: 'bugrayetis305@gmail.com',
+  email: 'bugra@fymension.com',
   phone: '+90 536 595 79 42',
   phoneHref: 'tel:+905365957942',
   github: 'https://github.com/BugraYetis',
